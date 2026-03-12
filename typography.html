@@ -1,1 +1,134 @@
+import React from "react";
+import styled from "styled-components";
 
+const StyledHeading140ptspan = styled.span`
+  color: black;
+  font-size: 40px;
+  font-family: Instrument Sans;
+  font-weight: 400;
+  word-wrap: break-word;
+`;
+
+const StyledHeading140pt = styled.p`
+  align-self: stretch;
+  height: 49px;
+`;
+
+const StyledHeading236ptspan = styled.span`
+  color: black;
+  font-size: 36px;
+  font-family: Roboto;
+  font-weight: 400;
+  word-wrap: break-word;
+`;
+
+const StyledHeading236pt = styled.p`
+  align-self: stretch;
+  height: 51px;
+`;
+
+const StyledHeading332ptspan = styled.span`
+  color: black;
+  font-size: 32px;
+  font-family: Instrument Sans;
+  font-weight: 400;
+  word-wrap: break-word;
+`;
+
+const StyledHeading332pt = styled.p`
+  align-self: stretch;
+  height: 44px;
+`;
+
+const StyledHeading424ptspan = styled.span`
+  color: black;
+  font-size: 24px;
+  font-family: Instrument Sans;
+  font-weight: 400;
+  word-wrap: break-word;
+`;
+
+const StyledHeading424pt = styled.p`
+  align-self: stretch;
+  height: 44px;
+`;
+
+const StyledHeading520ptspan = styled.span`
+  color: black;
+  font-size: 20px;
+  font-family: Instrument Sans;
+  font-weight: 400;
+  word-wrap: break-word;
+`;
+
+const StyledHeading520pt = styled.p`
+  align-self: stretch;
+  height: 44px;
+`;
+
+const StyledHeading616ptspan = styled.span`
+  color: black;
+  font-size: 16px;
+  font-family: Instrument Sans;
+  font-weight: 400;
+  word-wrap: break-word;
+`;
+
+const StyledHeading616pt = styled.p`
+  align-self: stretch;
+  height: 44px;
+`;
+
+const StyledParagraph14ptspan = styled.span`
+  color: black;
+  font-size: 14px;
+  font-family: Instrument Sans;
+  font-weight: 400;
+  word-wrap: break-word;
+`;
+
+const StyledParagraph14pt = styled.p`
+  align-self: stretch;
+  height: 44px;
+`;
+
+const StyledHeadingsInstrumentSans = styled.div`
+  width: 191px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 22px;
+  display: flex;
+`;
+
+const StyledTypographyStyles = styled.div`
+  width: 215px;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 24px;
+  padding-bottom: 24px;
+  background: white;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  border-radius: 25px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  display: inline-flex;
+`;
+
+export const TypographyStyles = () => {
+  return (
+    <StyledTypographyStyles>
+      <StyledHeadingsInstrumentSans>
+        <StyledHeading140pt><StyledHeading140ptspan>Heading 1</StyledHeading140ptspan></StyledHeading140pt>
+        <StyledHeading236pt><StyledHeading236ptspan>Heading 2</StyledHeading236ptspan></StyledHeading236pt>
+        <StyledHeading332pt><StyledHeading332ptspan>Heading 3</StyledHeading332ptspan></StyledHeading332pt>
+        <StyledHeading424pt><StyledHeading424ptspan>Heading 4</StyledHeading424ptspan></StyledHeading424pt>
+        <StyledHeading520pt><StyledHeading520ptspan>Heading 5</StyledHeading520ptspan></StyledHeading520pt>
+        <StyledHeading616pt><StyledHeading616ptspan>Heading 6</StyledHeading616ptspan></StyledHeading616pt>
+        <StyledParagraph14pt><StyledParagraph14ptspan>Paragraph, this is a paragraph text that spans multiple lines.</StyledParagraph14ptspan></StyledParagraph14pt>
+      </StyledHeadingsInstrumentSans>
+    </StyledTypographyStyles>
+  );
+};
