@@ -1,2 +1,195 @@
+<div data-layer="Color Pallette" class="ColorPallette" style="width: 363px; padding-left: 25px; padding-right: 25px; padding-top: 26px; padding-bottom: 26px; background: white; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); overflow: hidden; border-radius: 25px; justify-content: flex-start; align-items: flex-start; gap: 5px; display: inline-flex; flex-wrap: wrap; align-content: flex-start">
+  <div data-layer="3437D1" class="D1" style="width: 101px; height: 101px; padding-top: 42px; padding-bottom: 42px; padding-left: 25px; padding-right: 24px; background: #3437D1; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 50.50px; outline: 1px rgba(0, 0, 0, 0.27) solid; outline-offset: -1px; flex-direction: column; justify-content: center; align-items: center; gap: 10px; display: inline-flex">
+    <div data-layer="3437D1" class="D1" style="color: white; font-size: 14px; font-family: Instrument Sans; font-weight: 400; word-wrap: break-word">3437D1</div>
+  </div>
+  <div data-layer="EC9437" class="Ec9437" style="width: 101px; height: 101px; padding-top: 43px; padding-bottom: 42px; padding-left: 24px; padding-right: 24px; background: #EC9437; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 50.50px; outline: 1px rgba(0, 0, 0, 0.27) solid; outline-offset: -1px; flex-direction: column; justify-content: center; align-items: center; gap: 10px; display: inline-flex">
+    <div data-layer="EC9437" class="Ec9437" style="color: black; font-size: 14px; font-family: Instrument Sans; font-weight: 400; word-wrap: break-word">EC9437</div>
+  </div>
+  <div data-layer="2E2525" class="E2525" style="width: 101px; height: 101px; padding-top: 41px; padding-bottom: 45px; padding-left: 25px; padding-right: 25px; background: #2E2525; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 50.50px; outline: 1px rgba(0, 0, 0, 0.27) solid; outline-offset: -1px; flex-direction: column; justify-content: center; align-items: center; gap: 10px; display: inline-flex">
+    <div data-layer="2E2525" class="E2525" style="color: white; font-size: 14px; font-family: Instrument Sans; font-weight: 400; word-wrap: break-word">2E2525</div>
+  </div>
+  <div data-layer="FEFCFD" class="Fefcfd" style="width: 101px; height: 101px; padding-top: 45px; padding-bottom: 44px; padding-left: 22px; padding-right: 21px; background: #FEFCFD; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 50.50px; outline: 1px rgba(0, 0, 0, 0.27) solid; outline-offset: -1px; flex-direction: column; justify-content: center; align-items: center; gap: 10px; display: inline-flex">
+    <div data-layer="FEFCFD" class="Fefcfd" style="color: black; font-size: 14px; font-family: Instrument Sans; font-weight: 400; word-wrap: break-word">FEFCFD</div>
+  </div>
+  <div data-layer="D0CFCF" class="D0cfcf" style="width: 101px; height: 101px; padding-top: 43px; padding-bottom: 43px; padding-left: 22px; padding-right: 21px; background: #D0CFCF; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 50.50px; outline: 1px rgba(0, 0, 0, 0.27) solid; outline-offset: -1px; flex-direction: column; justify-content: center; align-items: center; gap: 10px; display: inline-flex">
+    <div data-layer="D0CFCF" class="D0cfcf" style="color: black; font-size: 14px; font-family: Instrument Sans; font-weight: 400; word-wrap: break-word">D0CFCF</div>
+  </div>
+</div>
 
+import React from "react";
+import styled from "styled-components";
 
+const Styled3437d101span = styled.span`
+  color: white;
+  font-size: 14px;
+  font-family: Instrument Sans;
+  font-weight: 400;
+  word-wrap: break-word;
+`;
+
+const StyledEc943701span = styled.span`
+  color: black;
+  font-size: 14px;
+  font-family: Instrument Sans;
+  font-weight: 400;
+  word-wrap: break-word;
+`;
+
+const Styled2e252501span = styled.span`
+  color: white;
+  font-size: 14px;
+  font-family: Instrument Sans;
+  font-weight: 400;
+  word-wrap: break-word;
+`;
+
+const StyledFefcfd01span = styled.span`
+  color: black;
+  font-size: 14px;
+  font-family: Instrument Sans;
+  font-weight: 400;
+  word-wrap: break-word;
+`;
+
+const StyledD0cfcf01span = styled.span`
+  color: black;
+  font-size: 14px;
+  font-family: Instrument Sans;
+  font-weight: 400;
+  word-wrap: break-word;
+`;
+
+const Styled3437D1 = styled.div`
+  width: 101px;
+  height: 101px;
+  padding-top: 42px;
+  padding-bottom: 42px;
+  padding-left: 25px;
+  padding-right: 24px;
+  background: #3437D1;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 50.50px;
+  outline: 1px rgba(0, 0, 0, 0.27) solid;
+  outline-offset: -1px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  display: inline-flex;
+`;
+
+const StyledEC9437 = styled.div`
+  width: 101px;
+  height: 101px;
+  padding-top: 43px;
+  padding-bottom: 42px;
+  padding-left: 24px;
+  padding-right: 24px;
+  background: #EC9437;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 50.50px;
+  outline: 1px rgba(0, 0, 0, 0.27) solid;
+  outline-offset: -1px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  display: inline-flex;
+`;
+
+const Styled2E2525 = styled.div`
+  width: 101px;
+  height: 101px;
+  padding-top: 41px;
+  padding-bottom: 45px;
+  padding-left: 25px;
+  padding-right: 25px;
+  background: #2E2525;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 50.50px;
+  outline: 1px rgba(0, 0, 0, 0.27) solid;
+  outline-offset: -1px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  display: inline-flex;
+`;
+
+const StyledFEFCFD = styled.div`
+  width: 101px;
+  height: 101px;
+  padding-top: 45px;
+  padding-bottom: 44px;
+  padding-left: 22px;
+  padding-right: 21px;
+  background: #FEFCFD;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 50.50px;
+  outline: 1px rgba(0, 0, 0, 0.27) solid;
+  outline-offset: -1px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  display: inline-flex;
+`;
+
+const StyledD0CFCF = styled.div`
+  width: 101px;
+  height: 101px;
+  padding-top: 43px;
+  padding-bottom: 43px;
+  padding-left: 22px;
+  padding-right: 21px;
+  background: #D0CFCF;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 50.50px;
+  outline: 1px rgba(0, 0, 0, 0.27) solid;
+  outline-offset: -1px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  display: inline-flex;
+`;
+
+const StyledColorPallette = styled.div`
+  width: 363px;
+  padding-left: 25px;
+  padding-right: 25px;
+  padding-top: 26px;
+  padding-bottom: 26px;
+  background: white;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  border-radius: 25px;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 5px;
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+`;
+
+export const ColorPallette = () => {
+  return (
+    <StyledColorPallette>
+      <Styled3437D1>
+        <div><Styled3437d101span>3437D1</Styled3437d101span></div>
+      </Styled3437D1>
+      <StyledEC9437>
+        <div><StyledEc943701span>EC9437</StyledEc943701span></div>
+      </StyledEC9437>
+      <Styled2E2525>
+        <div><Styled2e252501span>2E2525</Styled2e252501span></div>
+      </Styled2E2525>
+      <StyledFEFCFD>
+        <div><StyledFefcfd01span>FEFCFD</StyledFefcfd01span></div>
+      </StyledFEFCFD>
+      <StyledD0CFCF>
+        <div><StyledD0cfcf01span>D0CFCF</StyledD0cfcf01span></div>
+      </StyledD0CFCF>
+    </StyledColorPallette>
+  );
+};
