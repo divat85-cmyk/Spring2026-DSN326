@@ -1,0 +1,221 @@
+/* Name Card Component */
+.name-card {
+    background-color: white;
+    border-radius: 25px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    display: flex;
+    gap: 104px;
+    align-items: center;
+    overflow: hidden;
+    padding: 11px;
+    max-width: 100%;
+    height: auto;
+}
+
+.name-card__text {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 40px;
+    color: black;
+    letter-spacing: 1.2px;
+    margin: 0;
+    flex-shrink: 0;
+    width: 185px;
+    line-height: normal;
+}
+
+.name-card__photo {
+    width: 196px;
+    height: 206px;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.name-card__photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Color Palette Component */
+.color-palette {
+    background-color: white;
+    border-radius: 25px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px 19px;
+    align-items: flex-start;
+    overflow: hidden;
+    padding: 26px 25px;
+    max-width: 100%;
+}
+
+.color-swatch {
+    width: 101px;
+    height: 101px;
+    border-radius: 50.5px;
+    border: 1px solid rgba(0, 0, 0, 0.27);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.color-swatch__text {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    margin: 0;
+    white-space: nowrap;
+    line-height: normal;
+}
+
+.color-swatch__text--light {
+    color: white;
+}
+
+.color-swatch__text--dark {
+    color: black;
+}
+
+/* Typography Styles Component */
+.typography-styles {
+    background-color: white;
+    border-radius: 25px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    padding: 24px 8px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    max-width: 100%;
+}
+
+.typography-headings {
+    width: 191px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    align-items: flex-start;
+}
+
+.typography-h1,
+.typography-h2,
+.typography-h3,
+.typography-h4,
+.typography-h5,
+.typography-h6,
+.typography-paragraph {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    color: black;
+    margin: 0;
+    line-height: normal;
+    width: 100%;
+}
+
+.typography-h1 {
+    font-size: 40px;
+    height: 49px;
+}
+
+.typography-h2 {
+    font-size: 36px;
+    height: 51px;
+}
+
+.typography-h3 {
+    font-size: 32px;
+    height: 44px;
+}
+
+.typography-h4 {
+    font-size: 24px;
+    height: 44px;
+}
+
+.typography-h5 {
+    font-size: 20px;
+    height: 44px;
+}
+
+.typography-h6 {
+    font-size: 16px;
+    height: 44px;
+}
+
+.typography-paragraph {
+    font-size: 14px;
+    height: 44px;
+}
+
+/* Component Card */
+.component-card {
+    background-color: white;
+    border-radius: 25px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    padding: 15px 20px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 19px;
+    align-items: flex-start;
+    max-width: 70%;
+}
+
+.component-card__title {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 36px;
+    color: black;
+    margin: 0;
+    line-height: normal;
+    height: 42px;
+    width: 100%;
+}
+
+.component-card__text {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    color: black;
+    margin: 0;
+    line-height: normal;
+    height: 64px;
+    width: 100%;
+}
+
+/* Button Styles */
+.button {
+    font-family: 'Instrument Sans', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    border: none;
+    border-radius: 50px;
+    padding: 14px 22px;
+    cursor: pointer;
+    white-space: nowrap;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    transition: all 0.3s ease;
+    height: 47px;
+    width: 126px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.button--primary {
+    background-color: #3437D1;
+    color: #FEFCFD;
+}
+
+.button--primary:hover {
+    background-color: #2a2ba8;
+}
+
+.button--primary:active {
+    background-color: #1f1f7d;
+}
