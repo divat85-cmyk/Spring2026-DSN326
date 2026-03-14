@@ -4,9 +4,9 @@
     border-radius: 25px;
     padding: 35px 49px;
     display: flex;
-    flex-wrap: wrap;
-    gap: 12px 27px;
-    align-items: flex-start;
+    flex-direction: column;
+    gap: 19px;
+    align-items: center;
     overflow: clip;
     min-height: 100vh;
 }
@@ -17,8 +17,9 @@
     border-radius: 25px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     display: flex;
-    gap: 104px;
+    gap: 221px;
     align-items: center;
+    justify-content: center;
     overflow: hidden;
     padding: 11px;
     flex-shrink: 0;
@@ -59,11 +60,11 @@
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     display: flex;
     flex-wrap: wrap;
-    gap: 5px 27px;
-    align-items: flex-start;
+    gap: 5px;
+    align-items: center;
     justify-content: center;
     overflow: hidden;
-    padding: 26px 25px;
+    padding: 25px;
     flex-shrink: 0;
     width: 615px;
 }
@@ -99,16 +100,16 @@
 
 /* Typography Styles Component */
 .typography-styles {
-    background-color: white;
+    background-color:white;
     border-radius: 25px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    padding: 24px 8px;
+    padding: 4px 4px;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: flex-start;
     flex-shrink: 0;
-    width: 363px;
+    width: 360px;
     height: 461px;
 }
 
@@ -116,7 +117,7 @@
     width: 191px;
     display: flex;
     flex-direction: column;
-    gap: 22px;
+    gap: 0px;
     align-items: flex-start;
 }
 
@@ -130,7 +131,8 @@
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
     color: black;
-    margin: 0;
+    margin: 15px;
+    margin-left: 15px;
     line-height: normal;
     width: 100%;
 }
