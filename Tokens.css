@@ -1,0 +1,41 @@
+/* ===== Mode 1 Mode ===== */
+.context--mode-1 {
+  /* Blue */
+  --blue-color-primary-blue: #0da0e2;
+  /* Color */
+  --color-text-primary: #fdfdfd;
+  --color-text-secondary: #e4e5e6;
+  --color-background-secondary: rgba(17, 17, 19, 0.9300000071525574);
+  --color-background-primary: #2e2f33;
+  /* Deep */
+  --deep-blue-color-primary-deep-blue: #2345b2;
+  /* Font */
+  --font-family-font-family-poppins: Poppins;
+  /* Gap */
+  --gap: 65px;
+  /* Green */
+  --green-color-primary-green: #22c55d;
+  /* Light */
+  --light-blue-primary-color-light-blue: #38bdf9;
+  /* Margins */
+  --margins: 0px;
+  /* Orange */
+  --orange-color-primary-orange: #f97315;
+  /* Padding */
+  --padding-vertical: 12px;
+  --padding-horizontal: 12px;
+  /* Purple */
+  --purple-color-primary-purple: #a855f7;
+  /* Red */
+  --red-color-primary-red: #ef4444;
+  /* Size */
+  --size-font-size-h1: H1;
+  --size-font-size-h2: H2;
+  --size-font-size-body: Body;
+  /* Weight */
+  --weight-font-weight-regular: Regular;
+  --weight-font-weight-semibold: SemiBold;
+  --weight-font-weight-bold: Bold;
+  /* Yellow */
+  --yellow-color-primary-yellow: #facc14;
+}
