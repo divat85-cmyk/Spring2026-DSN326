@@ -1,202 +1,204 @@
 /* Main Container */
 .main-container {
-    background-color: #EC9437;
+    background-color: #2E2F33;
     border-radius: 25px;
     padding: 35px 49px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 19px;
-    align-items: center;
-    overflow: clip;
+    align-items: self-start;
+    overflow:auto;
     min-height: 100vh;
 }
 
-/* Name Card Component */
-.name-card {
-    background-color: white;
-    border-radius: 25px;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    display: flex;
-    gap: 221px;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    padding: 11px;
-    flex-shrink: 0;
-    width: 615px;
-    height: auto;
+.layout {
+display: flex;
+width: 908px;
+height: 4276px;
+padding: 0 34px;
+flex-direction: row;
+justify-content: space-between;
+align-items: center;
+align-items: center;
+gap: 76px;
+}
+/* Color */
+:root {
+  /* Mode 1 */
+  /* color */
+  --background-primary: #2e2f33;
+  --background-secondary: #111113ed;
+  --text-primary: #fdfdfd;
+  --text-secondary: #e4e5e6;
+  --blue-blue: #0da0e2;
+  --deep-blue-deep-blue: #2345b2;
+  --green-green: #22c55d;
+  --light-blue-light-blue: #38bdf9;
+  --orange-orange: #f97315;
+  --purple-purple: #a855f7;
+  --red-red: #ef4444;
+  --yellow-yellow: #facc14;
+}
+/* Typography */
+:root {
+  /* Mode 1 */
+  /* string */
+  --font-family-poppins: 'Poppins', sans-serif;
+  --size-14: 14px;
+  --size-24: 24px;
+  --size-30: 30px;
+  --weight-bold: 700;
+  --weight-regular: 400;
+  --weight-semibold: 600;
+
+ 
+        
+    /* Mode 1 */
+    /* string */
+    --headings-h1-font-family: var(--font-family-poppins, 'Poppins', sans-serif);
+    --headings-h1-font-size: var(--size-30, 30px);
+    --headings-h1-line-height: 36px;
+    --headings-h1-font-weight: var(--weight-bold, 700);
+    --headings-h1-font-color: var(--text-primary, #fdfdfd);
+    
+    --headings-h2-font-family: var(--font-family-poppins, 'Poppins', sans-serif);
+    --headings-h2-font-size: var(--size-24, 24px);
+    --headings-h2-line-height: 29px;
+    --headings-h2-font-weight: var(--weight-bold, 700);
+    --headings-h2-font-color: var(--text-primary, #fdfdfd);
+
+
+    --body-regular-font-family: var(--font-family-poppins, 'Poppins', sans-serif);
+    --body-regular-font-size: var(--size-14, 14px);
+    --body-regular-line-height: 30px;
+    --body-regular-font-weight: var(--weight-regular, 400);
+    --body-regular-font-color: var(--text-secondary, #e4e5e6);
+
+    --button-primary-font-family: var(--font-family-poppins, 'Poppins', sans-serif);
+    --button-primary-font-size: var(--size-14, 14px);
+    --button-primary-font-weight: var(--weight-semibold, 600);
+    --button-primary-letter-spacing: 0.05em;
+    --button-primary-line-height: 17px;
+
+    --button-secondary-font-family: var(--font-family-poppins, 'Poppins', sans-serif);
+    --button-secondary-font-size: var(--size-14, 14px);
+    --button-secondary-font-weight: var(--weight-semibold, 600);
+    --button-secondary-letter-spacing: 0.05em;
+    --button-secondary-line-height: 17px;
+
+
+}
+/* Spacing */
+:root {
+  /* Mode 1 */
+  /* number */
+  --margins: 0rem;
+  --padding-horizontal: 0.75rem;
+  --padding-vertical: 0.75rem;
+  --gap: 4.0625rem;
+}
+/* Button Tokens */
+:root {
+  /* Small */
+  /* number */
+  --spacing: 0.25rem;
+  --full-padding: 0.5rem;
+  --radius: 0.5rem;
+  --v-padding: 0.5rem;
+  --h-padding: 1rem;
+  --icon-size: 1.25rem;
+  /* Medium */
+  /* number */
+  --spacing: 0.5rem;
+  --full-padding: 0.75rem;
+  --radius: 0.75rem;
+  --v-padding: 0.75rem;
+  --h-padding: 1.25rem;
+  --icon-size: 1.5rem;
+  /* Large */
+  /* number */
+  --spacing: 0.75rem;
+  --full-padding: 1rem;
+  --radius: 1rem;
+  --v-padding: 1rem;
+  --h-padding: 1.5rem;
+  --icon-size: 2rem;
 }
 
-.name-card__text {
-    font-family: 'Roboto', sans-serif;
-    font-weight: 400;
-    font-size: 40px;
+
+/* Primary Button Component */
+.primary-button {
+    width: 188px;
+    height: 57px;
+    border-radius: 10px;
+    border: 2px solid;
+    font-family: var(--button-primary-font-family, 'Poppins', sans-serif);
+    font-weight: var(--button-primary-font-weight, 600);
+    font-size: var(--button-primary-font-size, 14px);
+    letter-spacing: var(--button-primary-letter-spacing, 0.05em);
+    line-height: var(--button-primary-line-height, 17px);
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+    text-align: center;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Default State - White with black border */
+.primary-button--default {
+    background-color: white;
+    border-color: black;
     color: black;
-    letter-spacing: 1.2px;
-    margin: 0;
-    flex-shrink: 0;
-    width: 185px;
-    line-height: normal;
 }
 
-.name-card__photo {
-    width: 196px;
-    height: 206px;
-    flex-shrink: 0;
-    overflow: hidden;
+.primary-button--default:hover {
+    background-color: #f5f5f5;
 }
 
-.name-card__photo img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
+.primary-button--default:active {
+    background-color: #e8e8e8;
 }
 
-/* Color Palette Component */
-.color-palette {
-    background-color: white;
-    border-radius: 25px;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    padding: 25px;
-    flex-shrink: 0;
-    width: 615px;
-}
-
-.color-swatch {
-    width: 101px;
-    height: 101px;
-    border-radius: 50.5px;
-    border: 1px solid rgba(0, 0, 0, 0.27);
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-}
-
-.color-swatch__text {
-    font-family: 'Roboto', sans-serif;
-    font-weight: 400;
-    font-size: 14px;
-    margin: 0;
-    white-space: nowrap;
-    line-height: normal;
-}
-
-.color-swatch__text--light {
+/* Pressed State - Dark background with white text */
+.primary-button--pressed {
+    background-color: #2e2f33;
+    border-color: #fdfdfd;
     color: white;
 }
 
-.color-swatch__text--dark {
-    color: black;
+.primary-button--pressed:hover {
+    background-color: #1a1a1e;
 }
 
-/* Typography Styles Component */
-.typography-styles {
-    background-color:white;
-    border-radius: 25px;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    padding: 4px 4px;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    flex-shrink: 0;
-    width: 360px;
-    height: 461px;
+.primary-button--pressed:active {
+    background-color: #000;
 }
 
-.typography-headings {
-    width: 191px;
-    display: flex;
-    flex-direction: column;
-    gap: 0px;
-    align-items: flex-start;
+/* Hover State - Dark with border */
+.primary-button--hover {
+    background-color: rgba(0, 0, 0, 0.41);
+    border-color: #fdfdfd;
+    color: #fdfdfd;
 }
 
-.typography-h1,
-.typography-h2,
-.typography-h3,
-.typography-h4,
-.typography-h5,
-.typography-h6,
-.typography-paragraph {
-    font-family: 'Roboto', sans-serif;
-    font-weight: 400;
-    color: black;
-    margin: 15px;
-    margin-left: 15px;
-    line-height: normal;
-    width: 100%;
+.primary-button--hover:hover {
+    background-color: rgba(0, 0, 0, 0.55);
 }
 
-.typography-h1 {
-    font-size: 40px;
-    height: 49px;
+/* Disable State - Gray background */
+.primary-button--disable {
+    background-color: #9aa3b0;
+    border-color: #fdfdfd;
+    color: #fdfdfd;
+    cursor: not-allowed;
+    opacity: 0.6;
 }
 
-.typography-h2 {
-    font-size: 36px;
-    height: 51px;
-}
-
-.typography-h3 {
-    font-size: 32px;
-    height: 44px;
-}
-
-.typography-h4 {
-    font-size: 24px;
-    height: 44px;
-}
-
-.typography-h5 {
-    font-size: 20px;
-    height: 44px;
-}
-
-.typography-h6 {
-    font-size: 16px;
-    height: 44px;
-}
-
-.typography-paragraph {
-    font-size: 14px;
-    height: 44px;
-}
-
-/* Component Card */
-.component-card {
-    background-color: white;
-    border-radius: 25px;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    padding: 6px 13px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    gap: 19px;
-    align-items: flex-start;
-    flex-shrink: 0;
-    width: 615px;
-    height: 212px;
-}
-
-.component-card__title {
-    font-family: 'Roboto', sans-serif;
-    font-weight: 400;
-    font-size: 36px;
-    color: black;
-    margin: 0;
-    line-height: normal;
-    height: 42px;
-    width: 100%;
+.primary-button--disable:hover,
+.primary-button--disable:active {
+    background-color: #9aa3b0;
 }
 
 .component-card__text {
@@ -240,4 +242,974 @@
 
 .button--primary:active {
     background-color: #1f1f7d;
+}
+
+/* Secondary Button Component */
+.secondary-button {
+    width: 188px;
+    height: 57px;
+    border-radius: 10px;
+    border: 2px solid;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+    text-align: center;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Default State - Dark background with red border */
+.secondary-button--default {
+    background-color: #0d131c;
+    border-color: #ef4444;
+    color: #9aa3b0;
+}
+
+.secondary-button--default:hover {
+    background-color: #1a1f2e;
+}
+
+.secondary-button--default:active {
+    background-color: #0a0d15;
+}
+
+/* Hover State - Darker background with yellow border */
+.secondary-button--hover {
+    background-color: rgba(0, 0, 0, 0.64);
+    border-color: #facc14;
+    color: #fdfdfd;
+}
+
+.secondary-button--hover:hover {
+    background-color: rgba(0, 0, 0, 0.75);
+}
+
+/* Pressed State - Semi-transparent dark with green border */
+.secondary-button--pressed {
+    background-color: rgba(0, 0, 0, 0.33);
+    border-color: #22c55d;
+    color: #fdfdfd;
+}
+
+.secondary-button--pressed:hover {
+    background-color: rgba(0, 0, 0, 0.45);
+}
+
+/* Disable State - Transparent with white border and shadow */
+.secondary-button--disable {
+    background-color: rgba(0, 0, 0, 0);
+    border-color: #fdfdfd;
+    color: rgba(87, 87, 88, 0.93);
+    cursor: not-allowed;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.secondary-button--disable:hover,
+.secondary-button--disable:active {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+/* Boarding Pass Card Component */
+.boarding-pass-card {
+    background-color: #fdfdfd;
+    border: 1px solid #000;
+    border-radius: 25px;
+    width: 382px;
+    height: auto;
+    padding: 16px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    overflow:clip;
+}
+
+.boarding-pass-label-and-class {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    width: 100%;
+    max-width: 355px;
+}
+
+.economy {
+    color: #ffffff;
+    text-align: center;
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.trip-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 9px;
+    flex-wrap: wrap;
+    width: 100%;
+    border-bottom: 1px dashed black;
+    padding-bottom: 14px;
+}
+
+.mission-objective {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    width: 100%;
+    max-width: 355px;
+    padding: 0 10px;
+}
+
+.objective {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.barcode {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    width: 100%;
+}
+
+/* Component Annotation Style */
+.component-annotation {
+    align-self: stretch;
+    padding: 15px 25px;
+    background: white;
+    overflow: auto;
+    border-radius: 25px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    margin-top: 12px;
+}
+
+.annotation-text {
+    flex: 1 1 0;
+    text-align: center;
+    color: black;
+    font-size: 16px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+.boarding-pass-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 15px;
+    padding-bottom: 10px;
+}
+
+.boarding-pass-title {
+    flex: 1;
+}
+
+.boarding-pass-airline {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    color: #000;
+    letter-spacing: 0.7px;
+    line-height: normal;
+}
+
+.boarding-pass-label {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: #000;
+    letter-spacing: 0.7px;
+    line-height: normal;
+}
+
+.boarding-pass-class {
+    background-color: #0d131c;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    white-space: nowrap;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.boarding-pass-route {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 10px 0;
+}
+
+.boarding-pass-point {
+    flex: 1;
+    padding: 10px;
+    text-align: center;
+}
+
+.boarding-pass-point--right {
+    text-align: right;
+}
+
+.boarding-pass-label-small {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    color: #000;
+    letter-spacing: 0.7px;
+    line-height: 30px;
+}
+
+.boarding-pass-location {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 30px;
+    color: #000;
+    letter-spacing: 0;
+    line-height: 36px;
+}
+
+.boarding-pass-time {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    color: #000;
+    line-height: 30px;
+}
+
+.boarding-pass-center {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    padding: 10px;
+}
+
+.boarding-pass-focus-bar {
+    width: 60px;
+    height: 3px;
+    background-color: #000;
+    border-radius: 2px;
+}
+
+.boarding-pass-focus-text {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    color: #000;
+    text-align: center;
+    line-height: 17px;
+    max-width: 80px;
+}
+
+.boarding-pass-divider {
+    border-top: 2px dashed #999;
+    margin: 5px 0;
+}
+
+.boarding-pass-objectives {
+    padding: 10px 7px;
+    border-top: 2px dashed #999;
+}
+
+.boarding-pass-objectives-header {
+    margin: 0 0 8px 0;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    color: #000;
+    text-align: center;
+    letter-spacing: 0.6px;
+    line-height: 17px;
+}
+
+.boarding-pass-objective {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    padding: 0 17px;
+}
+
+.boarding-pass-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background-color: #9b59b6;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.boarding-pass-objective-text {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    color: #000;
+    letter-spacing: 0.7px;
+    line-height: 17px;
+}
+
+.boarding-pass-card,
+.boarding-pass-card * {
+  box-sizing: border-box;
+}
+.boarding-pass-card {
+  background: var(--color-text-primary, #fdfdfd);
+  border-radius: 25px;
+  border-style: solid;
+  border-color: #000000;
+  border-width: 1px;
+  padding: 16px 2px 16px 2px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+  overflow: hidden;
+}
+.boarding-pass-label-and-class {
+  display: flex;
+  flex-direction: row;
+  gap: 83px;
+  align-items: flex-end;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 355px;
+  position: relative;
+}
+.focusroom-airways-boarding-pass {
+  color: #000000;
+  text-align: left;
+  position: relative;
+}
+.focusroom-airways-boarding-pass-span {
+  font-family: "Poppins-Regular", sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  font-weight: 400;
+}
+.focusroom-airways-boarding-pass-span2 {
+  font-family: "Poppins-Bold", sans-serif;
+  font-size: 16px;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+}
+.pass-class-label {
+  background: #0d131c;
+  border-radius: 8px;
+  padding: 6px 7px 6px 7px;
+  flex-shrink: 0;
+  width: 103px;
+  height: 33px;
+  position: relative;
+  overflow: hidden;
+}
+.economy {
+  color: #ffffff;
+  text-align: center;
+  font-family: "Poppins-Bold", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  position: absolute;
+  left: 14.5px;
+  top: 6px;
+}
+.trip-info {
+  display: flex;
+  flex-direction: row;
+  gap: 9px;
+  row-gap: 5px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-content: center;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.departing-point {
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+}
+.from-earth-departing-at-14-25 {
+  color: #000000;
+  text-align: left;
+  position: relative;
+}
+.from-earth-departing-at-14-25-span {
+  font-family: "Poppins-Medium", sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+}
+.from-earth-departing-at-14-25-span2 {
+  font-family: var(--headings-h1-font-family, "Poppins-Bold", sans-serif);
+  font-size: var(--headings-h1-font-size, 30px);
+  line-height: var(--headings-h1-line-height, 36px);
+  font-weight: var(--headings-h1-font-weight, 700);
+}
+.from-earth-departing-at-14-25-span3 {
+  font-family: var(--body-regular-font-family, "Poppins-Regular", sans-serif);
+  font-size: var(--body-regular-font-size, 12px);
+  line-height: var(--body-regular-line-height, 30px);
+  font-weight: var(--body-regular-font-weight, 400);
+}
+.focus-time {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 86px;
+  position: relative;
+}
+.frame-20 {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.destination-bar {
+  flex-shrink: 0;
+  width: 86px;
+  height: 0px;
+  position: relative;
+  overflow: visible;
+}
+._45-min-of-deep-focus {
+  color: #000000;
+  text-align: center;
+  font-family: var(
+    --font-family-font-family-base,
+    "Poppins-Regular",
+    sans-serif
+  );
+  font-size: 12px;
+  line-height: 17px;
+  font-weight: 400;
+  position: relative;
+  width: 71px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.destination {
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+}
+.to-mercury-landing-at-15-10 {
+  color: #000000;
+  text-align: right;
+  position: relative;
+}
+.to-mercury-landing-at-15-10-span {
+  font-family: "Poppins-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 30px;
+  font-weight: 400;
+}
+.to-mercury-landing-at-15-10-span2 {
+  font-family: "Poppins-Bold", sans-serif;
+  font-size: 30px;
+  line-height: 30px;
+  font-weight: 700;
+}
+.boarding-pass-line {
+  flex-shrink: 0;
+  width: 380.5px;
+  height: 0px;
+  position: relative;
+  overflow: visible;
+}
+.mission-objective {
+  padding: 0px 10px 0px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 355px;
+  position: relative;
+}
+.objective-header {
+  padding: 10px 0px 10px 0px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.mission-objectives-1 {
+  color: #000000;
+  text-align: center;
+  font-family: "Poppins-Regular", sans-serif;
+  font-size: 12px;
+  line-height: 17px;
+  letter-spacing: 0.05em;
+  font-weight: 400;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.objective {
+  display: flex;
+  flex-direction: row;
+  gap: 1px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 95px;
+  position: relative;
+}
+.notification-dot {
+  background: var(--purple-color-purple, #a855f7);
+  border-radius: 50%;
+  flex-shrink: 0;
+  width: 6px;
+  height: 6px;
+  position: relative;
+}
+.ui-audit {
+  color: #000000;
+  text-align: center;
+  font-family: "Poppins-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 17px;
+  letter-spacing: 0.05em;
+  font-weight: 400;
+  position: relative;
+  width: 88px;
+  height: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.barcode {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 333px;
+  position: relative;
+}
+.vector {
+  flex-shrink: 0;
+  width: 332.86px;
+  height: 50.08px;
+  position: relative;
+  overflow: visible;
+
+}
+.tkt-ea-me-336824 {
+  color: #000000;
+  text-align: center;
+  font-family: "Poppins-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 17px;
+  letter-spacing: 0.05em;
+  font-weight: 400;
+  position: relative;
+  align-self: stretch;
+  height: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.boarding-pass-barcode-visual {
+    font-family: 'Courier New', monospace;
+    font-size: 32px;
+    letter-spacing: 1px;
+    color: #000;
+    font-weight: 900;
+    line-height: 1;
+}
+
+.boarding-pass-ticket-number {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    color: #000;
+    text-align: center;
+    letter-spacing: 0.7px;
+    line-height: 17px;
+}
+
+/* Date and Time Picker Component */
+.date-time-picker {
+    background-color: rgba(0, 0, 0, 0.41);
+    backdrop-filter: blur(50px);
+    border-radius: 13px;
+    width: 370px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding-bottom: 10px;
+    box-shadow: 0px 10px 60px rgba(0, 0, 0, 0.1);
+}
+
+.picker-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 10px;
+}
+
+.picker-month-year {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-family: 'SF Pro', sans-serif;
+    font-weight: 590;
+    font-size: 17px;
+    color: white;
+    letter-spacing: -0.43px;
+    line-height: 22px;
+}
+
+.picker-arrow {
+    font-size: 15px;
+    color: #5cb8ff;
+    font-weight: 700;
+}
+
+.picker-nav-arrows {
+    display: flex;
+    gap: 28px;
+}
+
+.picker-arrow-btn {
+    background: none;
+    border: none;
+    color: #5cb8ff;
+    font-size: 20px;
+    cursor: pointer;
+    font-weight: 500;
+    padding: 0;
+    font-family: 'SF Pro', sans-serif;
+}
+
+.picker-arrow-btn:hover {
+    opacity: 0.8;
+}
+
+.picker-day-headers {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0;
+    padding: 0 0 10px 0;
+    text-align: center;
+    font-family: 'SF Pro', sans-serif;
+    font-weight: 590;
+    font-size: 13px;
+    color: rgba(235, 235, 245, 0.55);
+    letter-spacing: -0.2px;
+    line-height: 18px;
+    text-transform: uppercase;
+}
+
+.day-header {
+    width: 32px;
+    margin: 0 auto;
+}
+
+.picker-calendar {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.picker-week {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0;
+    text-align: center;
+}
+
+.picker-day {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'SF Pro', sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    color: white;
+    letter-spacing: -0.45px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.picker-day--blue {
+    color: #5cb8ff;
+}
+
+.picker-day--selected {
+    background-color: #5cb8ff;
+    color: white;
+    font-weight: 500;
+}
+
+.picker-day:not(:empty):hover {
+    background-color: rgba(92, 184, 255, 0.1);
+}
+
+.picker-time {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 10px;
+    border-top: 1px solid rgba(235, 235, 245, 0.2);
+    font-family: 'SF Pro', sans-serif;
+    color: white;
+}
+
+.picker-time-label {
+    font-size: 17px;
+    font-weight: 400;
+    letter-spacing: -0.43px;
+    line-height: 22px;
+}
+
+.picker-time-value {
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 17px;
+    font-weight: 400;
+    letter-spacing: -0.43px;
+    line-height: 22px;
+}
+
+/* Long Icon Button Component */
+.long-icon-button {
+    width: 100%;
+    max-width: 388px;
+    height: 52px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+    border: none;
+    padding: 0;
+}
+
+.long-icon-button__icon {
+    width: 25px;
+    height: 25px;
+    flex-shrink: 0;
+    color: currentColor;
+}
+
+.long-icon-button__text {
+    white-space: nowrap;
+}
+
+/* Default State - White background with black text and icon */
+.long-icon-button--default {
+    background-color: white;
+    color: black;
+    border: none;
+}
+
+.long-icon-button--default:hover {
+    background-color: #f5f5f5;
+}
+
+.long-icon-button--default:active {
+    background-color: #e8e8e8;
+}
+
+/* Hover State - Semi-transparent light background with white text */
+.long-icon-button--hover {
+    background-color: rgba(253, 253, 253, 0.32);
+    color: #faf3f3;
+    border: none;
+}
+
+.long-icon-button--hover:hover {
+    background-color: rgba(253, 253, 253, 0.45);
+}
+
+/* Selected State - Dark gray background with white text */
+.long-icon-button--selected {
+    background-color: rgba(61, 61, 64, 0.93);
+    color: #f5f5f5;
+    border: 1px solid #f5f5f5;
+}
+
+.long-icon-button--selected:hover {
+    background-color: rgba(61, 61, 64, 1);
+}
+
+/* Deactivated State - Dark navy with white border */
+.long-icon-button--deactivated {
+    background-color: #0d131c;
+    color: #fdfdfd;
+    border: 1px solid #fdfdfd;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.long-icon-button--deactivated:hover,
+.long-icon-button--deactivated:active {
+    background-color: #0d131c;
+}
+
+/* Navigation Bar Component */
+.nav-bar {
+    background-color: rgba(17, 17, 19, 0.93);
+    border: 1px solid #f5f5f5;
+    display: flex;
+    gap: 77px;
+    align-items: center;
+    padding: 7px 22px;
+    border-radius: 0;
+    width: auto;
+    max-width: max-content;
+    height: auto;
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    width: auto;
+    flex-shrink: 0;
+}
+
+.nav-item:hover {
+    opacity: 0.8;
+}
+
+.nav-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.nav-icon svg {
+    width: 24px;
+    height: 24px;
+    color: white;
+}
+
+.nav-label {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: white;
+    text-align: center;
+    line-height: normal;
+    white-space: nowrap;
+}
+
+/* Planets Component */
+.planets-grid {
+    display: flex-box;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    gap: 30px;
+    padding: 50px;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 15px;
+    width: auto;
+    margin: 50px auto;
+
+}
+
+.planet {
+    width: 44px;
+    height: 42px;
+    display: -moz-box;
+    display: -webkit-box;
+    display: box;
+    flex-shrink: 0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s, filter 0.2s;
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.planet:hover {
+    transform: scale(1.1);
+    filter: brightness(1.2);
+}
+.planet img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+
 }
