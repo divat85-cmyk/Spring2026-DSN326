@@ -1,0 +1,736 @@
+/* Foundation Guidelines - Color Page Styles */
+
+:root {
+    --bg-main: #0b0b0c;
+    --bg-secondary: rgba(17, 17, 19, 0.93);
+    --text-primary: #fdfdfd;
+    --text-secondary: #e4e5e6;
+    --accent-primary: #6366f1;
+    --accent-blue: #3b82f6;
+    --card-bg: #1a1a1c;
+    --border-color: rgba(255, 255, 255, 0.1);
+    --font-poppins: 'Poppins', sans-serif;
+    --font-inter: 'Inter', sans-serif;
+    
+    /* Color Palette */
+    --color-red: #ef4444;
+    --color-orange: #f97315;
+    --color-yellow: #facc14;
+    --color-green: #22c55d;
+    --color-light-blue: #38bdf9;
+    --color-blue: #0da0e2;
+    --color-deep-blue: #2345b2;
+    --color-purple: #a855f7;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    font-family: var(--font-poppins);
+    overflow-x: hidden;
+}
+
+body {
+    background-image: url('./images/startfocus.png');
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+}
+
+.page-container {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg-main);
+    padding: 40px 20px;
+    gap: 30px;
+}
+
+/* Navigation Bar */
+.site-navigation-bar {
+    display: flex;
+    align-items: center;
+    gap: 19px;
+    height: auto;
+    padding: 15px 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(154, 163, 176, 0.5);
+    border-radius: 25px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.fr-icon {
+    width: 54px;
+    height: 54px;
+    border-radius: 15px;
+    flex-shrink: 0;
+}
+
+.orbit-title {
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 24px;
+    color: white;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.menu-cats {
+    display: flex;
+    gap: 15px;
+    height: auto;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.nav-link {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 24px;
+    color: #f5f5f5;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    white-space: nowrap;
+}
+
+.nav-link:hover {
+    color: var(--text-secondary);
+}
+
+.nav-link.active {
+    color: var(--color-green);
+}
+
+/* Main Content */
+.color-guidelines-page {
+    flex: 1;
+    background-color: var(--bg-secondary);
+    border: 1px solid #e6e6e6;
+    border-radius: 15px;
+    padding: 40px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* Sections */
+.intro-section,
+.palette-section,
+.semantic-section,
+.accent-section,
+.accessibility-section {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    align-items: center;
+}
+
+.section-title {
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 32px;
+    color: var(--text-primary);
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.section-description {
+    font-size: 16px;
+    color: var(--text-secondary);
+    text-align: center;
+}
+
+/* Intro Section */
+.intro-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.intro-text {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.heading-large {
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 36px;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+}
+
+.text-description {
+    font-size: 16px;
+    line-height: 28px;
+    color: var(--text-secondary);
+    font-family: var(--font-poppins);
+}
+
+/* Token Cards */
+.tokens-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid #e6e6e6;
+    border-radius: 8px;
+    padding: 15px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.token-card {
+    background-color: rgba(255, 255, 255, 0.05);
+    display: flex;
+    gap: 16px;
+    padding: 12px;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.token-header {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+.palette-icon {
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.token-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+    flex: 1;
+}
+
+.token-name {
+    font-family: var(--font-inter);
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 0;
+}
+
+.token-mode {
+    font-family: var(--font-inter);
+    font-size: 12px;
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 0;
+}
+
+.color-swatch-group {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.color-swatch {
+    width: 20px;
+    height: 20px;
+    border: 1px solid #e6e6e6;
+    border-radius: 4px;
+    flex-shrink: 0;
+}
+
+.hex-value {
+    font-family: var(--font-inter);
+    font-size: 12px;
+    color: white;
+    white-space: nowrap;
+}
+
+/* Color Groups Grid */
+.color-groups-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    width: 100%;
+    max-width: 900px;
+}
+
+.color-group-card {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid #e6e6e6;
+    border-radius: 8px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 120px;
+}
+
+.group-title {
+    font-family: var(--font-inter);
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 0;
+}
+
+.color-item {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+}
+
+.color-details {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+}
+
+.color-name {
+    font-family: var(--font-inter);
+    font-size: 12px;
+    font-weight: 500;
+    color: white;
+}
+
+.color-hex {
+    font-family: var(--font-inter);
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.color-swatch-large {
+    width: 40px;
+    height: 40px;
+    border-radius: 4px;
+    border: 1px solid #e6e6e6;
+}
+
+/* Palette Section */
+.palette-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.palette-item {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid #e6e6e6;
+    border-radius: 8px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.palette-title {
+    font-family: var(--font-inter);
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+}
+
+.palette-text {
+    font-size: 13px;
+    line-height: 20px;
+    color: var(--text-secondary);
+}
+
+.swatch-group {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.swatch-box {
+    width: 30px;
+    height: 30px;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Semantic Section */
+.semantic-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 24px;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.semantic-card {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid #e6e6e6;
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.semantic-label {
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+}
+
+.semantic-description {
+    font-size: 14px;
+    line-height: 22px;
+    color: var(--text-secondary);
+}
+
+.semantic-swatches {
+    display: flex;
+    gap: 12px;
+}
+
+.semantic-swatch {
+    width: 50px;
+    height: 50px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Accessibility Section */
+.accessibility-content {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid #e6e6e6;
+    border-radius: 8px;
+    padding: 24px;
+    width: 100%;
+    max-width: 1000px;
+}
+
+.accessibility-text {
+    font-size: 16px;
+    line-height: 28px;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+}
+
+.contrast-example {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.contrast-item {
+    flex: 1;
+    min-width: 200px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid #e6e6e6;
+    border-radius: 6px;
+    padding: 16px;
+}
+
+.contrast-ratio {
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+}
+
+.contrast-description {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-top: 8px;
+}
+
+/* Responsive Design - Tablets */
+@media (max-width: 1024px) {
+    .page-container {
+        padding: 25px 15px;
+        gap: 25px;
+    }
+
+    .color-guidelines-page {
+        padding: 30px 20px;
+        gap: 40px;
+    }
+
+    .intro-container {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .color-groups-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
+    .semantic-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .section-title {
+        font-size: 24px;
+    }
+
+    .heading-large {
+        font-size: 24px;
+    }
+}
+
+/* Responsive Design - Small Tablets & Large Phones */
+@media (max-width: 768px) {
+    .page-container {
+        padding: 15px 12px;
+        gap: 20px;
+    }
+
+    .site-navigation-bar {
+        flex-direction: column;
+        gap: 10px;
+        padding: 12px;
+    }
+
+    .orbit-title {
+        font-size: 18px;
+    }
+
+    .menu-cats {
+        gap: 10px;
+    }
+
+    .nav-link {
+        font-size: 14px;
+    }
+
+    .color-guidelines-page {
+        padding: 20px 15px;
+        gap: 30px;
+    }
+
+    .color-groups-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .semantic-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .section-title {
+        font-size: 20px;
+    }
+
+    .heading-large {
+        font-size: 20px;
+    }
+
+    .text-description {
+        font-size: 14px;
+        line-height: 24px;
+    }
+
+    .intro-container {
+        gap: 20px;
+    }
+
+    .color-swatch-large {
+        width: 35px;
+        height: 35px;
+    }
+
+    .semantic-swatches {
+        gap: 8px;
+    }
+
+    .semantic-swatch {
+        width: 40px;
+        height: 40px;
+    }
+
+    .tokens-container {
+        max-height: 350px;
+    }
+}
+
+/* Responsive Design - Mobile Phones */
+@media (max-width: 480px) {
+    .page-container {
+        padding: 10px 8px;
+        gap: 15px;
+    }
+
+    .site-navigation-bar {
+        gap: 8px;
+        padding: 10px;
+    }
+
+    .fr-icon {
+        width: 44px;
+        height: 44px;
+    }
+
+    .orbit-title {
+        font-size: 14px;
+    }
+
+    .menu-cats {
+        gap: 6px;
+        width: 100%;
+    }
+
+    .nav-link {
+        font-size: 12px;
+    }
+
+    .color-guidelines-page {
+        padding: 15px 12px;
+        gap: 20px;
+    }
+
+    .section-title {
+        font-size: 18px;
+    }
+
+    .heading-large {
+        font-size: 16px;
+    }
+
+    .text-description {
+        font-size: 13px;
+        line-height: 22px;
+    }
+
+    .color-groups-grid {
+        gap: 10px;
+    }
+
+    .color-group-card {
+        padding: 12px;
+        min-height: auto;
+    }
+
+    .group-title {
+        font-size: 12px;
+    }
+
+    .color-name {
+        font-size: 11px;
+    }
+
+    .color-hex {
+        font-size: 10px;
+    }
+
+    .color-swatch-large {
+        width: 30px;
+        height: 30px;
+    }
+
+    .palette-item {
+        padding: 12px;
+    }
+
+    .palette-title {
+        font-size: 12px;
+    }
+
+    .palette-text {
+        font-size: 12px;
+        line-height: 18px;
+    }
+
+    .swatch-box {
+        width: 24px;
+        height: 24px;
+    }
+
+    .semantic-card {
+        padding: 15px;
+        gap: 12px;
+    }
+
+    .semantic-label {
+        font-size: 14px;
+    }
+
+    .semantic-description {
+        font-size: 12px;
+        line-height: 20px;
+    }
+
+    .semantic-swatches {
+        gap: 6px;
+    }
+
+    .semantic-swatch {
+        width: 32px;
+        height: 32px;
+    }
+
+    .tokens-container {
+        max-height: 300px;
+        padding: 12px;
+        gap: 12px;
+    }
+
+    .token-card {
+        padding: 10px;
+        gap: 8px;
+    }
+
+    .token-name {
+        font-size: 12px;
+    }
+
+    .token-mode {
+        font-size: 11px;
+    }
+
+    .color-swatch {
+        width: 16px;
+        height: 16px;
+    }
+
+    .hex-value {
+        font-size: 10px;
+    }
+
+    .accessibility-content {
+        padding: 15px;
+    }
+
+    .accessibility-text {
+        font-size: 14px;
+        line-height: 24px;
+    }
+
+    .contrast-item {
+        padding: 12px;
+    }
+
+    .contrast-ratio {
+        font-size: 14px;
+    }
+
+    .contrast-description {
+        font-size: 11px;
+    }
+}
