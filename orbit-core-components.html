@@ -1,0 +1,1495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Core Components | Orbit Design System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800&display=swap">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-page:       #0d0d0f;
+      --text-primary:  #FDFDFD;
+      --text-muted:    #9AA3B0;
+      --light-blue:    #38BDF9;
+      --blue:          #0DA0E2;
+      --deep-blue:     #2345B2;
+      --green:         #22C55D;
+      --yellow:        #FACC14;
+      --red:           #EF4444;
+      --purple:        #A855F7;
+      --border-subtle: rgba(255,255,255,0.07);
+      --border-mid:    rgba(255,255,255,0.12);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg-page);
+      font-family: 'Poppins', sans-serif;
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+  /* ── STARFIELD CANVAS ── */
+    #starfield {
+      position: fixed; inset: 0;
+      width: 100%; height: 100%;
+      z-index: 0; pointer-events: none;
+    }
+        /* ── LIQUID GLASS MIXIN ──
+       Applied to nav, section cards, token cards, palette cards, showcase panels, stat cards, etc. */
+    .glass {
+      background: rgba(12, 12, 16, 0.52);
+      backdrop-filter: blur(22px) saturate(170%) brightness(1.08);
+      -webkit-backdrop-filter: blur(22px) saturate(170%) brightness(1.08);
+      border: 1px solid rgba(255,255,255,0.10);
+      box-shadow:
+        0 2px 0 rgba(255,255,255,0.08) inset,   /* top highlight */
+        0 -1px 0 rgba(0,0,0,0.4) inset,          /* bottom shadow */
+        0 12px 40px rgba(0,0,0,0.55),
+        0 2px 8px rgba(0,0,0,0.3);
+    }
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 40% at 50% 0%,   rgba(50,80,180,0.22) 0%, transparent 60%),
+        radial-gradient(ellipse 55% 40% at 10% 5%,   rgba(56,189,249,0.08) 0%, transparent 55%),
+        radial-gradient(ellipse 45% 50% at 90% 90%,  rgba(168,85,247,0.09) 0%, transparent 55%),
+        radial-gradient(ellipse 40% 40% at 20% 80%,  rgba(34,197,93,0.05) 0%, transparent 50%);
+      pointer-events: none; z-index: 1;
+    }
+
+    /* ───────────────────────────────────────── LAYOUT */
+    .page-wrap {
+      position: relative; z-index: 2;
+      max-width: 1320px; margin: 0 auto;
+      padding: 24px 28px 100px;
+      display: flex; flex-direction: column; gap: 28px;
+    }
+
+    /* ───────────────────────────────────────── NAV */
+    nav {
+      display: flex; align-items: center;
+      padding: 0 24px; height: 80px;
+      border-radius: 20px;
+      background: rgba(8,8,12,0.50);
+      border: 1px solid rgba(255,255,255,0.11);
+      backdrop-filter: blur(20px) saturate(180%);
+      box-shadow: 0 2px 0 rgba(255,255,255,0.10) inset, 0 -1px 0 rgba(0,0,0,0.50) inset, 0 16px 48px rgba(0,0,10,0.65);
+      gap: 20px; position: sticky; top: 16px; z-index: 100;
+    }
+    .nav-logo {
+      width: 50px; height: 50px; border-radius: 12px;
+      background: #111; border: 1px solid var(--border-mid);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .nav-brand { font-size: 17px; font-weight: 700; color: var(--text-primary); margin-right: auto; flex-shrink: 0; }
+    .nav-links { display: flex; align-items: center; gap: 4px; }
+    .nav-link {
+      font-size: 14px; font-weight: 500; color: var(--text-muted);
+      padding: 8px 14px; border-radius: 10px; cursor: pointer;
+      transition: all 0.15s; text-decoration: none; background: none; border: none;
+    }
+    .nav-link:hover { color: var(--text-primary); background: rgba(255,255,255,0.07); }
+    .nav-link.active { color: var(--light-blue); background: rgba(56,189,249,0.08); font-weight: 600; }
+    .nav-hamburger { display: none; background: none; border: none; color: var(--text-primary); cursor: pointer; padding: 6px; margin-left: auto; }
+    .nav-drawer { display: none; flex-direction: column; gap: 4px; position: absolute; top: calc(100% + 8px); left: 0; right: 0; background: rgba(8,8,12,0.96); border: 1px solid rgba(255,255,255,0.10); border-radius: 16px; padding: 12px; backdrop-filter: blur(24px); }
+    .nav-drawer .nav-link { width: 100%; text-align: left; border-radius: 10px; padding: 10px 14px; }
+
+    /* ───────────────────────────────────────── CONTENT CARD */
+    .content-card {
+      background: rgba(10,10,14,0.62);
+      backdrop-filter: blur(20px) saturate(165%) brightness(1.05);
+      border: 1px solid rgba(255,255,255,0.10);
+      box-shadow: 0 2px 0 rgba(255,255,255,0.08) inset, 0 -1px 0 rgba(0,0,0,0.50) inset, 0 24px 72px rgba(0,0,0,0.65);
+      border-radius: 20px;
+      padding: 60px 60px 80px;
+      display: flex; flex-direction: column; gap: 56px;
+    }
+
+    /* ───────────────────────────────────────── PAGE HEADER */
+    .page-header { display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center; }
+    .eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--light-blue); }
+    .page-title { font-family: 'Montserrat', sans-serif; font-size: clamp(32px, 5vw, 54px); font-weight: 900; line-height: 1.1; }
+    .page-desc { font-size: 15px; line-height: 1.75; color: rgba(255,255,255,0.65); max-width: 820px; }
+
+    /* ───────────────────────────────────────── SECTION */
+    .section-heading { font-family: 'Montserrat', sans-serif; font-size: clamp(18px, 2.2vw, 26px); font-weight: 800; color: var(--light-blue); margin-bottom: 12px; }
+    .blue-rule { border: none; border-top: 2px solid var(--light-blue); margin-bottom: 36px; }
+    .section-divider { border: none; border-top: 1px solid rgba(255,255,255,0.07); }
+    .state-label { font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.50); margin-bottom: 8px; }
+
+    /* ───────────────────────────────────────── GLASS PANEL */
+    .glass {
+      background: rgba(17,17,19,0.93);
+      border: 1px solid rgba(154,163,176,0.50);
+      border-radius: 15px;
+      backdrop-filter: blur(20px) saturate(160%);
+    }
+
+    /* ───────────────────────────────────────── COMPONENT GRID (2 col) */
+    .comp-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      align-items: start;
+    }
+    .comp-grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 32px;
+      align-items: start;
+    }
+
+    /* ───────────────────────────────────────── USAGE ANNOTATION */
+    .usage-box {
+      background: rgba(18,18,22,0.55);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.09);
+      box-shadow: 0 2px 0 rgba(255,255,255,0.06) inset, 0 8px 24px rgba(0,0,0,0.45);
+      border-radius: 14px; padding: 20px 24px;
+      font-size: 14px; line-height: 1.75; color: rgba(255,255,255,0.75);
+    }
+    .usage-box b { color: #fff; }
+    .usage-box .tag {
+      display: inline-block; font-size: 11px; font-weight: 600;
+      letter-spacing: 0.10em; text-transform: uppercase;
+      padding: 3px 9px; border-radius: 6px; margin-bottom: 10px;
+    }
+    .tag-blue   { color: var(--light-blue); background: rgba(56,189,249,0.10); border: 1px solid rgba(56,189,249,0.25); }
+    .tag-purple { color: var(--purple);     background: rgba(168,85,247,0.10); border: 1px solid rgba(168,85,247,0.25); }
+    .tag-green  { color: var(--green);      background: rgba(34,197,93,0.10);  border: 1px solid rgba(34,197,93,0.25); }
+    .tag-yellow { color: var(--yellow);     background: rgba(250,204,20,0.10); border: 1px solid rgba(250,204,20,0.25); }
+
+    /* ═══════════════════════════════════════════
+       1. ACCENT BUTTON / ICON OPTION
+    ═══════════════════════════════════════════ */
+    .btn-showcase {
+      padding: 20px;
+      display: flex; flex-direction: column; gap: 4px;
+    }
+    .btn-showcase-title {
+      font-size: 16px; font-weight: 600;
+      padding: 0 4px 16px; border-bottom: 1px solid rgba(255,255,255,0.07);
+      margin-bottom: 12px;
+    }
+
+    /* Accent Button States */
+    .acc-btn {
+      width: 100%; height: 51px; border-radius: 15px;
+      display: flex; align-items: center; justify-content: center;
+      gap: 12px; font-family: 'Poppins', sans-serif; font-weight: 700;
+      font-size: 16px; cursor: pointer; border: none; transition: all 0.18s;
+      margin-bottom: 4px;
+    }
+    .acc-btn-icon {
+      width: 25px; height: 25px; border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .acc-default { background: #fff; color: #000; }
+    .acc-default:hover { background: rgba(253,253,253,0.32); color: #FAF3F3; }
+
+    .acc-hover   { background: rgba(253,253,253,0.32); color: #FAF3F3; }
+
+    .acc-selected {
+      background: rgba(61,61,64,0.93); color: #FDFDFD;
+      border: 1px solid #F5F5F5;
+    }
+
+    .acc-deact {
+      background: rgba(13,19,28,0.20); color: #FDFDFD;
+      border: 1px solid #FDFDFD; opacity: 0.55; cursor: not-allowed;
+    }
+
+    /* Rocket icon SVG inline */
+    .rocket-icon { display: flex; align-items: center; justify-content: center; }
+
+    /* ═══════════════════════════════════════════
+       2. BOARDING PASS
+    ═══════════════════════════════════════════ */
+    .boarding-pass-card {
+      background: #FDFDFD;
+      border-radius: 25px;
+      border: 1px solid #ddd;
+      color: #000;
+      overflow: hidden;
+      display: flex; flex-direction: column;
+      padding: 18px 16px;
+      gap: 14px;
+      font-family: 'Poppins', sans-serif;
+      position: relative;
+    }
+
+    /* Torn edge divider */
+    .boarding-pass-card::after {
+      content: '';
+      position: absolute;
+      left: 0; right: 0;
+      top: calc(100% - 110px);
+      z-index: 1;
+    }
+
+    .bp-header {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      padding: 0 4px;
+    }
+    .bp-airline { font-size: 11px; font-weight: 500; letter-spacing: 0.05em; color: #333; line-height: 1.4; }
+    .bp-title   { font-size: 16px; font-weight: 700; color: #000; }
+    .bp-class {
+      background: #0D131C; color: #fff;
+      border-radius: 8px; padding: 6px 14px;
+      font-size: 13px; font-weight: 700; letter-spacing: 0.05em;
+    }
+
+    .bp-route {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 8px;
+    }
+    .bp-city { flex: 1; }
+    .bp-city-from { text-align: left; }
+    .bp-city-to   { text-align: right; }
+    .bp-from-label { font-size: 11px; font-weight: 500; letter-spacing: 0.05em; color: #666; }
+    .bp-city-name  { font-size: 30px; font-weight: 700; line-height: 1.1; color: #000; }
+    .bp-time       { font-size: 13px; color: #555; line-height: 2; }
+
+    .bp-center {
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
+      flex-shrink: 0; padding: 0 12px;
+    }
+    /* SVG flight path line */
+    .bp-flight-line {
+      width: 86px; height: 6px; position: relative;
+    }
+    .bp-focus-label {
+      font-size: 11px; color: #888; text-align: center; line-height: 1.5;
+      max-width: 72px;
+    }
+
+    .bp-divider {
+      width: calc(100% + 32px); height: 1px;
+      position: relative; margin: 0 -16px;
+      background-image: repeating-linear-gradient(90deg, rgba(0,0,0,0.12) 0 3px, transparent 3px 8px);
+      animation: bp-tear-line 1.6s linear infinite;
+    }
+    /* tear circles */
+    .bp-divider::before, .bp-divider::after {
+      content: ''; position: absolute; top: 50%; transform: translateY(-50%);
+      width: 20px; height: 20px; border-radius: 50%;
+      background: var(--bg-page);
+      animation: bp-tear-circle 2.4s ease-in-out infinite;
+    }
+    .bp-divider::before { left: -10px; animation-delay: 0s; }
+    .bp-divider::after  { right: -10px; animation-delay: 0.3s; }
+
+    @keyframes bp-tear-line {
+      0% { background-position: 0 0; }
+      100% { background-position: 12px 0; }
+    }
+    @keyframes bp-tear-circle {
+      0%, 100% { transform: translateY(-50%) scale(1); opacity: 1; }
+      50% { transform: translateY(-42%) scale(1.08); opacity: 0.9; }
+    }
+
+    .bp-objectives {
+      padding: 0 8px;
+    }
+    .bp-obj-header {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.05em; color: #888;
+      padding: 6px 0 8px; text-transform: uppercase;
+    }
+    .bp-obj-item {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 14px; font-weight: 500; color: #000;
+    }
+    .bp-obj-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--purple); flex-shrink: 0;
+    }
+
+    .bp-barcode {
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      padding: 8px 0 0;
+    }
+    .barcode-svg { width: 100%; height: 52px; display: block; }
+    .bp-ticket-num { font-size: 11px; letter-spacing: 0.05em; color: #888; }
+
+    /* ═══════════════════════════════════════════
+       3. DATE / TIME PICKER
+    ═══════════════════════════════════════════ */
+    .picker-wrap {
+      border-radius: 13px; overflow: hidden;
+      background: rgba(0,0,0,0.41);
+      backdrop-filter: blur(100px) saturate(180%);
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: 0 10px 60px rgba(0,0,0,0.35);
+      font-family: -apple-system, 'SF Pro', 'Helvetica Neue', sans-serif;
+    }
+    .picker-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 16px; height: 44px;
+    }
+    .picker-month-year {
+      display: flex; align-items: center; gap: 4px;
+      font-size: 17px; font-weight: 600; letter-spacing: -0.43px; color: #fff;
+    }
+    .picker-disclosure { font-size: 15px; color: var(--blue); }
+    .picker-arrows { display: flex; align-items: center; gap: 28px; color: var(--blue); font-size: 18px; }
+    .picker-arrows span { cursor: pointer; user-select: none; opacity: 0.85; transition: opacity 0.15s; }
+    .picker-arrows span:hover { opacity: 1; }
+
+    .picker-day-names {
+      display: grid; grid-template-columns: repeat(7, 1fr);
+      padding: 0 16px; gap: 4px; margin-bottom: 4px;
+    }
+    .picker-day-name {
+      font-size: 13px; font-weight: 600; text-align: center;
+      text-transform: uppercase; color: rgba(235,235,245,0.55);
+      padding: 4px 0;
+    }
+
+    .picker-grid {
+      display: flex; flex-direction: column; gap: 6px;
+      padding: 0 16px 4px;
+    }
+    .picker-week {
+      display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px;
+    }
+    .picker-day {
+      height: 44px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; letter-spacing: -0.45px; color: #fff;
+      cursor: pointer; transition: background 0.12s;
+      position: relative;
+    }
+    .picker-day:hover { background: rgba(92,184,255,0.15); }
+    .picker-day.empty { pointer-events: none; }
+    .picker-day.today-marker {
+      color: var(--blue); font-weight: 500;
+    }
+    .picker-day.today-marker::before {
+      content: '';
+      position: absolute; inset: 0; border-radius: 50%;
+      background: rgba(92,184,255,0.12);
+    }
+    .picker-day.first-of-month { color: var(--blue); }
+
+    .picker-separator {
+      border-bottom: 0.5px solid rgba(255,255,255,0.17);
+      margin: 4px 16px 0;
+    }
+    .picker-time-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 16px; height: 52px;
+    }
+    .picker-time-label { font-size: 17px; font-weight: 500; letter-spacing: -0.43px; color: #fff; }
+    .picker-time-pill {
+      background: rgba(118,118,128,0.32); border-radius: 100px;
+      padding: 6px 11px; font-size: 17px; letter-spacing: -0.43px; color: #fff;
+      cursor: pointer;
+    }
+
+    /* ═══════════════════════════════════════════
+       4. PLANET ICONS
+    ═══════════════════════════════════════════ */
+    .planets-showcase {
+      border-radius: 15px;
+      border: 1px solid var(--text-muted);
+      padding: 24px;
+      display: flex; flex-direction: column; gap: 20px;
+    }
+    .planets-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 20px 0;
+    }
+    .planet-item {
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+    }
+    .planet-orb {
+      width: 52px; height: 52px; border-radius: 50%;
+      position: relative; display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.4), inset 0 -3px 8px rgba(0,0,0,0.3);
+    }
+    .planet-orb svg { width: 100%; height: 100%; position: absolute; inset: 0; border-radius: 50%; }
+    .planet-name { font-size: 12px; font-weight: 500; color: rgba(255,255,255,0.65); }
+
+    /* Planet colors */
+    .p-earth   { background: radial-gradient(circle at 35% 35%, #4DAEEF, #2345B2 55%, #0d2a6b); box-shadow: 0 0 0 3px rgba(35,69,178,0.35), 0 4px 14px rgba(0,0,0,0.4); }
+    .p-mars    { background: radial-gradient(circle at 35% 35%, #e87057, #EF4444 55%, #8B1A1A); box-shadow: 0 0 0 3px rgba(239,68,68,0.35), 0 4px 14px rgba(0,0,0,0.4); }
+    .p-venus   { background: radial-gradient(circle at 35% 35%, #f5d97c, #F97315 55%, #c45b00); box-shadow: 0 0 0 3px rgba(249,115,21,0.35), 0 4px 14px rgba(0,0,0,0.4); }
+    .p-jupiter { background: radial-gradient(circle at 35% 35%, #e8c882, #FACC14 55%, #926000); box-shadow: 0 0 0 3px rgba(250,204,20,0.35), 0 4px 14px rgba(0,0,0,0.4); }
+    .p-neptune { background: radial-gradient(circle at 35% 35%, #5DC8F5, #0DA0E2 55%, #065a82); box-shadow: 0 0 0 3px rgba(13,160,226,0.35), 0 4px 14px rgba(0,0,0,0.4); }
+    .p-mercury { background: radial-gradient(circle at 35% 35%, #c8c8c8, #888 55%, #444); box-shadow: 0 0 0 3px rgba(160,160,160,0.30), 0 4px 14px rgba(0,0,0,0.4); }
+    .p-pluto   { background: radial-gradient(circle at 35% 35%, #d4a4f7, #A855F7 55%, #5b148a); box-shadow: 0 0 0 3px rgba(168,85,247,0.35), 0 4px 14px rgba(0,0,0,0.4); }
+    .p-saturn  { background: radial-gradient(circle at 35% 35%, #f7e6b4, #FACC14 55%, #8a7000); box-shadow: 0 0 0 3px rgba(250,204,20,0.25), 0 4px 14px rgba(0,0,0,0.4); }
+    .p-uranus  { background: radial-gradient(circle at 35% 35%, #7eecea, #22C55D 55%, #0d5c38); box-shadow: 0 0 0 3px rgba(34,197,93,0.35), 0 4px 14px rgba(0,0,0,0.4); }
+
+    /* Saturn ring */
+    .planet-orb.p-saturn .ring {
+      position: absolute; width: 72px; height: 18px;
+      border: 3px solid rgba(250,204,20,0.55); border-radius: 50%;
+      top: 50%; left: 50%; transform: translate(-50%, -50%) rotateX(70deg);
+      pointer-events: none;
+    }
+
+    /* ═══════════════════════════════════════════
+       5. NAVIGATION BAR
+    ═══════════════════════════════════════════ */
+    .nav-bar-showcase {
+      background: rgba(17,17,19,0.93);
+      border: 1px solid #F5F5F5;
+      border-radius: 20px;
+      display: flex; align-items: center; justify-content: center;
+      padding: 12px 28px;
+      gap: 56px;
+    }
+    .nav-item {
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      cursor: pointer; transition: opacity 0.15s;
+    }
+    .nav-item:hover { opacity: 0.75; }
+    .nav-item-icon {
+      width: 48px; height: 48px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .nav-item-label { font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.80); }
+    .nav-item.active .nav-item-label { color: var(--light-blue); }
+    .nav-item.active .nav-item-icon svg { opacity: 1; }
+
+    /* spec annotations */
+    .spec-row {
+      display: flex; gap: 12px; flex-wrap: wrap;
+    }
+    .spec-chip {
+      font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.55);
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 6px; padding: 4px 10px;
+    }
+    .spec-chip span { color: var(--light-blue); }
+
+    /* ═══════════════════════════════════════════
+       PRIMARY BUTTON
+    ═══════════════════════════════════════════ */
+    .prim-btn {
+      width: 100%; height: 57px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 16px;
+      cursor: pointer; border: 2px solid; transition: all 0.15s;
+      margin-bottom: 4px;
+    }
+    .prim-default  { background: #fff; border-color: #38BDF9; color: #000; }
+    .prim-default:hover { background: rgba(0,0,0,0.41); border-color: #0DA0E2; color: #FDFDFD; }
+    .prim-hover    { background: rgba(0,0,0,0.41); border-color: #0DA0E2; color: #FDFDFD; }
+    .prim-selected { background: #2E2F33; border-color: #2345B2; color: #fff; }
+    .prim-disabled { background: #9AA3B0; border-color: #fff; color: #393939; opacity: 0.7; cursor: not-allowed; }
+
+    /* ═══════════════════════════════════════════
+       SECONDARY BUTTON
+    ═══════════════════════════════════════════ */
+    .sec-btn {
+      width: 100%; height: 57px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 16px;
+      cursor: pointer; border: 2px solid; transition: all 0.18s;
+      margin-bottom: 4px;
+    }
+    .sec-default  { background: #0D131C; border-color: #EF4444; color: #9AA3B0; }
+    .sec-default:hover { background: rgba(0,0,0,0.64); border-color: #FACC14; color: #FDFDFD; }
+    .sec-hover    { background: rgba(0,0,0,0.64); border-color: #FACC14; color: #FDFDFD; }
+    .sec-selected { background: rgba(0,0,0,0.33); border-color: #22C55D; color: #FDFDFD; }
+    .sec-disabled { background: transparent; border-color: #FDFDFD; color: rgba(132,132,132,0.93); opacity: 0.55; cursor: not-allowed; }
+
+    /* ── Responsive ── */
+    @media (max-width: 1080px) {
+      .content-card { padding: 36px 28px 56px; }
+      .comp-grid, .comp-grid-3 { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      .nav-hamburger { display: flex; }
+    }
+    @media (max-width: 640px) {
+      .page-wrap { padding: 14px 12px 60px; gap: 16px; }
+      .content-card { padding: 24px 16px 40px; border-radius: 14px; }
+      nav { border-radius: 14px; top: 8px; }
+    }
+  </style>
+</head>
+
+
+
+
+<body>
+
+<canvas id="starfield" style="position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:0.40;"></canvas>
+
+<div class="page-wrap">
+
+  <!-- ══ NAV ══ -->
+  <nav style="position:sticky;top:16px;z-index:100;">
+    <div class="nav-logo">
+      <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
+        <circle cx="15" cy="15" r="6" fill="white"/>
+        <ellipse cx="15" cy="15" rx="13" ry="4" stroke="white" stroke-width="1.3" fill="none"/>
+        <circle cx="4"  cy="11" r="1.1" fill="white" opacity="0.5"/>
+        <circle cx="26" cy="19" r="1.1" fill="white" opacity="0.5"/>
+        <circle cx="23" cy="5"  r="0.7" fill="white" opacity="0.35"/>
+        <circle cx="7"  cy="25" r="0.7" fill="white" opacity="0.35"/>
+      </svg>
+    </div>
+    <span class="nav-brand">Orbit Design System</span>
+    <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+      <svg id="ham-icon" width="22" height="22" viewBox="0 0 22 22" fill="none">
+        <path d="M3 6h16M3 11h16M3 16h16" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+    </button>
+    <div class="nav-links">
+      <a class="nav-link" href="orbit-overview.html">Overview</a>
+      <a class="nav-link" href="orbit-colors.html">Foundations</a>
+      <a class="nav-link active" href="orbit-core-components.html">Components</a>
+    </div>
+    <div class="nav-drawer" id="navDrawer">
+      <a class="nav-link" href="orbit-overview.html">Overview</a>
+      <a class="nav-link" href="orbit-colors.html">Foundations</a>
+      <a class="nav-link active" href="orbit-core-components.html">Components</a>
+    </div>
+  </nav>
+
+  <!-- ══ CONTENT CARD ══ -->
+  <div class="content-card">
+
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+      <div class="eyebrow">Component Guidelines</div>
+      <h1 class="page-title">Core Components:<br>The Center of The Universe</h1>
+      <p class="page-desc">
+        The five foundational components of FocusRoom — each engineered around the space-travel metaphor. From the Boarding Pass that frames every focus session to the Navigation Bar anchoring every screen, these are the building blocks that make the product feel like one cohesive mission.
+      </p>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- ══════════════════════════════════
+         1. ACCENT BUTTON / ICON OPTION
+    ═══════════════════════════════════ -->
+    <div>
+      <div class="section-heading">Accent Button / Icon Option</div>
+      <hr class="blue-rule">
+
+      <div class="comp-grid">
+
+        <!-- Left: States showcase -->
+        <div class="glass" style="border-radius:15px; overflow:hidden;">
+          <div class="btn-showcase">
+            <div class="btn-showcase-title">Accent Button / Icon Option</div>
+
+            <div class="state-label">Default</div>
+            <button class="acc-btn acc-default" id="accentBtn">
+              <span class="rocket-icon">
+                <img src="../images/Jet.png" alt="Rocket Icon" style="width:20px;height:20px;">                </svg>
+              </span>
+              Check in
+            </button>
+
+            <div class="state-label">Hover</div>
+            <div class="acc-btn acc-hover">
+              <span class="rocket-icon">
+                <img src="../images/JetWhite.png" alt="Rocket Icon" style="width:20px;height:20px;filter: brightness(0) invert(1) opacity(0.7);">
+              
+              </span>
+              Check in
+            </div>
+
+            <div class="state-label">Selected</div>
+            <div class="acc-btn acc-selected">
+              <span class="rocket-icon">
+                <img src="../images/JetWhite.png " alt="Rocket Icon" style="width:20px;height:20px;">
+              </span>
+              Check in
+            </div>
+
+            <div class="state-label">Deactivated</div>
+            <div class="acc-btn acc-deact">
+              <span class="rocket-icon">
+                <img src="../images/Jetwhite.png" alt="Rocket Icon" style="width:20px;height:20px;">
+              </span>
+              Check in
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Usage guidelines -->
+        <div style="display:flex;flex-direction:column;gap:16px;">
+          <div class="usage-box">
+            <div class="tag tag-blue">Usage</div>
+            <p>The <b>Accent Button</b> is the primary CTA in FocusRoom. It uses a rocket icon to reinforce the space-travel metaphor and signals the main action on any screen — checking in, starting a session, or launching a mission.</p>
+          </div>
+          <div class="usage-box">
+            <div class="tag tag-yellow">State System</div>
+            <table style="width:100%;font-size:13px;border-collapse:collapse;">
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.07);">
+                <td style="padding:7px 0;font-weight:700;color:#fff;width:90px;">Default</td>
+                <td style="padding:7px 0;color:rgba(255,255,255,0.65);">White fill · black text · maximum visibility</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.07);">
+                <td style="padding:7px 0;font-weight:700;color:#fff;">Hover</td>
+                <td style="padding:7px 0;color:rgba(255,255,255,0.65);">32% white glass · cream text · engaged state</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.07);">
+                <td style="padding:7px 0;font-weight:700;color:#fff;">Selected</td>
+                <td style="padding:7px 0;color:rgba(255,255,255,0.65);">Dark fill + F5F5F5 border · confirmed action</td>
+              </tr>
+              <tr>
+                <td style="padding:7px 0;font-weight:700;color:#fff;">Deactivated</td>
+                <td style="padding:7px 0;color:rgba(255,255,255,0.65);">20% fill · full opacity border · 55% opacity</td>
+              </tr>
+            </table>
+          </div>
+          <div class="spec-row">
+            <div class="spec-chip">Height: <span>51px</span></div>
+            <div class="spec-chip">Radius: <span>15px</span></div>
+            <div class="spec-chip">Font: <span>Poppins 700 16px</span></div>
+            <div class="spec-chip">Icon gap: <span>12px</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- ══════════════════════════════════
+         2. BOARDING PASS CARD
+    ═══════════════════════════════════ -->
+    <div>
+      <div class="section-heading">Card Component: Boarding Pass</div>
+      <hr class="blue-rule">
+
+      <div class="comp-grid">
+
+        <!-- Left: The Card -->
+        <div style="display:flex;flex-direction:column;gap:16px;">
+          <div class="boarding-pass-card">
+
+            <!-- Header -->
+            <div class="bp-header">
+              <div>
+                <div class="bp-airline">FOCUSROOM AIRWAYS</div>
+                <div class="bp-title">BOARDING PASS</div>
+              </div>
+              <div class="bp-class">ECONOMY</div>
+            </div>
+
+            <!-- Route -->
+            <div class="bp-route">
+              <div class="bp-city bp-city-from">
+                <div class="bp-from-label">FROM</div>
+                <div class="bp-city-name">Earth</div>
+                <div class="bp-time">Departing at 14:25</div>
+              </div>
+
+              <div class="bp-center">
+                <!-- SVG arrow line with plane -->
+                <svg width="90" height="10" viewBox="0 0 90 10" fill="none">
+                  <line x1="0" y1="5" x2="66" y2="5" stroke="#999" stroke-width="1.5" stroke-dasharray="4 3"/>
+                  <polygon points="70,5 62,2 64,5 62,8" fill="#555"/>
+                  <circle cx="80" cy="5" r="3.5" fill="#A855F7" opacity="0.7"/>
+                </svg>
+                <div class="bp-focus-label" style="font-family:'Poppins',sans-serif;">45min of deep focus</div>
+              </div>
+
+              <div class="bp-city bp-city-to">
+                <div class="bp-from-label" style="text-align:right;">TO</div>
+                <div class="bp-city-name">Mercury</div>
+                <div class="bp-time">Landing at 15:10</div>
+              </div>
+            </div>
+
+            <!-- Tear divider -->
+            <div class="bp-divider"></div>
+            <!-- Mission Objectives -->
+            <div class="bp-objectives">
+              <div class="bp-obj-header">Mission Objectives (1)</div>
+              <div class="bp-obj-item">
+                <div class="bp-obj-dot"></div>
+                UI Audit
+              </div>
+            </div>
+
+            <!-- Barcode -->
+            <div class="bp-barcode">
+              <svg class="barcode-svg" viewBox="0 0 340 52" fill="none">
+                <!-- Procedural barcode lines -->
+                <rect x="2"   y="0" width="3"  height="52" fill="#111" rx="1"/>
+                <rect x="8"   y="0" width="1"  height="52" fill="#111" rx="1"/>
+                <rect x="12"  y="0" width="4"  height="52" fill="#111" rx="1"/>
+                <rect x="19"  y="0" width="2"  height="52" fill="#111" rx="1"/>
+                <rect x="24"  y="0" width="5"  height="52" fill="#111" rx="1"/>
+                <rect x="32"  y="0" width="1"  height="52" fill="#111" rx="1"/>
+                <rect x="36"  y="0" width="3"  height="52" fill="#111" rx="1"/>
+                <rect x="42"  y="0" width="2"  height="52" fill="#111" rx="1"/>
+                <rect x="47"  y="0" width="4"  height="52" fill="#111" rx="1"/>
+                <rect x="54"  y="0" width="1"  height="52" fill="#111" rx="1"/>
+                <rect x="58"  y="0" width="3"  height="52" fill="#111" rx="1"/>
+                <rect x="64"  y="0" width="5"  height="52" fill="#111" rx="1"/>
+                <rect x="72"  y="0" width="2"  height="52" fill="#111" rx="1"/>
+                <rect x="77"  y="0" width="1"  height="52" fill="#111" rx="1"/>
+                <rect x="81"  y="0" width="4"  height="52" fill="#111" rx="1"/>
+                <rect x="88"  y="0" width="3"  height="52" fill="#111" rx="1"/>
+                <rect x="94"  y="0" width="1"  height="52" fill="#111" rx="1"/>
+                <rect x="98"  y="0" width="5"  height="52" fill="#111" rx="1"/>
+                <rect x="106" y="0" width="2"  height="52" fill="#111" rx="1"/>
+                <rect x="111" y="0" width="3"  height="52" fill="#111" rx="1"/>
+                <rect x="117" y="0" width="1"  height="52" fill="#111" rx="1"/>
+                <rect x="121" y="0" width="4"  height="52" fill="#111" rx="1"/>
+                <rect x="128" y="0" width="2"  height="52" fill="#111" rx="1"/>
+                <rect x="133" y="0" width="5"  height="52" fill="#111" rx="1"/>
+                <rect x="141" y="0" width="1"  height="52" fill="#111" rx="1"/>
+                <rect x="145" y="0" width="3"  height="52" fill="#111" rx="1"/>
+                <rect x="151" y="0" width="2"  height="52" fill="#111" rx="1"/>
+                <rect x="156" y="0" width="4"  height="52" fill="#111" rx="1"/>
+                <rect x="163" y="0" width="1"  height="52" fill="#111" rx="1"/>
+                <rect x="167" y="0" width="3"  height="52" fill="#111" rx="1"/>
+                <rect x="173" y="0" width="5"  height="52" fill="#111" rx="1"/>
+                <rect x="181" y="0" width="2"  height="52" fill="#111" rx="1"/>
+                <rect x="186" y="0" width="1"  height="52" fill="#111" rx="1"/>
+                <rect x="190" y="0" width="4"  height="52" fill="#111" rx="1"/>
+                <rect x="197" y="0" width="3"  height="52" fill="#111" rx="1"/>
+                <rect x="203" y="0" width="1"  height="52" fill="#111" rx="1"/>
+                <rect x="207" y="0" width="5"  height="52" fill="#111" rx="1"/>
+                <rect x="215" y="0" width="2"  height="52" fill="#111" rx="1"/>
+                <rect x="220" y="0" width="3"  height="52" fill="#111" rx="1"/>
+                <rect x="226" y="0" width="1"  height="52" fill="#111" rx="1"/>
+                <rect x="230" y="0" width="4"  height="52" fill="#111" rx="1"/>
+                <rect x="237" y="0" width="2"  height="52" fill="#111" rx="1"/>
+                <rect x="242" y="0" width="5"  height="52" fill="#111" rx="1"/>
+                <rect x="250" y="0" width="1"  height="52" fill="#111" rx="1"/>
+                <rect x="254" y="0" width="3"  height="52" fill="#111" rx="1"/>
+                <rect x="260" y="0" width="2"  height="52" fill="#111" rx="1"/>
+                <rect x="265" y="0" width="4"  height="52" fill="#111" rx="1"/>
+                <rect x="272" y="0" width="1"  height="52" fill="#111" rx="1"/>
+                <rect x="276" y="0" width="3"  height="52" fill="#111" rx="1"/>
+                <rect x="282" y="0" width="5"  height="52" fill="#111" rx="1"/>
+                <rect x="290" y="0" width="2"  height="52" fill="#111" rx="1"/>
+                <rect x="295" y="0" width="1"  height="52" fill="#111" rx="1"/>
+                <rect x="299" y="0" width="4"  height="52" fill="#111" rx="1"/>
+                <rect x="306" y="0" width="3"  height="52" fill="#111" rx="1"/>
+                <rect x="312" y="0" width="1"  height="52" fill="#111" rx="1"/>
+                <rect x="316" y="0" width="5"  height="52" fill="#111" rx="1"/>
+                <rect x="324" y="0" width="2"  height="52" fill="#111" rx="1"/>
+                <rect x="329" y="0" width="3"  height="52" fill="#111" rx="1"/>
+                <rect x="335" y="0" width="2"  height="52" fill="#111" rx="1"/>
+              </svg>
+              <div class="bp-ticket-num" style="font-family:'Poppins',sans-serif;">TKT-EaMe-336824</div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Right: Usage guidelines -->
+        <div style="display:flex;flex-direction:column;gap:16px;">
+          <div class="usage-box">
+            <div class="tag tag-purple">Card Component</div>
+            <p>The <b>Boarding Pass</b> is FocusRoom's signature card — it reframes a productivity session as a space flight. Each element maps to a real boarding pass: airline → app name, departure → start time, destination → focus milestone, barcode → session token.</p>
+          </div>
+          <div class="usage-box">
+            <div class="tag tag-blue">Anatomy</div>
+            <table style="width:100%;font-size:13px;border-collapse:collapse;">
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.07);">
+                <td style="padding:7px 0;font-weight:700;color:#fff;width:120px;">Header</td>
+                <td style="padding:7px 0;color:rgba(255,255,255,0.65);">Airline label + class badge (Economy/Business)</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.07);">
+                <td style="padding:7px 0;font-weight:700;color:#fff;">Route</td>
+                <td style="padding:7px 0;color:rgba(255,255,255,0.65);">Origin planet → destination planet + flight time</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.07);">
+                <td style="padding:7px 0;font-weight:700;color:#fff;">Objectives</td>
+                <td style="padding:7px 0;color:rgba(255,255,255,0.65);">Task list with purple notification dots</td>
+              </tr>
+              <tr>
+                <td style="padding:7px 0;font-weight:700;color:#fff;">Barcode</td>
+                <td style="padding:7px 0;color:rgba(255,255,255,0.65);">Session token: TKT-{Origin}{Dest}-{ID}</td>
+              </tr>
+            </table>
+          </div>
+          <div class="spec-row">
+            <div class="spec-chip">Bg: <span>#FDFDFD</span></div>
+            <div class="spec-chip">Radius: <span>25px</span></div>
+            <div class="spec-chip">Dot: <span>#A855F7</span></div>
+            <div class="spec-chip">Class badge: <span>#0D131C</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- ══════════════════════════════════
+         3. DATE / TIME PICKER
+    ═══════════════════════════════════ -->
+    <div>
+      <div class="section-heading">Time / Date Picker</div>
+      <hr class="blue-rule">
+
+      <div class="comp-grid">
+
+        <!-- Left: The Picker -->
+        <div class="picker-wrap">
+          <div class="picker-header">
+            <div class="picker-month-year">
+              <span id="pickerMonthYear">April 2025</span>
+              <span class="picker-disclosure">›</span>
+            </div>
+            <div class="picker-arrows">
+              <span id="pickerPrev">‹</span>
+              <span id="pickerNext">›</span>
+            </div>
+          </div>
+
+          <div class="picker-day-names">
+            <div class="picker-day-name">SUN</div>
+            <div class="picker-day-name">MON</div>
+            <div class="picker-day-name">TUE</div>
+            <div class="picker-day-name">WED</div>
+            <div class="picker-day-name">THU</div>
+            <div class="picker-day-name">FRI</div>
+            <div class="picker-day-name">SAT</div>
+          </div>
+
+          <div class="picker-grid" id="pickerGrid"></div>
+
+          <div class="picker-separator"></div>
+          <div class="picker-time-row">
+            <div class="picker-time-label">Time</div>
+            <div class="picker-time-pill" id="pickerTimePill">9:41 AM</div>
+          </div>
+        </div>
+
+        <!-- Right: Usage guidelines -->
+        <div style="display:flex;flex-direction:column;gap:16px;">
+          <div class="usage-box">
+            <div class="tag tag-green">Native iOS Pattern</div>
+            <p>The <b>Date & Time Picker</b> follows the iOS calendar sheet pattern — familiar to mobile users. It uses the system blur (100px) and a semi-transparent dark fill, making it feel native to the platform while remaining cohesive with the Orbit dark theme.</p>
+          </div>
+          <div class="usage-box">
+            <div class="tag tag-blue">Interaction Rules</div>
+            <ul style="font-size:13px;line-height:2;color:rgba(255,255,255,0.70);padding-left:16px;">
+              <li>Selected day: filled <b style="color:var(--blue);">#5CB8FF</b> circle at 12% opacity, text in blue</li>
+              <li>First of month: blue text, no fill</li>
+              <li>Today: subtle highlight only when not selected</li>
+              <li>Month nav: ‹ › arrows top-right, month/year top-left</li>
+              <li>Time: collapsible pill, <b style="color:var(--blue);">RGB(118,118,128) 32%</b> background</li>
+            </ul>
+          </div>
+          <div class="spec-row">
+            <div class="spec-chip">Blur: <span>100px</span></div>
+            <div class="spec-chip">Bg: <span>rgba(0,0,0,0.41)</span></div>
+            <div class="spec-chip">Radius: <span>13px</span></div>
+            <div class="spec-chip">Accent: <span>#5CB8FF</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- ══════════════════════════════════
+         4. PLANET ICONS
+    ═══════════════════════════════════ -->
+    <div>
+      <div class="section-heading">Planet Icons</div>
+      <hr class="blue-rule">
+
+      <div class="comp-grid">
+
+        <!-- Left: Planet Grid -->
+        <div class="planets-showcase">
+          <div class="planets-grid">
+            <div class="planet-item">
+              <div class="planet-orb p-earth">
+                
+                <svg viewBox="0 0 52 52" fill="none">
+                  <ellipse cx="26" cy="26" rx="24" ry="7" stroke="rgba(255,255,255,0.20)" stroke-width="1"/>
+                  <circle cx="26" cy="26" r="24" stroke="rgba(255,255,255,0.10)" stroke-width="0.5"/>
+                  <path d="M10 20 Q20 15 30 22 Q38 28 44 24" stroke="rgba(255,255,255,0.15)" stroke-width="1" fill="none"/>
+                </svg>
+              </div>
+              <div class="planet-name">Earth</div>
+            </div>
+            <div class="planet-item">
+              <div class="planet-orb p-mars">
+                <svg viewBox="0 0 52 52" fill="none">
+                  <circle cx="26" cy="26" r="24" stroke="rgba(255,255,255,0.10)" stroke-width="0.5"/>
+                  <circle cx="18" cy="20" r="4" fill="rgba(0,0,0,0.15)"/>
+                  <circle cx="32" cy="32" r="3" fill="rgba(0,0,0,0.10)"/>
+                </svg>
+              </div>
+              <div class="planet-name">Mars</div>
+            </div>
+            <div class="planet-item">
+              <div class="planet-orb p-venus">
+                <svg viewBox="0 0 52 52" fill="none">
+                  <circle cx="26" cy="26" r="24" stroke="rgba(255,255,255,0.10)" stroke-width="0.5"/>
+                  <ellipse cx="26" cy="26" rx="24" ry="10" stroke="rgba(255,255,255,0.12)" stroke-width="0.8"/>
+                </svg>
+              </div>
+              <div class="planet-name">Venus</div>
+            </div>
+            <div class="planet-item">
+              <div class="planet-orb p-jupiter">
+                <svg viewBox="0 0 52 52" fill="none">
+                  <path d="M4 22 Q26 18 48 22" stroke="rgba(0,0,0,0.2)" stroke-width="3"/>
+                  <path d="M4 30 Q26 34 48 30" stroke="rgba(0,0,0,0.15)" stroke-width="2"/>
+                  <circle cx="16" cy="28" r="5" fill="rgba(255,100,0,0.25)"/>
+                </svg>
+              </div>
+              <div class="planet-name">Jupiter</div>
+            </div>
+            <div class="planet-item">
+              <div class="planet-orb p-neptune">
+                <svg viewBox="0 0 52 52" fill="none">
+                  <ellipse cx="26" cy="26" rx="24" ry="8" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
+                  <path d="M8 20 Q26 16 44 20" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
+                </svg>
+              </div>
+              <div class="planet-name">Neptune</div>
+            </div>
+            <div class="planet-item">
+              <div class="planet-orb p-mercury">
+                <svg viewBox="0 0 52 52" fill="none">
+                  <circle cx="26" cy="26" r="24" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
+                  <circle cx="18" cy="18" r="5" fill="rgba(0,0,0,0.12)"/>
+                  <circle cx="34" cy="30" r="3" fill="rgba(0,0,0,0.10)"/>
+                  <circle cx="22" cy="34" r="4" fill="rgba(0,0,0,0.08)"/>
+                </svg>
+              </div>
+              <div class="planet-name">Mercury</div>
+            </div>
+            <div class="planet-item">
+              <div class="planet-orb p-pluto">
+                <svg viewBox="0 0 52 52" fill="none">
+                  <circle cx="26" cy="26" r="24" stroke="rgba(255,255,255,0.10)" stroke-width="0.5"/>
+                  <circle cx="30" cy="22" r="8" fill="rgba(255,255,255,0.10)"/>
+                </svg>
+              </div>
+              <div class="planet-name">Pluto</div>
+            </div>
+            <div class="planet-item">
+              <div class="planet-orb p-saturn" style="overflow:visible;">
+                <div class="ring"></div>
+                <svg viewBox="0 0 52 52" fill="none" style="position:absolute;inset:0;border-radius:50%;">
+                  <path d="M4 24 Q26 20 48 24" stroke="rgba(0,0,0,0.18)" stroke-width="2.5"/>
+                  <path d="M4 30 Q26 34 48 30" stroke="rgba(0,0,0,0.12)" stroke-width="1.5"/>
+                </svg>
+              </div>
+              <div class="planet-name">Saturn</div>
+            </div>
+            <div class="planet-item">
+              <div class="planet-orb p-uranus">
+                <svg viewBox="0 0 52 52" fill="none">
+                  <ellipse cx="26" cy="26" rx="10" ry="24" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
+                  <ellipse cx="26" cy="26" rx="24" ry="10" stroke="rgba(255,255,255,0.10)" stroke-width="0.8"/>
+                </svg>
+              </div>
+              <div class="planet-name">Uranus</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Usage -->
+        <div style="display:flex;flex-direction:column;gap:16px;">
+          <div class="usage-box">
+            <div class="tag tag-purple">Destination System</div>
+            <p>Planet Icons represent <b>focus destinations</b> — each session is a "flight" from Earth to a target planet. The further the planet, the longer the focus commitment. Icons use radial gradients that match each planet's real color palette, reinforcing the spatial metaphor.</p>
+          </div>
+          <div class="usage-box">
+            <div class="tag tag-blue">Color Mapping</div>
+            <div style="display:flex;flex-direction:column;gap:6px;font-size:13px;">
+              <div style="display:flex;align-items:center;gap:10px;"><div style="width:12px;height:12px;border-radius:50%;background:#2345B2;flex-shrink:0;"></div><span style="color:rgba(255,255,255,0.70);">Earth → <b style="color:#fff;">Deep Blue</b> — home base</span></div>
+              <div style="display:flex;align-items:center;gap:10px;"><div style="width:12px;height:12px;border-radius:50%;background:#EF4444;flex-shrink:0;"></div><span style="color:rgba(255,255,255,0.70);">Mars → <b style="color:#fff;">Red</b> — high intensity</span></div>
+              <div style="display:flex;align-items:center;gap:10px;"><div style="width:12px;height:12px;border-radius:50%;background:#F97315;flex-shrink:0;"></div><span style="color:rgba(255,255,255,0.70);">Venus → <b style="color:#fff;">Orange</b> — creative warmth</span></div>
+              <div style="display:flex;align-items:center;gap:10px;"><div style="width:12px;height:12px;border-radius:50%;background:#FACC14;flex-shrink:0;"></div><span style="color:rgba(255,255,255,0.70);">Jupiter → <b style="color:#fff;">Yellow</b> — ambition</span></div>
+              <div style="display:flex;align-items:center;gap:10px;"><div style="width:12px;height:12px;border-radius:50%;background:#0DA0E2;flex-shrink:0;"></div><span style="color:rgba(255,255,255,0.70);">Neptune → <b style="color:#fff;">Blue</b> — deep work</span></div>
+              <div style="display:flex;align-items:center;gap:10px;"><div style="width:12px;height:12px;border-radius:50%;background:#A855F7;flex-shrink:0;"></div><span style="color:rgba(255,255,255,0.70);">Pluto → <b style="color:#fff;">Purple</b> — ultra-deep focus</span></div>
+            </div>
+          </div>
+          <div class="spec-row">
+            <div class="spec-chip">Size: <span>44×42px</span></div>
+            <div class="spec-chip">Shape: <span>circle</span></div>
+            <div class="spec-chip">Fill: <span>radial gradient</span></div>
+            <div class="spec-chip">Ring glow: <span>3px halo</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- ══════════════════════════════════
+         5. NAVIGATION BAR
+    ═══════════════════════════════════ -->
+    <div>
+      <div class="section-heading">Navigation Bar</div>
+      <hr class="blue-rule">
+
+      <div style="display:flex;flex-direction:column;gap:32px;">
+
+        <!-- The Nav Bar itself -->
+        <div class="nav-bar-showcase">
+          <!-- Tasks -->
+          <div class="nav-item" onclick="setActiveNav(this)">
+            <div class="nav-item-icon">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                <rect x="5" y="7" width="18" height="2" rx="1" fill="rgba(255,255,255,0.75)"/>
+                <rect x="5" y="13" width="14" height="2" rx="1" fill="rgba(255,255,255,0.75)"/>
+                <rect x="5" y="19" width="10" height="2" rx="1" fill="rgba(255,255,255,0.75)"/>
+                <rect x="21" y="11" width="2" height="10" rx="1" fill="rgba(255,255,255,0.75)"/>
+                <rect x="17" y="15" width="10" height="2" rx="1" fill="rgba(255,255,255,0.75)"/>
+              </svg>
+            </div>
+            <div class="nav-item-label">Tasks</div>
+          </div>
+
+          <!-- Focus (active) -->
+          <div class="nav-item active" onclick="setActiveNav(this)">
+            <div class="nav-item-icon">
+              <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+                <circle cx="18" cy="18" r="7" fill="none" stroke="#38BDF9" stroke-width="1.5"/>
+                <circle cx="18" cy="18" r="3.5" fill="#38BDF9"/>
+                <line x1="18" y1="5"  x2="18" y2="9"  stroke="#38BDF9" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="18" y1="27" x2="18" y2="31" stroke="#38BDF9" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="5"  y1="18" x2="9"  y2="18" stroke="#38BDF9" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="27" y1="18" x2="31" y2="18" stroke="#38BDF9" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="nav-item-label">Focus</div>
+          </div>
+
+          <!-- Cockpit -->
+          <div class="nav-item" onclick="setActiveNav(this)">
+            <div class="nav-item-icon">
+              <svg width="44" height="40" viewBox="0 0 44 40" fill="none">
+                <!-- cockpit window shape -->
+                <path d="M4 36 C4 36 6 16 22 8 C38 16 40 36 40 36 Z" stroke="rgba(255,255,255,0.75)" stroke-width="1.5" fill="none"/>
+                <path d="M10 36 C10 36 12 22 22 16 C32 22 34 36 34 36 Z" stroke="rgba(255,255,255,0.40)" stroke-width="1" fill="none"/>
+                <!-- stars inside -->
+                <circle cx="16" cy="24" r="1" fill="rgba(255,255,255,0.60)"/>
+                <circle cx="22" cy="20" r="1.2" fill="rgba(255,255,255,0.80)"/>
+                <circle cx="28" cy="26" r="0.8" fill="rgba(255,255,255,0.50)"/>
+              </svg>
+            </div>
+            <div class="nav-item-label">Cockpit</div>
+          </div>
+        </div>
+
+        <!-- Usage breakdown -->
+        <div class="comp-grid">
+          <div class="usage-box">
+            <div class="tag tag-blue">Structure</div>
+            <p>The <b>Navigation Bar</b> uses a 3-tab model — Tasks, Focus, Cockpit — keeping the app's mission scope narrow and intentional. No overflow menus, no hidden items. The cockpit icon is bespoke, referencing a spacecraft viewport.</p>
+          </div>
+          <div class="usage-box">
+            <div class="tag tag-yellow">Spec</div>
+            <table style="width:100%;font-size:13px;border-collapse:collapse;">
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.07);">
+                <td style="padding:7px 0;font-weight:700;color:#fff;width:110px;">Background</td>
+                <td style="padding:7px 0;color:rgba(255,255,255,0.65);">rgba(17,17,19,0.93)</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.07);">
+                <td style="padding:7px 0;font-weight:700;color:#fff;">Border</td>
+                <td style="padding:7px 0;color:rgba(255,255,255,0.65);">#F5F5F5 · 1px solid</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.07);">
+                <td style="padding:7px 0;font-weight:700;color:#fff;">Icon size</td>
+                <td style="padding:7px 0;color:rgba(255,255,255,0.65);">48×48px touch target</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.07);">
+                <td style="padding:7px 0;font-weight:700;color:#fff;">Label</td>
+                <td style="padding:7px 0;color:rgba(255,255,255,0.65);">Poppins 500 · 13px</td>
+              </tr>
+              <tr>
+                <td style="padding:7px 0;font-weight:700;color:#fff;">Active color</td>
+                <td style="padding:7px 0;color:rgba(255,255,255,0.65);">#38BDF9 (light blue)</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- ══════════════════════════════════
+         6. PRIMARY BUTTON
+    ═══════════════════════════════════ -->
+    <div>
+      <div class="section-heading">Primary Button</div>
+      <hr class="blue-rule">
+
+      <div class="comp-grid">
+
+        <!-- Left: States -->
+        <div class="glass" style="border-radius:15px; overflow:hidden;">
+          <div class="btn-showcase">
+            <div class="btn-showcase-title">Primary Button</div>
+
+            <div class="state-label">Default</div>
+            <button class="prim-btn prim-default" id="primBtn">Deploy Project</button>
+
+            <div class="state-label">Hover</div>
+            <div class="prim-btn prim-hover">Deploy Project</div>
+
+            <div class="state-label">Selected</div>
+            <div class="prim-btn prim-selected">Deploy Project</div>
+
+            <div class="state-label">Disabled</div>
+            <div class="prim-btn prim-disabled">Deploy Project</div>
+          </div>
+        </div>
+
+        <!-- Right: Usage -->
+        <div style="display:flex;flex-direction:column;gap:16px;">
+          <div class="usage-box">
+            <div class="tag tag-blue">Primary Action</div>
+            <p>The <b>Primary Button</b> is the highest-priority action on any screen — "Deploy Project", "Save Coordinates", "Launch Mission". It uses a white fill with a light-blue border in its default state, making it immediately pop against the dark background without feeling aggressive.</p>
+          </div>
+          <div class="usage-box">
+            <div class="tag tag-yellow">State System</div>
+            <table style="width:100%;font-size:13px;border-collapse:collapse;">
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.07);">
+                <td style="padding:7px 0;font-weight:700;color:#fff;width:90px;">Default</td>
+                <td style="padding:7px 0;color:rgba(255,255,255,0.65);">#fff fill · 2px <span style="color:#38BDF9;">#38BDF9</span> border · black text</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.07);">
+                <td style="padding:7px 0;font-weight:700;color:#fff;">Hover</td>
+                <td style="padding:7px 0;color:rgba(255,255,255,0.65);">41% black fill · 2px <span style="color:#0DA0E2;">#0DA0E2</span> border · white text</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.07);">
+                <td style="padding:7px 0;font-weight:700;color:#fff;">Selected</td>
+                <td style="padding:7px 0;color:rgba(255,255,255,0.65);">#2E2F33 fill · 2px <span style="color:#2345B2;">#2345B2</span> deep-blue border</td>
+              </tr>
+              <tr>
+                <td style="padding:7px 0;font-weight:700;color:#fff;">Disabled</td>
+                <td style="padding:7px 0;color:rgba(255,255,255,0.65);">#9AA3B0 fill · white border · 70% opacity · not-allowed</td>
+              </tr>
+            </table>
+          </div>
+          <div class="usage-box" style="background:rgba(34,197,93,0.06);border-color:rgba(34,197,93,0.20);">
+            <div class="tag tag-green">Best Practice</div>
+            <p style="font-size:13px;">Use clear, action-oriented verbs — <b>"Deploy Project"</b>, <b>"Save Coordinates"</b>. Never stack two Primary buttons side-by-side; they'll compete for attention. One primary action per view.</p>
+          </div>
+          <div class="spec-row">
+            <div class="spec-chip">Height: <span>57px</span></div>
+            <div class="spec-chip">Radius: <span>10px</span></div>
+            <div class="spec-chip">Border: <span>2px</span></div>
+            <div class="spec-chip">Font: <span>Poppins 700 16px</span></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- In-context preview: task card -->
+      <div style="margin-top:32px;">
+        <div class="state-label" style="margin-bottom:12px;">In-Context Preview — Task Setup Card</div>
+        <div style="max-width:560px;" class="glass" style="border-radius:18px;">
+          <div style="padding:24px;border-radius:18px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+              <div style="font-size:18px;font-weight:700;">Choose Destination</div>
+              <div style="font-size:13px;color:rgba(255,255,255,0.45);">Step 2 of 3</div>
+            </div>
+            <div style="font-size:14px;color:rgba(255,255,255,0.55);margin-bottom:18px;">Where are you headed on this mission?</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px;">
+              <div style="background:rgba(56,189,249,0.08);border:1px solid rgba(56,189,249,0.35);border-radius:12px;padding:14px 16px;cursor:pointer;">
+                <div style="font-size:13px;font-weight:700;margin-bottom:2px;">🪐 Mercury</div>
+                <div style="font-size:12px;color:rgba(255,255,255,0.50);">25–45 min deep focus</div>
+              </div>
+              <div style="background:rgba(18,18,24,0.55);border:1px solid rgba(255,255,255,0.09);border-radius:12px;padding:14px 16px;cursor:pointer;">
+                <div style="font-size:13px;font-weight:700;margin-bottom:2px;">🔴 Mars</div>
+                <div style="font-size:12px;color:rgba(255,255,255,0.50);">60–90 min sprint</div>
+              </div>
+            </div>
+            <div style="display:flex;gap:10px;justify-content:flex-end;">
+              <button class="sec-btn sec-default" style="width:130px;height:48px;font-size:15px;" id="ctxCancelBtn">Cancel</button>
+              <button class="prim-btn prim-default" style="width:160px;height:48px;font-size:15px;" id="ctxNextBtn">Next →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- ══════════════════════════════════
+         7. SECONDARY BUTTON
+    ═══════════════════════════════════ -->
+    <div>
+      <div class="section-heading">Secondary Button</div>
+      <hr class="blue-rule">
+
+      <div class="comp-grid">
+
+        <!-- Left: States -->
+        <div class="glass" style="border-radius:15px; overflow:hidden;">
+          <div class="btn-showcase">
+            <div class="btn-showcase-title">Secondary Button</div>
+
+            <div class="state-label">Default</div>
+            <button class="sec-btn sec-default" id="secBtn">Cancel</button>
+
+            <div class="state-label">Hover</div>
+            <div class="sec-btn sec-hover">Cancel</div>
+
+            <div class="state-label">Selected</div>
+            <div class="sec-btn sec-selected">Cancel</div>
+
+            <div class="state-label">Disabled</div>
+            <div class="sec-btn sec-disabled">Cancel</div>
+          </div>
+        </div>
+
+        <!-- Right: Usage -->
+        <div style="display:flex;flex-direction:column;gap:16px;">
+          <div class="usage-box">
+            <div class="tag tag-purple">Stop Light System</div>
+            <p>The <b>Secondary Button</b> uses a unique "Stop Light" border system — the border color changes through states to communicate intent. <span style="color:#EF4444;font-weight:600;">Red</span> signals the action is destructive (Cancel). <span style="color:#FACC14;font-weight:600;">Yellow</span> warns the user on hover. <span style="color:#22C55D;font-weight:600;">Green</span> confirms the action is locked in.</p>
+          </div>
+          <div class="usage-box">
+            <div class="tag tag-yellow">State System</div>
+            <table style="width:100%;font-size:13px;border-collapse:collapse;">
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.07);">
+                <td style="padding:7px 0;font-weight:700;color:#fff;width:90px;">Default</td>
+                <td style="padding:7px 0;color:rgba(255,255,255,0.65);">#0D131C fill · 2px <span style="color:#EF4444;">#EF4444</span> border · muted text</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.07);">
+                <td style="padding:7px 0;font-weight:700;color:#fff;">Hover</td>
+                <td style="padding:7px 0;color:rgba(255,255,255,0.65);">64% black fill · 2px <span style="color:#FACC14;">#FACC14</span> border · white text</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.07);">
+                <td style="padding:7px 0;font-weight:700;color:#fff;">Selected</td>
+                <td style="padding:7px 0;color:rgba(255,255,255,0.65);">33% black fill · 2px <span style="color:#22C55D;">#22C55D</span> border · white text</td>
+              </tr>
+              <tr>
+                <td style="padding:7px 0;font-weight:700;color:#fff;">Disabled</td>
+                <td style="padding:7px 0;color:rgba(255,255,255,0.65);">Transparent fill · white border · 55% opacity</td>
+              </tr>
+            </table>
+          </div>
+          <div class="usage-box" style="background:rgba(239,68,68,0.06);border-color:rgba(239,68,68,0.20);">
+            <div class="tag" style="color:#EF4444;background:rgba(239,68,68,0.10);border:1px solid rgba(239,68,68,0.25);">Best Practice</div>
+            <p style="font-size:13px;">Always pair the Secondary Button with a Primary. Use it for opt-out actions: <b>"Cancel"</b>, <b>"Back"</b>, <b>"Abort Mission"</b>. Never use vague labels like "No" — the border color already signals negativity; the label should still be clear.</p>
+          </div>
+          <div class="spec-row">
+            <div class="spec-chip">Height: <span>57px</span></div>
+            <div class="spec-chip">Radius: <span>10px</span></div>
+            <div class="spec-chip">Border: <span>2px · stop light</span></div>
+            <div class="spec-chip">Default text: <span>#9AA3B0</span></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Stop Light visual callout -->
+      <div style="margin-top:32px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:600px;">
+        <div style="border-radius:12px;padding:16px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.30);text-align:center;">
+          <div style="width:14px;height:14px;border-radius:50%;background:#EF4444;margin:0 auto 8px;box-shadow:0 0 8px rgba(239,68,68,0.6);"></div>
+          <div style="font-size:12px;font-weight:700;color:#EF4444;margin-bottom:4px;">RED · Default</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.55);">Signals: destructive action awaits</div>
+        </div>
+        <div style="border-radius:12px;padding:16px;background:rgba(250,204,20,0.08);border:1px solid rgba(250,204,20,0.30);text-align:center;">
+          <div style="width:14px;height:14px;border-radius:50%;background:#FACC14;margin:0 auto 8px;box-shadow:0 0 8px rgba(250,204,20,0.6);"></div>
+          <div style="font-size:12px;font-weight:700;color:#FACC14;margin-bottom:4px;">YELLOW · Hover</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.55);">Signals: caution before committing</div>
+        </div>
+        <div style="border-radius:12px;padding:16px;background:rgba(34,197,93,0.08);border:1px solid rgba(34,197,93,0.30);text-align:center;">
+          <div style="width:14px;height:14px;border-radius:50%;background:#22C55D;margin:0 auto 8px;box-shadow:0 0 8px rgba(34,197,93,0.6);"></div>
+          <div style="font-size:12px;font-weight:700;color:#22C55D;margin-bottom:4px;">GREEN · Selected</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.55);">Signals: action confirmed</div>
+        </div>
+      </div>
+
+    </div>
+
+  </div><!-- /content-card -->
+</div><!-- /page-wrap -->
+
+<script>
+  /* ── Hamburger ── */
+  const ham = document.getElementById('hamburger');
+  const drawer = document.getElementById('navDrawer');
+  const icon = document.getElementById('ham-icon');
+  ham.addEventListener('click', e => {
+    e.stopPropagation();
+    const open = drawer.style.display === 'flex';
+    drawer.style.display = open ? 'none' : 'flex';
+    icon.innerHTML = open
+      ? '<path d="M3 6h16M3 11h16M3 16h16" stroke="white" stroke-width="1.8" stroke-linecap="round"/>'
+      : '<path d="M4 4l14 14M18 4L4 18" stroke="white" stroke-width="1.8" stroke-linecap="round"/>';
+  });
+  document.addEventListener('click', () => {
+    drawer.style.display = 'none';
+    icon.innerHTML = '<path d="M3 6h16M3 11h16M3 16h16" stroke="white" stroke-width="1.8" stroke-linecap="round"/>';
+  });
+  drawer.addEventListener('click', e => e.stopPropagation());
+
+  /* ── Accent Button Interactive ── */
+  const btn = document.getElementById('accentBtn');
+  let selected = false;
+  btn.addEventListener('click', () => {
+    selected = !selected;
+    if (selected) {
+      btn.classList.remove('acc-default');
+      btn.classList.add('acc-selected');
+    } else {
+      btn.classList.remove('acc-selected');
+      btn.classList.add('acc-default');
+    }
+  });
+
+  /* ── Primary Button Interactive ── */
+  const primBtn = document.getElementById('primBtn');
+  let primSel = false;
+  primBtn.addEventListener('click', () => {
+    primSel = !primSel;
+    primBtn.className = 'prim-btn ' + (primSel ? 'prim-selected' : 'prim-default');
+  });
+
+  /* ── Secondary Button Interactive ── */
+  const secBtn = document.getElementById('secBtn');
+  const secStates = ['sec-default','sec-hover','sec-selected','sec-disabled'];
+  let secIdx = 0;
+  secBtn.addEventListener('click', () => {
+    secIdx = (secIdx + 1) % secStates.length;
+    secBtn.className = 'sec-btn ' + secStates[secIdx];
+  });
+
+  /* ── In-context card buttons ── */
+  const ctxNext   = document.getElementById('ctxNextBtn');
+  const ctxCancel = document.getElementById('ctxCancelBtn');
+  if (ctxNext) {
+    ctxNext.addEventListener('click', () => {
+      ctxNext.className = 'prim-btn prim-selected';
+      ctxNext.textContent = '✓ Confirmed';
+      setTimeout(() => { ctxNext.className = 'prim-btn prim-default'; ctxNext.textContent = 'Next →'; }, 1400);
+    });
+  }
+  if (ctxCancel) {
+    let cState = 0;
+    ctxCancel.addEventListener('click', () => {
+      cState = (cState + 1) % 3;
+      const states = ['sec-default','sec-hover','sec-selected'];
+      ctxCancel.className = 'sec-btn ' + states[cState];
+      ctxCancel.style.width = '130px'; ctxCancel.style.height = '48px'; ctxCancel.style.fontSize = '15px';
+    });
+  }
+
+
+  function setActiveNav(el) {
+    document.querySelectorAll('.nav-bar-showcase .nav-item').forEach(n => n.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  /* ── Calendar picker ── */
+  let pickerYear = 2025, pickerMonth = 3; // April 2025 (0-indexed)
+  let selectedDay = 20;
+
+  const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+  function renderCalendar() {
+    const grid = document.getElementById('pickerGrid');
+    const label = document.getElementById('pickerMonthYear');
+    label.textContent = `${MONTHS[pickerMonth]} ${pickerYear}`;
+
+    const firstDay = new Date(pickerYear, pickerMonth, 1).getDay();
+    const daysInMonth = new Date(pickerYear, pickerMonth + 1, 0).getDate();
+
+    let html = '<div class="picker-week">';
+    let col = 0;
+
+    // Empty slots before first day
+    for (let i = 0; i < firstDay; i++) {
+      html += '<div class="picker-day empty"></div>';
+      col++;
+    }
+
+    for (let d = 1; d <= daysInMonth; d++) {
+      if (col > 0 && col % 7 === 0) {
+        html += '</div><div class="picker-week">';
+      }
+      let cls = 'picker-day';
+      if (d === 1 && pickerMonth === 3 && pickerYear === 2025) cls += ' first-of-month';
+      if (d === selectedDay) cls += ' today-marker';
+      html += `<div class="${cls}" data-day="${d}">${d}</div>`;
+      col++;
+    }
+
+    // Fill remaining
+    while (col % 7 !== 0) {
+      html += '<div class="picker-day empty"></div>';
+      col++;
+    }
+    html += '</div>';
+    grid.innerHTML = html;
+
+    grid.querySelectorAll('.picker-day:not(.empty)').forEach(el => {
+      el.addEventListener('click', () => {
+        selectedDay = parseInt(el.dataset.day);
+        renderCalendar();
+      });
+    });
+  }
+
+  document.getElementById('pickerPrev').addEventListener('click', () => {
+    pickerMonth--;
+    if (pickerMonth < 0) { pickerMonth = 11; pickerYear--; }
+    renderCalendar();
+  });
+  document.getElementById('pickerNext').addEventListener('click', () => {
+    pickerMonth++;
+    if (pickerMonth > 11) { pickerMonth = 0; pickerYear++; }
+    renderCalendar();
+  });
+
+  /* Time pill click — cycle */
+  const timePill = document.getElementById('pickerTimePill');
+  const times = ['9:41 AM', '10:00 AM', '12:30 PM', '2:45 PM', '5:00 PM', '8:00 PM'];
+  let tIdx = 0;
+  timePill.addEventListener('click', () => { tIdx = (tIdx + 1) % times.length; timePill.textContent = times[tIdx]; });
+
+  renderCalendar();
+
+  /* ── Starfield ── */
+  (function() {
+    const canvas = document.getElementById('starfield');
+    const ctx = canvas.getContext('2d');
+    function draw() {
+      canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+      ctx.fillStyle = '#04040d'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+      for (let i = 0; i < 280; i++) {
+        const x = Math.random() * canvas.width, y = Math.random() * canvas.height;
+        const r = Math.random() < 0.06 ? Math.random() * 1.8 + 0.8 : Math.random() * 0.9 + 0.2;
+        ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255,255,255,${Math.random() * 0.6 + 0.35})`; ctx.fill();
+      }
+      [
+        [0.2, 0.15, '56,189,249'],
+        [0.8, 0.8,  '168,85,247'],
+        [0.5, 0.3,  '35,69,178']
+      ].forEach(([rx, ry, c]) => {
+        const g = ctx.createRadialGradient(canvas.width*rx, canvas.height*ry, 0, canvas.width*rx, canvas.height*ry, canvas.width*0.3);
+        g.addColorStop(0, `rgba(${c},0.08)`); g.addColorStop(1, 'transparent');
+        ctx.fillStyle = g; ctx.fillRect(0, 0, canvas.width, canvas.height);
+      });
+    }
+    draw(); window.addEventListener('resize', draw);
+  })();
+</script>
+</body>
+</html>
