@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -5,5 +6,769 @@
   <title>Overview | Orbit Design System</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Poppins:wght@400;500;600;700;800&display=swap">
-  <link rel="orbit-overview.html">
   <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:          #0d0d0f;
+      --white:       #FDFDFD;
+      --muted:       #9AA3B0;
+      --light-blue:  #38BDF9;
+      --blue:        #0DA0E2;
+      --deep-blue:   #2345B2;
+      --green:       #22C55D;
+      --yellow:      #FACC14;
+      --red:         #EF4444;
+      --orange:      #F97315;
+      --purple:      #A855F7;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      font-family: 'Poppins', sans-serif;
+      color: var(--white);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── STARFIELD CANVAS ── */
+    #starfield {
+      position: fixed; inset: 0;
+      width: 100%; height: 100%;
+      z-index: 0; pointer-events: none;
+    }
+    
+
+    /* ── NEBULA OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 1; pointer-events: none;
+      background:
+        radial-gradient(ellipse 70% 50% at 15% 10%,  rgba(56,189,249,0.10) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 85% 85%,  rgba(168,85,247,0.10) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 40% at 50% 50%,  rgba(35,69,178,0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 30% at 80% 10%,  rgba(34,197,93,0.05) 0%, transparent 55%);
+    }
+
+    /* ── PAGE WRAPPER ── */
+    .page {
+      position: relative; z-index: 2;
+      max-width: 1200px; margin: 0 auto;
+      padding: 28px 32px 100px;
+      display: flex; flex-direction: column; gap: 36px;
+    }
+
+    /* ════════════════════════════
+       NAV BAR
+    ════════════════════════════ */
+    .site-nav {
+      display: flex; align-items: center;
+      padding: 14px 20px; gap: 20px;
+      border-radius: 25px;
+      background: rgba(0,0,0,0.30);
+      border: 1px solid rgba(154,163,176,0.50);
+      backdrop-filter: blur(28px) saturate(180%);
+      box-shadow:
+        0 2px 0 rgba(255,255,255,0.08) inset,
+        0 -1px 0 rgba(0,0,0,0.50) inset,
+        0 16px 48px rgba(0,0,0,0.55);
+      position: sticky; top: 16px; z-index: 100;
+    }
+    .nav-logo-wrap {
+      width: 54px; height: 54px; border-radius: 15px; flex-shrink: 0;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .nav-brand {
+      font-size: 20px; font-weight: 500; color: var(--white);
+      margin-right: auto; white-space: nowrap;
+    }
+    .nav-links {
+      display: flex; align-items: center; gap: 6px;
+    }
+    .nav-link {
+      font-size: 16px; font-weight: 400; color: #F5F5F5;
+      padding: 8px 18px; border-radius: 12px;
+      cursor: pointer; transition: all 0.15s;
+      text-decoration: none; background: none; border: none;
+    }
+    .nav-link:hover { background: rgba(255,255,255,0.08); color: #fff; }
+    .nav-link.active { color: var(--light-blue); font-weight: 600; background: rgba(56,189,249,0.08); border-radius: 12px; }
+    .nav-hamburger { display: none; background: none; border: none; color: var(--white); cursor: pointer; padding: 6px; margin-left: auto; }
+    .nav-drawer { display: none; flex-direction: column; gap: 4px; position: absolute; top: calc(100% + 10px); left: 0; right: 0; background: rgba(8,8,12,0.97); border: 1px solid rgba(255,255,255,0.10); border-radius: 18px; padding: 12px; backdrop-filter: blur(24px); }
+    .nav-drawer .nav-link { text-align: left; padding: 10px 14px; border-radius: 10px; }
+    .dropdown-indicator { font-size: 10px; margin-left: 4px; }
+    .dropdown-hover-area {
+      position: absolute; inset: 0; z-index: 10;
+    }
+    .submenu {
+      display: block;
+      position: absolute; inset: 0;
+      background: rgba(8,8,12,0.97);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 12px;
+      padding: 8px 12px;flex-direction: column; gap: 4px;
+      position: absolute; top: 100%; left: 0; background: rgba(8,8,12,0.97);
+      border: 1px solid rgba(255,255,255,0.10); border-radius: 12px;
+      padding: 8px 12px; margin-top: 6px; backdrop-filter: blur(24px);
+    }
+
+    /* ════════════════════════════
+       HERO / OVERVIEW SECTION
+    ════════════════════════════ */
+    .overview-section {
+      display: flex; flex-direction: column; gap: 20px;
+      max-width: 838px; margin: 0 auto; width: 100%;
+      animation: fadeUp 0.7s ease both;
+    }
+
+    /* Hero header card */
+    .hero-card {
+      background: rgba(0,0,0,0.12);
+      border: 1px solid rgba(0,0,0,0.38);
+      border-radius: 15px;
+      padding: 14px 20px;
+      height: 172px;
+      display: flex; align-items: center; gap: 36px;
+      overflow: hidden; position: relative;
+    }
+    .hero-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(56,189,249,0.06) 0%, transparent 50%, rgba(168,85,247,0.05) 100%);
+      pointer-events: none;
+    }
+    .hero-title {
+      font-family: 'Poppins', sans-serif;
+      font-size: clamp(26px, 4vw, 38px);
+      font-weight: 400; line-height: 1.25;
+      color: #fff; flex: 1; text-align: center;
+      position: relative; z-index: 1;
+    }
+    .hero-rocket {
+      flex: 1; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; z-index: 1;
+    }
+
+    /* Intro text card */
+    .intro-card {
+      background: rgba(0,0,0,0.18);
+      border: 1px solid rgba(0,0,0,0.18);
+      border-radius: 15px;
+      padding: 14px 20px;
+    }
+    .intro-text {
+      color: var(--white); text-align: left; line-height: 1.75;
+    }
+    .intro-drop {
+      font-size: 24px; font-weight: 400; line-height: 1;
+    }
+    .intro-body {
+      font-size: 14px; font-weight: 400; line-height: 30px;
+    }
+
+    /* ════════════════════════════
+       CORE PRINCIPLES SECTION
+    ════════════════════════════ */
+    .principles-section {
+      display: flex; flex-direction: row; gap: 20px; align-items: stretch;
+      animation: fadeUp 0.7s 0.15s ease both;
+    }
+
+    /* Planet icons panel */
+    .planet-panel {
+      background: rgba(0,0,0,0);
+      border: 1px solid rgba(0,0,0,0.25);
+      border-radius: 15px;
+      padding: 20px 14px;
+      display: grid;
+      grid-template-columns: repeat(3, 44px);
+      grid-template-rows: repeat(3, 44px);
+      gap: 20px;
+      flex-shrink: 0;
+      align-content: center;
+    }
+    .planet-orb {
+      width: 44px; height: 44px; border-radius: 50%;
+      position: relative; overflow: visible;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      cursor: pointer;
+    }
+    .planet-orb:hover { transform: scale(1.18) translateY(-2px); }
+    .planet-orb svg { position: absolute; inset: 0; width: 100%; height: 100%; border-radius: 50%; }
+
+    .p-mercury { background: radial-gradient(circle at 35% 35%, #f5d48a, #FACC14 55%, #926000); box-shadow: 0 0 0 2px rgba(250,204,20,0.3), 0 4px 12px rgba(0,0,0,0.5); }
+    .p-venus   { background: radial-gradient(circle at 35% 35%, #fbb97c, #F97315 55%, #c45b00); box-shadow: 0 0 0 2px rgba(249,115,21,0.3), 0 4px 12px rgba(0,0,0,0.5); }
+    .p-earth   { background: radial-gradient(circle at 35% 35%, #4daeef, #2345B2 55%, #0d2a6b); box-shadow: 0 0 0 2px rgba(35,69,178,0.35), 0 4px 12px rgba(0,0,0,0.5); }
+    .p-mars    { background: radial-gradient(circle at 35% 35%, #e87057, #EF4444 55%, #8b1a1a); box-shadow: 0 0 0 2px rgba(239,68,68,0.35), 0 4px 12px rgba(0,0,0,0.5); }
+    .p-jupiter { background: radial-gradient(circle at 35% 35%, #c9a0f5, #A855F7 55%, #5b148a); box-shadow: 0 0 0 2px rgba(168,85,247,0.35), 0 4px 12px rgba(0,0,0,0.5); }
+    .p-neptune { background: radial-gradient(circle at 35% 35%, #5dc8f5, #0DA0E2 55%, #065a82); box-shadow: 0 0 0 2px rgba(13,160,226,0.35), 0 4px 12px rgba(0,0,0,0.5); }
+    .p-pluto   { background: radial-gradient(circle at 35% 35%, #e0e0e0, #d9d9d9 55%, #888); box-shadow: 0 0 0 2px rgba(200,200,200,0.25), 0 4px 12px rgba(0,0,0,0.5); }
+    .p-saturn  { background: radial-gradient(circle at 35% 35%, #7eecea, #38BDF9 55%, #065a82); box-shadow: 0 0 0 2px rgba(56,189,249,0.30), 0 4px 12px rgba(0,0,0,0.5); }
+    .p-uranus  { background: radial-gradient(circle at 35% 35%, #76e0c2, #22C55D 55%, #0d5c38); box-shadow: 0 0 0 2px rgba(34,197,93,0.30), 0 4px 12px rgba(0,0,0,0.5); }
+
+    /* Saturn ring */
+    .p-saturn { overflow: visible; }
+    .saturn-ring {
+      position: absolute; width: 62px; height: 15px; border-radius: 50%;
+      border: 2.5px solid rgba(56,189,249,0.50);
+      top: 50%; left: 50%; transform: translate(-50%, -50%) rotateX(72deg);
+      pointer-events: none;
+    }
+
+    /* Core principles text panel */
+    .principles-card {
+      background: rgba(0,0,0,0.18);
+      border: 1px solid rgba(0,0,0,0.18);
+      border-radius: 15px;
+      padding: 18px 22px;
+      flex: 1;
+    }
+    .principles-heading {
+      font-size: 24px; font-weight: 400; line-height: 1.4;
+      margin-bottom: 10px; color: var(--white);
+    }
+    .principles-intro {
+      font-size: 16px; font-weight: 400; line-height: 1.65;
+      color: rgba(255,255,255,0.80); margin-bottom: 14px;
+    }
+    .principles-list {
+      list-style: disc; padding-left: 1.2em;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .principles-list li {
+      font-size: 16px; font-weight: 400; line-height: 1.65;
+      color: rgba(255,255,255,0.78);
+    }
+    .principles-list li b { color: var(--white); font-weight: 600; }
+
+    /* ════════════════════════════
+       SYSTEM SECTION
+    ════════════════════════════ */
+    .system-section {
+      display: flex; flex-direction: row; gap: 25px; align-items: flex-end;
+      animation: fadeUp 0.7s 0.25s ease both;
+    }
+
+    /* What's in the system */
+    .system-text-card {
+      background: rgba(0,0,0,0.18);
+      border: 1px solid rgba(0,0,0,0.18);
+      border-radius: 15px;
+      padding: 16px 18px;
+      flex: 1;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .system-heading {
+      font-size: 24px; font-weight: 400; line-height: 1.4;
+      margin-bottom: 8px; color: var(--white);
+    }
+    .system-intro {
+      font-size: 14px; font-weight: 400; line-height: 30px;
+      color: rgba(255,255,255,0.80); margin-bottom: 6px;
+    }
+    .system-list {
+      list-style: disc; padding-left: 1.2em;
+      display: flex; flex-direction: column; gap: 4px;
+    }
+    .system-list li {
+      font-size: 14px; line-height: 30px;
+      color: rgba(255,255,255,0.75);
+    }
+    .system-list li b { color: var(--white); font-weight: 600; }
+
+    /* Right side: button showcase + component showcase */
+    .showcase-col {
+      display: flex; flex-direction: column; gap: 26px;
+      flex: 1;
+    }
+
+    /* Button showcase — tilted buttons */
+    .button-showcase-card {
+      background: rgba(0,0,0,0.18);
+      border: 1px solid rgba(0,0,0,0.18);
+      border-radius: 15px;
+      height: 200px;
+      position: relative; overflow: hidden;
+    }
+    /* Each tilted button */
+    .tilt-btn {
+      position: absolute;
+      width: 188px; height: 57px;
+      border-radius: 10px; border: 2px solid;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 16px;
+      pointer-events: none; user-select: none;
+    }
+
+    /* Component showcase */
+    .component-showcase-card {
+      background: rgba(0,0,0,0.18);
+      border: 1px solid rgba(0,0,0,0.18);
+      border-radius: 15px;
+      height: 220px;
+      position: relative; overflow: hidden;
+    }
+
+    /* Mini boarding pass inside component showcase */
+    .mini-pass {
+      position: absolute;
+      background: #FDFDFD; color: #000;
+      border-radius: 14px; border: 1px solid #ddd;
+      padding: 10px 12px;
+      width: 220px;
+      font-family: 'Poppins', sans-serif;
+      right: -20px; bottom: -20px;
+      transform: rotate(-4deg);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.55);
+      font-size: 11px; line-height: 1.4;
+    }
+    .mini-pass-airline { font-size: 9px; font-weight: 500; letter-spacing: 0.05em; color: #555; }
+    .mini-pass-title   { font-size: 12px; font-weight: 700; letter-spacing: 0.04em; margin-bottom: 8px; }
+    .mini-pass-route   { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+    .mini-pass-city    { font-size: 18px; font-weight: 700; }
+    .mini-pass-time    { font-size: 9px; color: #666; }
+    .mini-pass-arrow   { font-size: 14px; color: #999; padding: 0 6px; }
+    .mini-pass-divider { border-top: 1px dashed rgba(0,0,0,0.15); margin: 6px 0; position: relative; }
+    .mini-pass-divider::before, .mini-pass-divider::after {
+      content: ''; position: absolute; top: 50%; transform: translateY(-50%);
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--bg);
+    }
+    .mini-pass-divider::before { left: -16px; }
+    .mini-pass-divider::after  { right: -16px; }
+    .mini-pass-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--purple); display: inline-block; margin-right: 5px; }
+    .mini-pass-obj  { font-size: 10px; display: flex; align-items: center; }
+
+    /* Mini nav bar */
+    .mini-nav {
+      position: absolute;
+      background: rgba(17,17,19,0.93);
+      border: 1px solid #F5F5F5;
+      border-radius: 14px;
+      padding: 8px 16px;
+      display: flex; gap: 32px; align-items: center;
+      left: 14px; top: 18px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    }
+    .mini-nav-item {
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
+      font-size: 10px; font-weight: 500; color: rgba(255,255,255,0.75);
+    }
+    .mini-nav-item.active { color: var(--light-blue); }
+
+    /* ════════════════════════════
+       GET STARTED CTA
+    ════════════════════════════ */
+    .get-started-card {
+      background: rgba(0,0,0,0.18);
+      border: 1px solid rgba(0,0,0,0.18);
+      border-radius: 15px;
+      padding: 28px 28px;
+      max-width: 838px; margin: 0 auto; width: 100%;
+      display: flex; flex-direction: column;
+      align-items: center; gap: 24px;
+      position: relative; overflow: hidden;
+      animation: fadeUp 0.7s 0.35s ease both;
+    }
+    .get-started-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(56,189,249,0.05) 0%, transparent 50%, rgba(34,197,93,0.04) 100%);
+    }
+    .get-started-text {
+      font-size: clamp(16px, 2.5vw, 22px); font-weight: 400; line-height: 1.5;
+      text-align: center; color: var(--white); position: relative; z-index: 1;
+    }
+    .get-started-text b { color: var(--light-blue); }
+    .cta-btn {
+      display: flex; align-items: center; justify-content: center;
+      gap: 12px; width: 100%; max-width: 500px; height: 56px;
+      border-radius: 15px; background: #fff; border: none;
+      font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 16px;
+      color: #000; cursor: pointer; transition: all 0.18s;
+      position: relative; z-index: 1;
+    }
+    .cta-btn:hover { background: rgba(253,253,253,0.28); color: #FDFDFD; }
+
+    /* ════════════════════════════
+       ANIMATIONS
+    ════════════════════════════ */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-8px); }
+    }
+    @keyframes orbit {
+      from { transform: rotate(0deg) translateX(28px) rotate(0deg); }
+      to   { transform: rotate(360deg) translateX(28px) rotate(-360deg); }
+    }
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.7; }
+      50%       { opacity: 0.15; }
+    }
+    .floating { animation: float 4s ease-in-out infinite; }
+
+    /* ════════════════════════════
+       RESPONSIVE
+    ════════════════════════════ */
+    @media (max-width: 900px) {
+      .page { padding: 16px 16px 80px; gap: 24px; }
+      .principles-section { flex-direction: column; }
+      .system-section { flex-direction: column; align-items: stretch; }
+      .nav-links { display: none; }
+      .nav-hamburger { display: flex; }
+      .site-nav { position: relative; }
+    }
+    @media (max-width: 600px) {
+      .hero-card { height: auto; flex-direction: column; padding: 20px; gap: 16px; }
+      .hero-rocket { height: 120px; }
+      .planet-panel { grid-template-columns: repeat(3, 40px); gap: 16px; }
+      .planet-orb { width: 40px; height: 40px; }
+    }
+  </style>
+</head>
+
+
+
+
+
+
+<body>
+
+<canvas id="starfield"></canvas>
+
+<div class="page">
+
+  <!-- ══ NAV ══ -->
+  <nav class="site-nav" style="position:sticky;top:16px;z-index:100;">
+    <div class="nav-logo-wrap">
+      <svg width="34" height="34" viewBox="0 0 34 34" fill="none">
+        <circle cx="17" cy="17" r="6.5" fill="white"/>
+        <ellipse cx="17" cy="17" rx="15" ry="4.5" stroke="white" stroke-width="1.4" fill="none"/>
+        <circle cx="4"  cy="13" r="1.2" fill="white" opacity="0.5"/>
+        <circle cx="30" cy="21" r="1.2" fill="white" opacity="0.5"/>
+        <circle cx="27" cy="6"  r="0.8" fill="white" opacity="0.35"/>
+        <circle cx="7"  cy="28" r="0.8" fill="white" opacity="0.35"/>
+      </svg>
+    </div>
+    <div class="nav-brand">Orbit Design System</div>
+
+    <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+      <svg id="ham-icon" width="22" height="22" viewBox="0 0 22 22" fill="none">
+        <path d="M3 6h16M3 11h16M3 16h16" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+    </button>
+<!---Create Dropdown Menu--->
+    <div class="nav-links">
+     <li><a class="nav-link active" href="orbit-overview.html">Overview</a>
+          <a class="nav-link" href="orbit-colors.html">Foundations</a>
+          <a class="nav-link" href="orbit-core-components.html">Components</a>
+    </div>
+    <div class="nav-drawer" id="navDrawer">
+      <a class="nav-link active" href="orbit-overview.html">Overview</a>
+      <a class="nav-link" href="orbit-colors.html">Foundations</a>
+      <a class="nav-link" href="orbit-core-components.html">Components</a>
+    </div>
+  </nav>
+
+  <!-- ══ OVERVIEW / HERO ══ -->
+  <div class="overview-section">
+
+    <!-- Hero card: title + rocket SVG -->
+    <div class="hero-card">
+      <div class="hero-title">Design Focus in a Flash.</div>
+      <div class="hero-rocket">
+        <!-- Animated rocket SVG -->
+        <svg class="floating" width="120" height="140" viewBox="0 0 120 140" fill="none">
+          <!-- Exhaust flame -->
+          <ellipse cx="60" cy="125" rx="10" ry="14" fill="rgba(249,115,21,0.25)"/>
+          <ellipse cx="60" cy="122" rx="6"  ry="9"  fill="rgba(250,204,20,0.35)"/>
+          <ellipse cx="60" cy="119" rx="4"  ry="6"  fill="rgba(255,255,255,0.5)"/>
+          <!-- Body -->
+          <path d="M44 90 Q44 40 60 18 Q76 40 76 90 Z" fill="white" opacity="0.92"/>
+          <!-- Window -->
+          <circle cx="60" cy="58" r="9" fill="none" stroke="rgba(56,189,249,0.90)" stroke-width="2.5"/>
+          <circle cx="60" cy="58" r="5" fill="rgba(56,189,249,0.25)"/>
+          <!-- Left fin -->
+          <path d="M44 90 L32 108 L44 102 Z" fill="rgba(255,255,255,0.75)"/>
+          <!-- Right fin -->
+          <path d="M76 90 L88 108 L76 102 Z" fill="rgba(255,255,255,0.75)"/>
+          <!-- Nose detail -->
+          <path d="M56 24 Q60 10 64 24" fill="rgba(56,189,249,0.30)"/>
+          <!-- Stripe -->
+          <line x1="44" y1="74" x2="76" y2="74" stroke="rgba(56,189,249,0.40)" stroke-width="1.5"/>
+          <!-- Stars around rocket -->
+          <circle cx="26" cy="32" r="1.2" fill="white" style="animation:twinkle 2.1s infinite;"/>
+          <circle cx="94" cy="48" r="1.0" fill="white" style="animation:twinkle 3.3s infinite;"/>
+          <circle cx="18" cy="72" r="0.8" fill="rgba(56,189,249,0.8)" style="animation:twinkle 2.7s infinite;"/>
+          <circle cx="102" cy="28" r="1.2" fill="white" style="animation:twinkle 1.9s infinite;"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Intro text -->
+    <div class="intro-card">
+      <div class="intro-text">
+        <span class="intro-drop">J</span><span class="intro-body">ust as the cosmos is governed by fundamental laws of physics, our digital experiences are built on a foundation of consistent, reliable, and scalable design principles. The Orbit Design System is our definitive guide for building interfaces that are as beautifully complex as a galaxy, yet as easy to navigate as a single planetary system.<br><br>Here, you will find the stellar components, deep-space color palettes, and astronomical typography needed to build cohesive and accessible user interfaces.</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══ CORE PRINCIPLES ══ -->
+  <div class="principles-section">
+
+    <!-- Planet icon grid -->
+    <div class="planet-panel">
+      <!-- Row 1 -->
+      <div class="planet-orb p-mercury" title="Mercury">
+        <svg viewBox="0 0 44 44" fill="none"><ellipse cx="22" cy="22" rx="20" ry="6" stroke="rgba(0,0,0,0.15)" stroke-width="0.8"/></svg>
+      </div>
+      <div class="planet-orb p-venus" title="Venus">
+        <svg viewBox="0 0 44 44" fill="none"><ellipse cx="22" cy="22" rx="20" ry="7" stroke="rgba(0,0,0,0.12)" stroke-width="0.8"/></svg>
+      </div>
+      <div class="planet-orb p-earth" title="Earth">
+        <svg viewBox="0 0 44 44" fill="none"><path d="M6 18 Q16 13 28 20 Q36 25 40 21" stroke="rgba(255,255,255,0.18)" stroke-width="1" fill="none"/></svg>
+      </div>
+      <!-- Row 2 -->
+      <div class="planet-orb p-mars" title="Mars">
+        <svg viewBox="0 0 44 44" fill="none"><circle cx="16" cy="17" r="4" fill="rgba(0,0,0,0.12)"/><circle cx="28" cy="28" r="2.5" fill="rgba(0,0,0,0.10)"/></svg>
+      </div>
+      <div class="planet-orb p-jupiter" title="Jupiter">
+        <svg viewBox="0 0 44 44" fill="none"><path d="M4 20 Q22 17 40 20" stroke="rgba(0,0,0,0.18)" stroke-width="2.5"/><path d="M4 26 Q22 29 40 26" stroke="rgba(0,0,0,0.12)" stroke-width="1.5"/></svg>
+      </div>
+      <div class="planet-orb p-neptune" title="Neptune">
+        <svg viewBox="0 0 44 44" fill="none"><ellipse cx="22" cy="22" rx="20" ry="7" stroke="rgba(255,255,255,0.18)" stroke-width="0.8"/></svg>
+      </div>
+      <!-- Row 3 -->
+      <div class="planet-orb p-pluto" title="Pluto">
+        <svg viewBox="0 0 44 44" fill="none"><circle cx="26" cy="18" r="7" fill="rgba(255,255,255,0.10)"/></svg>
+      </div>
+      <div class="planet-orb p-saturn" title="Saturn" style="overflow:visible;">
+        <div class="saturn-ring"></div>
+        <svg viewBox="0 0 44 44" fill="none" style="position:absolute;inset:0;border-radius:50%;"><path d="M4 22 Q22 18 40 22" stroke="rgba(0,0,0,0.18)" stroke-width="2"/></svg>
+      </div>
+      <div class="planet-orb p-uranus" title="Uranus">
+        <svg viewBox="0 0 44 44" fill="none"><ellipse cx="22" cy="22" rx="9" ry="20" stroke="rgba(255,255,255,0.18)" stroke-width="0.8"/></svg>
+      </div>
+    </div>
+
+    <!-- Principles text -->
+    <div class="principles-card">
+      <div class="principles-heading">Our Core Principles</div>
+      <div class="principles-intro">To keep our digital universe expanding in the right direction, every component and layout in Orbit is guided by three core principles:</div>
+      <ul class="principles-list">
+        <li><b>Zero Gravity (Fluid &amp; Lightweight):</b> Our interfaces should never feel heavy or cluttered. We use generous negative space — the "vacuum" of our layouts — to let content breathe and ensure interactions feel effortless.</li>
+        <li><b>Constellations (Modular &amp; Connected):</b> A single star is bright, but a constellation tells a story. Our components are designed to be modular. They are powerful on their own, but truly shine when connected to build complex, unified layouts.</li>
+        <li><b>Stellar Illumination (Clarity &amp; Contrast):</b> Navigating the dark shouldn't be a guessing game. We prioritize high contrast, accessibility, and clear visual hierarchies to guide users safely to their destination.</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- ══ WHAT'S IN THE SYSTEM ══ -->
+  <div class="system-section">
+
+    <!-- System text -->
+    <div class="system-text-card">
+      <div class="system-heading">What's in the System?</div>
+      <div class="system-intro">This documentation serves as mission control for designers and developers. Explore the sections below to start building:</div>
+      <ul class="system-list">
+        <li><b>Foundation:</b> The underlying physics of our UI. Includes our deep-space color palette, typography guidelines, iconography, and spacing grids.</li>
+        <li><b>Components:</b> Our library of reusable UI elements — from basic "asteroid" components like buttons and inputs to complex "space station" modules like navigation bars and data tables.</li>
+        <li><b>Patterns:</b> Best practices for assembling components into common user flows, ensuring a seamless journey across the entire application.</li>
+      </ul>
+    </div>
+
+    <!-- Showcase column -->
+    <div class="showcase-col">
+
+      <!-- Tilted button showcase -->
+      <div class="button-showcase-card">
+        <!-- Primary states: tilted and layered -->
+        <div class="tilt-btn" style="background:#fff;border-color:#38BDF9;color:#000;left:-30px;top:30px;transform:rotate(-33deg);">Next</div>
+        <div class="tilt-btn" style="background:rgba(0,0,0,0.41);border-color:#0DA0E2;color:#FDFDFD;left:60px;top:10px;transform:rotate(-34deg);">Next</div>
+        <div class="tilt-btn" style="background:#2E2F33;border-color:#2345B2;color:#fff;left:160px;top:20px;transform:rotate(-35deg);">Next</div>
+        <div class="tilt-btn" style="background:#9AA3B0;border-color:#fff;color:#393939;opacity:0.7;left:80px;top:120px;transform:rotate(-34deg);">Next</div>
+        <!-- Secondary states -->
+        <div class="tilt-btn" style="background:#0D131C;border-color:#EF4444;color:#9AA3B0;left:200px;top:55px;transform:rotate(-37deg);">Cancel</div>
+        <div class="tilt-btn" style="background:rgba(0,0,0,0.64);border-color:#FACC14;color:#FDFDFD;left:10px;top:110px;transform:rotate(-33.5deg);">Cancel</div>
+        <div class="tilt-btn" style="background:rgba(0,0,0,0.33);border-color:#22C55D;color:#FDFDFD;left:200px;top:130px;transform:rotate(-36.7deg);">Cancel</div>
+        <div class="tilt-btn" style="background:transparent;border-color:#FDFDFD;color:rgba(132,132,132,0.93);left:260px;top:68px;transform:rotate(-36.8deg);box-shadow:0 4px 4px rgba(0,0,0,0.25);">Cancel</div>
+      </div>
+
+      <!-- Component showcase: mini boarding pass + nav bar -->
+      <div class="component-showcase-card">
+        <!-- Mini nav bar -->
+        <div class="mini-nav">
+          <div class="mini-nav-item">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+              <rect x="3" y="5" width="10" height="1.5" rx="0.75" fill="rgba(255,255,255,0.7)"/>
+              <rect x="3" y="9" width="8"  height="1.5" rx="0.75" fill="rgba(255,255,255,0.7)"/>
+              <rect x="3" y="13" width="6" height="1.5" rx="0.75" fill="rgba(255,255,255,0.7)"/>
+              <rect x="14" y="7" width="1.5" height="8" rx="0.75" fill="rgba(255,255,255,0.7)"/>
+              <rect x="11" y="10.25" width="8" height="1.5" rx="0.75" fill="rgba(255,255,255,0.7)"/>
+            </svg>
+            Tasks
+          </div>
+          <div class="mini-nav-item active">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+              <circle cx="11" cy="11" r="4" fill="none" stroke="#38BDF9" stroke-width="1.2"/>
+              <circle cx="11" cy="11" r="2" fill="#38BDF9"/>
+              <line x1="11" y1="3"  x2="11" y2="6"  stroke="#38BDF9" stroke-width="1.2" stroke-linecap="round"/>
+              <line x1="11" y1="16" x2="11" y2="19" stroke="#38BDF9" stroke-width="1.2" stroke-linecap="round"/>
+              <line x1="3"  y1="11" x2="6"  y2="11" stroke="#38BDF9" stroke-width="1.2" stroke-linecap="round"/>
+              <line x1="16" y1="11" x2="19" y2="11" stroke="#38BDF9" stroke-width="1.2" stroke-linecap="round"/>
+            </svg>
+            Focus
+          </div>
+          <div class="mini-nav-item">
+            <svg width="22" height="20" viewBox="0 0 22 20" fill="none">
+              <path d="M2 18 C2 18 3.5 8 11 4 C18.5 8 20 18 20 18 Z" stroke="rgba(255,255,255,0.7)" stroke-width="1.2" fill="none"/>
+              <circle cx="8"  cy="12" r="0.7" fill="rgba(255,255,255,0.55)"/>
+              <circle cx="11" cy="10" r="0.9" fill="rgba(255,255,255,0.75)"/>
+              <circle cx="14" cy="13" r="0.6" fill="rgba(255,255,255,0.45)"/>
+            </svg>
+            Cockpit
+          </div>
+        </div>
+
+        <!-- Mini boarding pass -->
+        <div class="mini-pass">
+          <div class="mini-pass-airline">FOCUSROOM AIRWAYS</div>
+          <div class="mini-pass-title">BOARDING PASS</div>
+          <div class="mini-pass-route">
+            <div>
+              <div style="font-size:8px;color:#666;">FROM</div>
+              <div class="mini-pass-city">Earth</div>
+              <div class="mini-pass-time">Dep. 14:25</div>
+            </div>
+            <div class="mini-pass-arrow">→</div>
+            <div style="text-align:right;">
+              <div style="font-size:8px;color:#666;">TO</div>
+              <div class="mini-pass-city">Mercury</div>
+              <div class="mini-pass-time">Arr. 15:10</div>
+            </div>
+          </div>
+          <div class="mini-pass-divider"></div>
+          <div class="mini-pass-obj"><span class="mini-pass-dot"></span>UI Audit</div>
+          <div style="margin-top:6px;font-size:8px;color:#888;text-align:center;letter-spacing:0.05em;">TKT-EaMe-336824</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══ GET STARTED CTA ══ -->
+  <div class="get-started-card">
+    <div class="get-started-text">
+      Ready for liftoff? <b>›</b> Head over to our Getting Started guide to install the UI kit and learn how to implement Orbit in your next project.
+    </div>
+    <button class="cta-btn" id="ctaBtn" onclick="window.location.href='orbit-core-components.html'">
+      <img src="../images/Jet.png" alt="Rocket Icon" style="width:20px;height:20px;"/>
+        <path d="M2 18C2 18 5 11 10 9C15 7 18 2 18 2C18 2 15 9 11 12C7 15 2 18 2 18Z" fill="#000" stroke="#000" stroke-width="0.5" stroke-linejoin="round"/>
+      </svg>
+      <span id="ctaLabel">Get Started</span>
+    </button>
+  </div>
+
+</div><!-- /page -->
+
+<script>
+  /* ── Hamburger ── */
+  const ham    = document.getElementById('hamburger');
+  const drawer = document.getElementById('navDrawer');
+  const hamIco = document.getElementById('ham-icon');
+  ham.addEventListener('click', e => {
+    e.stopPropagation();
+    const open = drawer.style.display === 'flex';
+    drawer.style.display = open ? 'none' : 'flex';
+    hamIco.innerHTML = open
+      ? '<path d="M3 6h16M3 11h16M3 16h16" stroke="white" stroke-width="1.8" stroke-linecap="round"/>'
+      : '<path d="M4 4l14 14M18 4L4 18" stroke="white" stroke-width="1.8" stroke-linecap="round"/>';
+  });
+  document.addEventListener('click', () => {
+    drawer.style.display = 'none';
+    hamIco.innerHTML = '<path d="M3 6h16M3 11h16M3 16h16" stroke="white" stroke-width="1.8" stroke-linecap="round"/>';
+  });
+  drawer.addEventListener('click', e => e.stopPropagation());
+
+  /* ── CTA button interaction ── */
+  const ctaBtn   = document.getElementById('ctaBtn');
+  const ctaLabel = document.getElementById('ctaLabel');
+  const ctaIcon  = document.getElementById('ctaIcon');
+  ctaBtn.addEventListener('click', () => {
+    ctaLabel.textContent = 'Launching…';
+    ctaIcon.style.animation = 'float 0.6s ease infinite';
+    setTimeout(() => {
+      ctaLabel.textContent = '✓ Ready for liftoff!';
+      ctaBtn.style.background = 'rgba(34,197,93,0.15)';
+      ctaBtn.style.color = '#22C55D';
+      ctaBtn.style.border = '2px solid rgba(34,197,93,0.4)';
+      ctaIcon.innerHTML = '<path d="M3 10l5 5 9-9" stroke="#22C55D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>';
+    }, 900);
+  });
+
+  /* ── Planet tooltips (subtle) ── */
+  document.querySelectorAll('.planet-orb').forEach(p => {
+    p.addEventListener('mouseenter', () => p.style.zIndex = '10');
+    p.addEventListener('mouseleave', () => p.style.zIndex = '');
+  });
+
+  /* ── Procedural starfield ── */
+  (function () {
+    const canvas = document.getElementById('starfield');
+    const ctx    = canvas.getContext('2d');
+
+    function draw() {
+      canvas.width  = window.innerWidth;
+      canvas.height = window.innerHeight;
+      ctx.fillStyle = '#04040d';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      /* stars */
+      for (let i = 0; i < 320; i++) {
+        const x = Math.random() * canvas.width;
+        const y = Math.random() * canvas.height;
+        const r = Math.random() < 0.07 ? Math.random() * 1.8 + 0.9 : Math.random() * 0.85 + 0.2;
+        const a = Math.random() * 0.55 + 0.35;
+        ctx.beginPath();
+        ctx.arc(x, y, r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255,255,255,${a})`;
+        ctx.fill();
+      }
+
+      /* nebula glows */
+      const glows = [
+        [0.15, 0.12, '56,189,249',  0.08, 0.38],
+        [0.85, 0.82, '168,85,247',  0.08, 0.32],
+        [0.50, 0.45, '35,69,178',   0.07, 0.35],
+        [0.75, 0.20, '34,197,93',   0.05, 0.28],
+      ];
+      glows.forEach(([rx, ry, c, a, r]) => {
+        const g = ctx.createRadialGradient(
+          canvas.width * rx, canvas.height * ry, 0,
+          canvas.width * rx, canvas.height * ry, canvas.width * r
+        );
+        g.addColorStop(0, `rgba(${c},${a})`);
+        g.addColorStop(1, 'transparent');
+        ctx.fillStyle = g;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      });
+    }
+
+    draw();
+    window.addEventListener('resize', draw);
+  })();
+</script>
+</body>
+</html>
