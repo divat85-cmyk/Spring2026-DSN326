@@ -67,14 +67,19 @@
       display: flex; align-items: center;
       padding: 14px 20px; gap: 20px;
       border-radius: 25px;
-      background: rgba(0,0,0,0.30);
+      background: linear-gradient(135deg, rgba(8,8,12,0.32) 0%, rgba(20,20,28,0.38) 100%);
       border: 1px solid rgba(154,163,176,0.50);
-      backdrop-filter: blur(28px) saturate(180%);
+      border-top-color: rgba(200,200,210,0.60);
+      backdrop-filter: blur(30px) saturate(185%) brightness(1.08);
+      -webkit-backdrop-filter: blur(30px) saturate(185%) brightness(1.08);
       box-shadow:
-        0 2px 0 rgba(255,255,255,0.08) inset,
+        0 2px 0 rgba(255,255,255,0.10) inset,
         0 -1px 0 rgba(0,0,0,0.50) inset,
-        0 16px 48px rgba(0,0,0,0.55);
+        0 0 24px rgba(56,189,249,0.06),
+        0 16px 56px rgba(0,0,0,0.60),
+        0 2px 12px rgba(0,0,0,0.40);
       position: sticky; top: 16px; z-index: 100;
+      flex-wrap: wrap;
     }
     .nav-logo-wrap {
       width: 54px; height: 54px; border-radius: 15px; flex-shrink: 0;
@@ -86,21 +91,48 @@
     .nav-brand {
       font-size: 20px; font-weight: 500; color: var(--white);
       margin-right: auto; white-space: nowrap;
+      overflow: hidden; text-overflow: ellipsis;
     }
-    .nav-links {
+      /* Container for nav-list, no flex needed here */
+    
+    .nav-list {
       display: flex; align-items: center; gap: 6px;
+      list-style: none; margin: 0; padding: 0;
+      flex-basis: auto;
     }
     .nav-link {
       font-size: 16px; font-weight: 400; color: #F5F5F5;
       padding: 8px 18px; border-radius: 12px;
       cursor: pointer; transition: all 0.15s;
       text-decoration: none; background: none; border: none;
+      white-space: nowrap;
     }
     .nav-link:hover { background: rgba(255,255,255,0.08); color: #fff; }
     .nav-link.active { color: var(--light-blue); font-weight: 600; background: rgba(56,189,249,0.08); border-radius: 12px; }
-    .nav-hamburger { display: none; background: none; border: none; color: var(--white); cursor: pointer; padding: 6px; margin-left: auto; }
-    .nav-drawer { display: none; flex-direction: column; gap: 4px; position: absolute; top: calc(100% + 10px); left: 0; right: 0; background: rgba(8,8,12,0.97); border: 1px solid rgba(255,255,255,0.10); border-radius: 18px; padding: 12px; backdrop-filter: blur(24px); }
-    .nav-drawer .nav-link { text-align: left; padding: 10px 14px; border-radius: 10px; }
+    .nav-hamburger { 
+      display: none; background: none; border: none; color: var(--white); 
+      cursor: pointer; padding: 6px; margin-left: auto; flex-shrink: 0;
+    }
+    .nav-hamburger:hover { opacity: 0.8; }
+    .nav-drawer { 
+      display: none; flex-direction: column; gap: 4px; 
+      position: absolute; top: 100%; left: 0; right: 0; 
+      background: linear-gradient(135deg, rgba(8,8,14,0.92) 0%, rgba(12,12,18,0.96) 100%);
+      border: 1px solid rgba(255,255,255,0.12); 
+      border-top: none;
+      border-radius: 0 0 18px 18px;
+      padding: 12px; 
+      margin-top: 8px;
+      backdrop-filter: blur(28px) saturate(180%) brightness(1.08);
+      -webkit-backdrop-filter: blur(28px) saturate(180%) brightness(1.08);
+      box-shadow: 
+        0 2px 0 rgba(255,255,255,0.08) inset,
+        0 -1px 0 rgba(0,0,0,0.50) inset,
+        0 16px 48px rgba(0,0,0,0.65);
+      z-index: 200;
+      width: 100%;
+    }
+    .nav-drawer .nav-link { text-align: left; padding: 10px 14px; border-radius: 10px; width: 100%; }
     .dropdown-indicator { font-size: 10px; margin-left: 4px; }
     .dropdown-hover-area {
       position: absolute; inset: 0; z-index: 10;
@@ -108,13 +140,20 @@
     .submenu {
       display: block;
       position: absolute; inset: 0;
-      background: rgba(8,8,12,0.97);
-      border: 1px solid rgba(255,255,255,0.10);
+      background: linear-gradient(135deg, rgba(8,8,14,0.94) 0%, rgba(12,12,18,0.97) 100%);
+      border: 1px solid rgba(255,255,255,0.12);
       border-radius: 12px;
-      padding: 8px 12px;flex-direction: column; gap: 4px;
-      position: absolute; top: 100%; left: 0; background: rgba(8,8,12,0.97);
-      border: 1px solid rgba(255,255,255,0.10); border-radius: 12px;
-      padding: 8px 12px; margin-top: 6px; backdrop-filter: blur(24px);
+      padding: 8px 12px;
+      flex-direction: column; gap: 4px;
+      position: absolute; top: 100%; left: 0; 
+      border-radius: 12px;
+      padding: 8px 12px; margin-top: 6px; 
+      backdrop-filter: blur(28px) saturate(180%) brightness(1.08);
+      -webkit-backdrop-filter: blur(28px) saturate(180%) brightness(1.08);
+      box-shadow: 
+        0 2px 0 rgba(255,255,255,0.08) inset,
+        0 -1px 0 rgba(0,0,0,0.50) inset,
+        0 12px 40px rgba(0,0,0,0.60);
     }
 
     /* ════════════════════════════
@@ -420,20 +459,228 @@
     /* ════════════════════════════
        RESPONSIVE
     ════════════════════════════ */
+    @media (max-width: 1024px) {
+      .site-nav { padding: 12px 18px; gap: 16px; }
+      .nav-logo-wrap { width: 48px; height: 48px; }
+      .nav-brand { font-size: 18px; }
+      .nav-link { font-size: 15px; padding: 7px 16px; }
+    }
+
     @media (max-width: 900px) {
       .page { padding: 16px 16px 80px; gap: 24px; }
       .principles-section { flex-direction: column; }
       .system-section { flex-direction: column; align-items: stretch; }
-      .nav-links { display: none; }
-      .nav-hamburger { display: flex; }
-      .site-nav { position: relative; }
+      .site-nav { padding: 12px 16px; gap: 14px; }
+      .nav-logo-wrap { width: 44px; height: 44px; }
+      .nav-brand { font-size: 16px; }
+      .nav-link { font-size: 14px; padding: 6px 14px; }
     }
+
+    @media (max-width: 768px) {
+      .site-nav { padding: 12px 14px; gap: 12px; height: 60px; flex-wrap: wrap; }
+      .nav-logo-wrap { width: 40px; height: 40px; }
+      .nav-logo-wrap svg { width: 24px; height: 24px; }
+      .nav-brand { font-size: 14px; }
+      .nav-list { display: none; }
+      .nav-hamburger { display: flex; }
+      .nav-drawer.open { display: flex; }
+    }
+
     @media (max-width: 600px) {
+      .page { padding: 12px 12px 70px; }
       .hero-card { height: auto; flex-direction: column; padding: 20px; gap: 16px; }
       .hero-rocket { height: 120px; }
       .planet-panel { grid-template-columns: repeat(3, 40px); gap: 16px; }
       .planet-orb { width: 40px; height: 40px; }
+      .site-nav { padding: 10px 12px; top: 8px; border-radius: 18px; }
+      .nav-logo-wrap { width: 36px; height: 36px; }
+      .nav-logo-wrap svg { width: 22px; height: 22px; }
+      .nav-brand { font-size: 12px; }
+      .nav-hamburger { padding: 5px; }
+      .nav-drawer { padding: 10px; }
+      .nav-link { font-size: 13px; padding: 10px 12px; }
     }
+
+    @media (max-width: 480px) {
+      .site-nav { padding: 10px 10px; height: 52px; }
+      .nav-logo-wrap { width: 32px; height: 32px; }
+      .nav-logo-wrap svg { width: 20px; height: 20px; }
+      .nav-brand { font-size: 11px; }
+      .page { padding: 10px 10px 60px; gap: 16px; }
+      .hero-title { font-size: clamp(20px, 3vw, 32px); }
+    }
+
+    /* ════════════════════════════
+       LIQUID GLASS
+    ════════════════════════════ */
+    /* ── GLASS INTERACTIVE EFFECTS ── */
+    .site-nav,
+    .nav-drawer,
+    .hero-card,
+    .intro-card,
+    .principles-card,
+    .system-text-card,
+    .button-showcase-card,
+    .component-showcase-card,
+    .get-started-card {
+      transition: all 0.3s ease;
+    }
+
+    .site-nav:hover {
+      background: linear-gradient(135deg, rgba(12,12,18,0.38) 0%, rgba(25,25,35,0.44) 100%);
+      border-color: rgba(200,200,210,0.65);
+      box-shadow:
+        0 2px 0 rgba(255,255,255,0.12) inset,
+        0 -1px 0 rgba(0,0,0,0.55) inset,
+        0 0 32px rgba(56,189,249,0.10),
+        0 20px 64px rgba(0,0,0,0.68),
+        0 2px 16px rgba(0,0,0,0.45);
+    }
+
+    .hero-card:hover,
+    .intro-card:hover,
+    .principles-card:hover,
+    .system-text-card:hover,
+    .button-showcase-card:hover,
+    .component-showcase-card:hover,
+    .get-started-card:hover {
+      border-color: rgba(255,255,255,0.20);
+      box-shadow:
+        0 2px 0 rgba(255,255,255,0.14) inset,
+        0 -1px 0 rgba(0,0,0,0.55) inset,
+        0 0 32px rgba(56,189,249,0.12),
+        0 24px 64px rgba(0,0,0,0.60);
+    }
+
+    /* ── GLASS FROSTED EFFECT (alternative) ── */
+    .glass-frosted {
+      background: linear-gradient(135deg, rgba(25,25,32,0.42) 0%, rgba(18,18,24,0.48) 100%);
+      backdrop-filter: blur(32px) saturate(200%) brightness(1.12);
+      -webkit-backdrop-filter: blur(32px) saturate(200%) brightness(1.12);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-top-color: rgba(255,255,255,0.22);
+      box-shadow:
+        0 2px 0 rgba(255,255,255,0.12) inset,
+        0 -1px 0 rgba(0,0,0,0.55) inset,
+        0 0 28px rgba(56,189,249,0.10),
+        0 16px 64px rgba(0,0,0,0.65),
+        0 2px 16px rgba(0,0,0,0.40);
+    }
+
+    @keyframes iridescent {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    @keyframes shimmerSweep {
+      0%   { transform: translateX(-120%) skewX(-12deg); }
+      100% { transform: translateX(300%)  skewX(-12deg); }
+    }
+
+    /* Glass material base */
+    .hero-card,
+    .intro-card,
+    .principles-card,
+    .planet-panel,
+    .system-text-card,
+    .button-showcase-card,
+    .component-showcase-card,
+    .get-started-card {
+      background:
+        linear-gradient(
+          130deg,
+          rgba(56,189,249,0.09)  0%,
+          rgba(255,255,255,0.04) 35%,
+          rgba(168,85,247,0.07)  68%,
+          rgba(34,197,93,0.05)   100%
+        );
+      background-size: 300% 300%;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-top-color: rgba(255,255,255,0.22);
+      backdrop-filter: blur(26px) saturate(175%) brightness(1.10);
+      -webkit-backdrop-filter: blur(26px) saturate(175%) brightness(1.10);
+      box-shadow:
+        0 2px 0 rgba(255,255,255,0.12) inset,
+        0 -1px 0 rgba(0,0,0,0.50) inset,
+        0 0 24px rgba(56,189,249,0.08),
+        0 20px 60px rgba(0,0,0,0.50);
+      position: relative;
+    }
+
+    /* Liquid Glass Shimmer */
+    .hero-card::before,
+    .intro-card::before,
+    .principles-card::before,
+    .system-text-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, transparent 60%);
+      pointer-events: none;
+      border-radius: inherit;
+    }
+
+    /* Iridescent shift — staggered per card */
+    .hero-card               { animation: iridescent 18s -3s  ease infinite; }
+    .intro-card              { animation: iridescent 18s -6s  ease infinite; }
+    .principles-card         { animation: iridescent 18s -9s  ease infinite; }
+    .planet-panel            { animation: iridescent 18s -12s ease infinite; }
+    .system-text-card        { animation: iridescent 18s -2s  ease infinite; }
+    .button-showcase-card    { animation: iridescent 18s -14s ease infinite; }
+    .component-showcase-card { animation: iridescent 18s -5s  ease infinite; }
+    .get-started-card        { animation: fadeUp 0.7s 0.35s ease both, iridescent 18s -8s ease infinite; }
+
+    /* Shimmer sweep — enable overflow clipping */
+    .intro-card,
+    .principles-card,
+    .system-text-card {
+      overflow: hidden;
+    }
+
+    /* Shimmer sweep pseudo-element (cards where ::before is free) */
+    .intro-card::before,
+    .principles-card::before,
+    .system-text-card::before,
+    .button-showcase-card::before,
+    .component-showcase-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        115deg,
+        transparent 30%,
+        rgba(255,255,255,0.06) 46%,
+        rgba(255,255,255,0.09) 50%,
+        rgba(255,255,255,0.06) 54%,
+        transparent 70%
+      );
+      animation: shimmerSweep 10s ease-in-out infinite;
+      pointer-events: none;
+    }
+    .principles-card::before         { animation-delay: -4s; }
+    .system-text-card::before        { animation-delay: -7s; }
+    .button-showcase-card::before    { animation-delay: -2s; }
+    .component-showcase-card::before { animation-delay: -6s; }
+
+    /* Shimmer for hero/get-started (::before already used for gradient) */
+    .hero-card::after,
+    .get-started-card::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        115deg,
+        transparent 30%,
+        rgba(255,255,255,0.06) 46%,
+        rgba(255,255,255,0.09) 50%,
+        rgba(255,255,255,0.06) 54%,
+        transparent 70%
+      );
+      animation: shimmerSweep 10s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .hero-card::after        { animation-delay: -1s; }
+    .get-started-card::after { animation-delay: -5s; }
   </style>
 </head>
 
@@ -467,16 +714,20 @@
         <path d="M3 6h16M3 11h16M3 16h16" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
       </svg>
     </button>
-<!---Create Dropdown Menu--->
+
     <div class="nav-links">
-     <li><a class="nav-link active" href="orbit-overview.html">Overview</a>
-          <a class="nav-link" href="orbit-colors.html">Foundations</a>
-          <a class="nav-link" href="orbit-core-components.html">Components</a>
+      <ul class="nav-list">
+        <li><a class="nav-link active" href="orbit-overview.html">Overview</a></li>
+        <li><a class="nav-link" href="boarding-pass.html">Boarding Pass</a></li>
+        <li><a class="nav-link" href="orbit-colors.html">Foundations</a></li>
+        <li><a class="nav-link" href="orbit-core-components.html">Core-Components</a></li>
+      </ul>
     </div>
     <div class="nav-drawer" id="navDrawer">
       <a class="nav-link active" href="orbit-overview.html">Overview</a>
+      <a class="nav-link" href="boarding-pass.html">Boarding Pass</a>
       <a class="nav-link" href="orbit-colors.html">Foundations</a>
-      <a class="nav-link" href="orbit-core-components.html">Components</a>
+      <a class="nav-link" href="orbit-core-components.html">Core-Components</a>
     </div>
   </nav>
 
@@ -674,7 +925,8 @@
       Ready for liftoff? <b>›</b> Head over to our Getting Started guide to install the UI kit and learn how to implement Orbit in your next project.
     </div>
     <button class="cta-btn" id="ctaBtn" onclick="window.location.href='orbit-core-components.html'">
-      <img src="images/Jet.png" alt="Rocket Icon" style="width:20px;height:20px;"/>
+      <img src="../images/Jet.png" alt="Rocket Icon" style="width:20px;height:20px;">
+      <svg id="ctaIcon" width="20" height="20" viewBox="0 0 20 20" fill="none" style="vertical-align:middle;">
         <path d="M2 18C2 18 5 11 10 9C15 7 18 2 18 2C18 2 15 9 11 12C7 15 2 18 2 18Z" fill="#000" stroke="#000" stroke-width="0.5" stroke-linejoin="round"/>
       </svg>
       <span id="ctaLabel">Get Started</span>
