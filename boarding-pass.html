@@ -1,0 +1,2613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Boarding Pass — Orbit Design System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Reset & Base ────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--bg, #0A0A0B);
+      color: var(--text-primary, #FDFDFD);
+      font-family: 'Poppins', sans-serif;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ── Color Tokens ────────────────────────────────────────── */
+    :root {
+      --bg:          #0A0A0B;
+      --text-primary: #FDFDFD;
+      --text-secondary: #E4E5E6;
+      --text-muted: #9AA3B0;
+      --blue:        #38BDF9;
+      --purple:      #A855F7;
+      --green:       #22C55D;
+      --yellow:      #FACC14;
+      --orange:      #F97315;
+      --red:         #EF4444;
+      --muted:       #9AA3B0;
+      --dark-card:   #111111;
+    }
+      /* ── STARFIELD CANVAS ── */
+    #starfield {
+      position: fixed; inset: 0;
+      width: 100%; height: 100%;
+      z-index: 0; pointer-events: none;
+    }
+
+    
+        /* ── LIQUID GLASS MIXIN ──
+       Applied to nav, section cards, token cards, palette cards, showcase panels, stat cards, etc. */
+    .glass {
+      background: linear-gradient(135deg, rgba(20,20,26,0.48) 0%, rgba(12,12,18,0.52) 100%);
+      backdrop-filter: blur(24px) saturate(180%) brightness(1.10);
+      -webkit-backdrop-filter: blur(24px) saturate(180%) brightness(1.10);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-top-color: rgba(255,255,255,0.18);
+      border-left-color: rgba(255,255,255,0.14);
+      box-shadow:
+        0 2px 0 rgba(255,255,255,0.10) inset,
+        0 -1px 0 rgba(0,0,0,0.50) inset,
+        0 0 20px rgba(56,189,249,0.08),
+        0 12px 48px rgba(0,0,0,0.60),
+        0 2px 12px rgba(0,0,0,0.35);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* ── LIQUID GLASS VARIANTS ── */
+    .glass-light {
+      background: linear-gradient(135deg, rgba(30,30,40,0.32) 0%, rgba(20,20,28,0.38) 100%);
+      backdrop-filter: blur(20px) saturate(160%) brightness(1.05);
+      -webkit-backdrop-filter: blur(20px) saturate(160%) brightness(1.05);
+      border: 1px solid rgba(255,255,255,0.10);
+      box-shadow:
+        0 2px 0 rgba(255,255,255,0.08) inset,
+        0 -1px 0 rgba(0,0,0,0.35) inset,
+        0 8px 32px rgba(0,0,0,0.45);
+    }
+
+    .glass-dark {
+      background: linear-gradient(135deg, rgba(12,12,18,0.62) 0%, rgba(8,8,12,0.68) 100%);
+      backdrop-filter: blur(28px) saturate(190%) brightness(1.12);
+      -webkit-backdrop-filter: blur(28px) saturate(190%) brightness(1.12);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-top-color: rgba(255,255,255,0.20);
+      box-shadow:
+        0 2px 0 rgba(255,255,255,0.12) inset,
+        0 -1px 0 rgba(0,0,0,0.60) inset,
+        0 0 24px rgba(56,189,249,0.10),
+        0 16px 56px rgba(0,0,0,0.70),
+        0 2px 16px rgba(0,0,0,0.45);
+    }
+
+    .glass-accent {
+      background: linear-gradient(135deg, rgba(56,189,249,0.08) 0%, rgba(35,69,178,0.06) 100%);
+      backdrop-filter: blur(22px) saturate(175%) brightness(1.09);
+      -webkit-backdrop-filter: blur(22px) saturate(175%) brightness(1.09);
+      border: 1px solid rgba(56,189,249,0.25);
+      border-top-color: rgba(56,189,249,0.35);
+      box-shadow:
+        0 2px 0 rgba(255,255,255,0.08) inset,
+        0 -1px 0 rgba(0,0,0,0.45) inset,
+        0 0 28px rgba(56,189,249,0.12),
+        0 12px 48px rgba(0,0,0,0.55),
+        0 2px 12px rgba(56,189,249,0.08);
+    }
+
+    /* ── GLASS SHIMMER EFFECT ── */
+    .glass::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, transparent 60%);
+      pointer-events: none;
+      border-radius: inherit;
+    }
+
+    /* ── GLASS INTERACTIVE EFFECTS ── */
+    .glass {
+      transition: all 0.3s ease;
+    }
+    .glass:hover {
+      background: linear-gradient(135deg, rgba(25,25,32,0.52) 0%, rgba(15,15,22,0.56) 100%);
+      border-color: rgba(255,255,255,0.16);
+      box-shadow:
+        0 2px 0 rgba(255,255,255,0.12) inset,
+        0 -1px 0 rgba(0,0,0,0.55) inset,
+        0 0 28px rgba(56,189,249,0.12),
+        0 16px 56px rgba(0,0,0,0.70),
+        0 2px 16px rgba(0,0,0,0.40);
+    }
+
+    /* ── GLASS VARIANTS WITH HOVER ── */
+    .glass-light:hover {
+      background: linear-gradient(135deg, rgba(35,35,48,0.38) 0%, rgba(25,25,35,0.44) 100%);
+      border-color: rgba(255,255,255,0.14);
+      box-shadow:
+        0 2px 0 rgba(255,255,255,0.10) inset,
+        0 -1px 0 rgba(0,0,0,0.40) inset,
+        0 12px 40px rgba(0,0,0,0.55);
+    }
+
+    .glass-dark:hover {
+      background: linear-gradient(135deg, rgba(15,15,22,0.68) 0%, rgba(10,10,15,0.74) 100%);
+      border-color: rgba(255,255,255,0.18);
+      box-shadow:
+        0 2px 0 rgba(255,255,255,0.14) inset,
+        0 -1px 0 rgba(0,0,0,0.65) inset,
+        0 0 32px rgba(56,189,249,0.14),
+        0 20px 64px rgba(0,0,0,0.75),
+        0 2px 20px rgba(0,0,0,0.50);
+    }
+
+    .glass-accent:hover {
+      background: linear-gradient(135deg, rgba(56,189,249,0.12) 0%, rgba(35,69,178,0.10) 100%);
+      border-color: rgba(56,189,249,0.35);
+      box-shadow:
+        0 2px 0 rgba(255,255,255,0.10) inset,
+        0 -1px 0 rgba(0,0,0,0.50) inset,
+        0 0 36px rgba(56,189,249,0.18),
+        0 16px 56px rgba(0,0,0,0.65),
+        0 2px 16px rgba(56,189,249,0.12);
+    }
+
+    /* ── GLASS FROSTED EFFECT (alternative) ── */
+    .glass-frosted {
+      background: linear-gradient(135deg, rgba(25,25,32,0.42) 0%, rgba(18,18,24,0.48) 100%);
+      backdrop-filter: blur(32px) saturate(200%) brightness(1.12);
+      -webkit-backdrop-filter: blur(32px) saturate(200%) brightness(1.12);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-top-color: rgba(255,255,255,0.22);
+      box-shadow:
+        0 2px 0 rgba(255,255,255,0.12) inset,
+        0 -1px 0 rgba(0,0,0,0.55) inset,
+        0 0 28px rgba(56,189,249,0.10),
+        0 16px 64px rgba(0,0,0,0.65),
+        0 2px 16px rgba(0,0,0,0.40);
+    }
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 40% at 50% 0%,   rgba(50,80,180,0.22) 0%, transparent 60%),
+        radial-gradient(ellipse 55% 40% at 10% 5%,   rgba(56,189,249,0.08) 0%, transparent 55%),
+        radial-gradient(ellipse 45% 50% at 90% 90%,  rgba(168,85,247,0.09) 0%, transparent 55%),
+        radial-gradient(ellipse 40% 40% at 20% 80%,  rgba(34,197,93,0.05) 0%, transparent 50%);
+      pointer-events: none; z-index: 1;
+    }
+
+
+    /* ── Page Wrapper ────────────────────────────────────────── */
+    .page-root {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 28px;
+      width: min(100%, 1240px);
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 28px 24px 100px;
+      background: radial-gradient(ellipse at 70% 10%, rgba(168,85,247,0.08) 0%, transparent 55%),
+                  radial-gradient(ellipse at 20% 80%, rgba(56,189,249,0.05) 0%, transparent 50%),
+                  #0A0A0B;
+    }
+
+    /* ── Nav ─────────────────────────────────────────────────── */
+    nav {
+      display: flex; align-items: center;
+      width: 100%; max-width: 100%;
+      padding: 14px 20px; height: 80px;
+      border-radius: 25px;
+      background: rgba(8,8,12,0.50);
+      border: 1px solid rgba(255,255,255,0.11);
+      backdrop-filter: blur(20px) saturate(180%);
+      box-shadow: 0 2px 0 rgba(255,255,255,0.10) inset, 0 -1px 0 rgba(0,0,0,0.50) inset, 0 16px 48px rgba(0,0,10,0.65);
+      gap: 20px; position: sticky; top: 16px; z-index: 100;
+      flex-wrap: wrap;
+    }
+    .nav-logo {
+      width: 50px; height: 50px; border-radius: 12px;
+      background: #111; border: 1px solid var(--border-mid);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .nav-brand { 
+      font-size: 17px; font-weight: 700; color: var(--text-primary); 
+      margin-right: auto; flex-shrink: 0;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .nav-links { 
+      display: flex; align-items: center; gap: 4px;
+      flex-basis: auto;
+      min-width: 0;
+    }
+    .nav-link {
+      font-size: 14px; font-weight: 500; color: var(--text-muted);
+      padding: 8px 14px; border-radius: 10px; cursor: pointer;
+      transition: all 0.15s; text-decoration: none; background: none; border: none;
+      white-space: nowrap;
+    }
+    .nav-link:hover { color: var(--text-primary); background: rgba(255,255,255,0.07); }
+    .nav-link.active { color: var(--light-blue); background: rgba(56,189,249,0.08); font-weight: 600; }
+    .nav-hamburger { 
+      display: none; background: none; border: none; color: var(--text-primary); 
+      cursor: pointer; padding: 6px; margin-left: auto; flex-shrink: 0;
+    }
+    .nav-hamburger:hover { opacity: 0.8; }
+    .nav-drawer { 
+      display: none; flex-direction: column; gap: 4px; 
+      position: absolute; top: 100%; left: 0; right: 0; 
+      background: rgba(8,8,12,0.98); 
+      border: 1px solid rgba(255,255,255,0.10); 
+      border-top: none;
+      border-radius: 0 0 16px 16px;
+      padding: 12px; 
+      margin-top: 8px;
+      backdrop-filter: blur(24px); 
+      z-index: 200;
+      width: 100%;
+    }
+    .nav-drawer .nav-link { 
+      width: 100%; text-align: left; border-radius: 10px; padding: 10px 14px; 
+    }
+    .nav-drawer .nav-link:hover { background: rgba(255,255,255,0.07); }
+    /* ── Section Card ────────────────────────────────────────── */
+    .section-card {
+      width: 100%;
+      border-radius: 24px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(10,10,14,0.62);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      padding: 61px 65px 73px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      position: relative;
+      box-shadow: 0 24px 36px rgba(0,0,0,0.65),
+                  inset 0 2px 0 rgba(255,255,255,0.08),
+                  inset 0 -1px 0 rgba(0,0,0,0.5);
+    }
+
+    .section-card.compact { padding: 49px 65px; }
+
+    .section-heading {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      font-size: 20px;
+      color: #FDFDFD;
+      letter-spacing: -0.2px;
+    }
+
+    .blue-rule {
+      height: 2px;
+      width: 100%;
+      background: rgba(56,189,249,0.35);
+      border: none;
+      flex-shrink: 0;
+      margin: 2px 0;
+    }
+
+    .section-desc {
+      font-family: 'Poppins', sans-serif;
+      font-size: 15px;
+      color: rgba(255,255,255,0.6);
+      line-height: 27px;
+      max-width: 700px;
+      padding-top: 14px;
+    }
+
+    /* ── Hero Section ────────────────────────────────────────── */
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 64px;
+      align-items: center;
+      padding: 0;
+    }
+
+    .hero-text { display: flex; flex-direction: column; min-width: 0; }
+
+    .hero-eyebrow {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      font-size: 11px;
+      color: #38BDF9;
+      letter-spacing: 1.76px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .hero-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      font-size: 72px;
+      line-height: 72px;
+      letter-spacing: -1.44px;
+      color: #FDFDFD;
+      margin-bottom: 18px;
+    }
+
+    .hero-title .blue { color: #38BDF9; }
+
+    .hero-desc {
+      font-family: 'Poppins', sans-serif;
+      font-size: 16px;
+      line-height: 29.6px;
+      color: rgba(255,255,255,0.58);
+      max-width: 520px;
+      margin-bottom: 28px;
+    }
+
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 15px;
+      border-radius: 100px;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      font-size: 12px;
+      letter-spacing: 0.48px;
+      white-space: nowrap;
+    }
+
+    .badge-blue {
+      background: rgba(56,189,249,0.08);
+      border: 1px solid rgba(56,189,249,0.3);
+      color: #38BDF9;
+    }
+
+    .badge-purple {
+      background: rgba(168,85,247,0.08);
+      border: 1px solid rgba(168,85,247,0.3);
+      color: #A855F7;
+    }
+
+    .badge-green {
+      background: rgba(34,197,93,0.08);
+      border: 1px solid rgba(34,197,93,0.3);
+      color: #22C55D;
+    }
+
+    /* ── Hero Boarding Pass Card ─────────────────────────────── */
+    .hero-card-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      position: relative;
+    }
+
+    .hero-card-glow {
+      position: absolute;
+      inset: -30px;
+      background: radial-gradient(ellipse at center, rgba(168,85,247,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    /* ── Boarding Pass Card ──────────────────────────────────── */
+    .bp-card {
+      background: #FDFDFD;
+      border: 1px solid #e0e0e0;
+      border-radius: 22px;
+      padding: 21px 19px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      position: relative;
+      box-shadow: 0 0 48px rgba(168,85,247,0.18), 0 32px 64px rgba(0,0,0,0.7);
+    }
+
+    .bp-card.w340 { width: min(100%, 340px); }
+    .bp-card.w300 { width: min(100%, 300px); max-width: 300px; }
+
+    /* BP Header */
+    .bp-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding: 0 4px;
+    }
+
+    .bp-airline {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      font-size: 10px;
+      color: #888;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      line-height: 14px;
+    }
+
+    .bp-title-text {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 800;
+      font-size: 15px;
+      color: #000;
+      letter-spacing: 0.3px;
+      line-height: normal;
+    }
+
+    .bp-class-badge {
+      padding: 5px 12px 6px;
+      border-radius: 8px;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 0.66px;
+      text-transform: uppercase;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .bp-class-economy { background: #0D131C; color: #fff; }
+    .bp-class-business { background: linear-gradient(134deg, #FACC14 0%, #F97315 100%); color: #000; }
+    .bp-class-first { background: linear-gradient(134deg, #A855F7 0%, #2345B2 100%); color: #fff; }
+
+    /* BP Route */
+    .bp-route {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 4px 8px 0;
+    }
+
+    .bp-city { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+    .bp-city.right { align-items: flex-end; }
+
+    .bp-dir-label {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      font-size: 10px;
+      color: #777;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      line-height: normal;
+    }
+
+    .bp-city-name {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 800;
+      font-size: 28px;
+      color: #000;
+      letter-spacing: -0.28px;
+      line-height: 30.8px;
+    }
+
+    .bp-time {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 400;
+      font-size: 12px;
+      color: #666;
+      line-height: 24px;
+    }
+
+    .bp-center-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      flex-shrink: 0;
+      padding: 0 8px;
+    }
+
+    /* Flight path SVG arrow line */
+    .bp-flight-path {
+      width: 80px;
+      height: 12px;
+      display: block;
+      flex-shrink: 0;
+    }
+
+    .bp-focus-label {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 400;
+      font-size: 10px;
+      color: #999;
+      text-align: center;
+      line-height: 15px;
+      white-space: nowrap;
+    }
+
+    /* BP Tear */
+    .bp-tear-wrap {
+      position: relative;
+      height: 1px;
+      margin: 0 -19px;
+    }
+
+    .bp-tear-line {
+      position: absolute;
+      left: 0; right: 0; top: 0;
+      height: 1px;
+      border-top: 1px dashed rgba(0,0,0,0.25);
+    }
+
+    /* BP Objectives */
+    .bp-objectives { padding: 4px 8px 0; }
+
+    .bp-obj-header {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 10px;
+      color: #888;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      margin-bottom: 9px;
+    }
+
+    .bp-obj-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 2px;
+    }
+
+    .bp-obj-dot {
+      width: 6px; height: 6px;
+      border-radius: 3px;
+      flex-shrink: 0;
+    }
+
+    .bp-obj-dot-purple { background: #A855F7; }
+    .bp-obj-dot-yellow { background: #FACC14; }
+
+    .bp-obj-text {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 500;
+      font-size: 13px;
+      color: #111;
+      line-height: 23.4px;
+      white-space: nowrap;
+    }
+
+    /* BP Barcode */
+    .bp-barcode {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 0 2px;
+    }
+
+    .barcode-svg {
+      width: 240px;
+      height: 36px;
+    }
+
+    .barcode-svg-lg {
+      width: 300px;
+      height: 48px;
+    }
+
+    .bp-ticket-num {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 400;
+      font-size: 10px;
+      color: #888;
+      letter-spacing: 0.8px;
+    }
+
+    /* ── Anatomy Section ─────────────────────────────────────── */
+    .anatomy-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 64px;
+      padding-top: 34px;
+    }
+
+    .anatomy-labels { display: flex; flex-direction: column; gap: 20px; }
+
+    .anatomy-row { display: flex; gap: 14px; align-items: flex-start; }
+
+    .anatomy-num {
+      width: 28px; height: 28px;
+      border-radius: 14px;
+      border: 1px solid;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      font-size: 11px;
+      flex-shrink: 0;
+    }
+
+    .anatomy-num-1 { color: #38BDF9; border-color: rgba(56,189,249,0.4); background: rgba(56,189,249,0.08); }
+    .anatomy-num-2 { color: #A855F7; border-color: rgba(168,85,247,0.4); background: rgba(168,85,247,0.08); }
+    .anatomy-num-3 { color: #22C55D; border-color: rgba(34,197,93,0.4); background: rgba(34,197,93,0.08); }
+    .anatomy-num-4 { color: #FACC14; border-color: rgba(250,204,20,0.4); background: rgba(250,204,20,0.08); }
+    .anatomy-num-5 { color: #F97315; border-color: rgba(249,115,21,0.4); background: rgba(249,115,21,0.08); }
+    .anatomy-num-6 { color: #EF4444; border-color: rgba(239,68,68,0.4); background: rgba(239,68,68,0.08); }
+
+    .anatomy-body { display: flex; flex-direction: column; gap: 2px; padding-top: 3px; }
+
+    .anatomy-label-name {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      line-height: normal;
+    }
+
+    .anatomy-label-desc {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 13px;
+      color: rgba(255,255,255,0.55);
+      line-height: 20.8px;
+    }
+
+    .anatomy-card-wrap {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      width: 100%;
+      min-width: 0;
+      position: relative;
+    }
+
+    .dest-table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      margin-bottom: -4px;
+    }
+
+    .bp-barcode svg {
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* Annotated card connector lines (simplified) */
+    .anatomy-card-container {
+      position: relative;
+    }
+
+    /* ── Anatomy annotations ─────────────────────────────────── */
+    .anatomy-annotations {
+      position: relative;
+      width: 100%;
+    }
+
+    .annotated-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      padding: 53px 71px;
+    }
+
+    /* ── Class Variants Section ──────────────────────────────── */
+    .variants-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      padding-top: 34px;
+    }
+
+    .variant-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .variant-label {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 0.96px;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    .variant-label-economy { color: #9AA3B0; }
+    .variant-label-business { color: #FACC14; }
+    .variant-label-first { color: #A855F7; }
+
+    .variant-desc {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 12px;
+      color: rgba(255,255,255,0.5);
+      text-align: center;
+      line-height: 19.2px;
+      max-width: 240px;
+    }
+
+    /* ── Destination Planets Table ───────────────────────────── */
+    .dest-table { width: 100%; border-collapse: collapse; margin-top: 26px; }
+
+    .dest-table th {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 11px;
+      color: #9AA3B0;
+      letter-spacing: 0.88px;
+      text-transform: uppercase;
+      padding: 10px 16px 11px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .dest-table td {
+      padding: 0 16px;
+      height: 61px;
+      vertical-align: middle;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      font-family: 'Poppins', sans-serif;
+      font-weight: 400;
+      font-size: 13px;
+      color: #FDFDFD;
+    }
+
+    .planet-cell {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .planet-orb {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    }
+
+    .planet-mars    { background: radial-gradient(circle at 35% 35%, #e87057, #ef4444 55%, #bd2f2f 77.5%, #8b1a1a); }
+    .planet-mercury { background: radial-gradient(circle at 35% 35%, #c8c8c8, #a8a8a8 27.5%, #888 55%, #666 77.5%, #444); }
+    .planet-venus   { background: radial-gradient(circle at 35% 35%, #f5d97c, #f6c062 13.75%, #f7a649 27.5%, #f88d2f 41.25%, #f97315 55%, #df670b 77.5%, #c45b00); }
+    .planet-jupiter { background: radial-gradient(circle at 35% 35%, #e8c882, #f1ca4b 27.5%, #f6cb30 41.25%, #facc14 55%, #c6960a 77.5%, #ac7b05 88.75%, #926000); }
+    .planet-saturn  { background: radial-gradient(circle at 35% 35%, #f7e6b4, #f8e08c 13.75%, #f9d964 27.5%, #f9d33c 41.25%, #facf28 48.125%, #facc14 55%, #c29e0a 77.5%, #8a7000); }
+    .planet-uranus  { background: radial-gradient(circle at 35% 35%, #7eecec, #67e2c7 13.75%, #50d9a4 27.5%, #39cf80 41.25%, #22c55d 55%, #18914b 77.5%, #0d5c38); }
+    .planet-neptune { background: radial-gradient(circle at 35% 35%, #5dc8f5, #35b4ec 27.5%, #21aae7 41.25%, #0da0e2 55%, #0a7db2 77.5%, #065a82); }
+    .planet-pluto   { background: radial-gradient(circle at 35% 35%, #d4a4f7, #be7df7 27.5%, #a855f7 55%, #8235c1 77.5%, #6e24a5 88.75%, #5b1488); }
+
+    .difficulty-pips {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .pip {
+      width: 8px; height: 8px;
+      border-radius: 2px;
+    }
+
+    .pip-on { background: #38BDF9; }
+    .pip-off { background: rgba(255,255,255,0.15); }
+
+    .code-tag {
+      background: rgba(255,255,255,0.06);
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: #FDFDFD;
+    }
+
+    /* ── Interactive Builder Section ─────────────────────────── */
+    .builder-layout {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 56px;
+      padding-top: 34px;
+    }
+
+    .controls { display: flex; flex-direction: column; gap: 24px; }
+
+    .control-label {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 11px;
+      color: #9AA3B0;
+      letter-spacing: 0.88px;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .control-row { display: flex; flex-wrap: wrap; gap: 8px; }
+
+    .ctrl-chip {
+      padding: 9px 17px 10px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.04);
+      font-family: 'Poppins', sans-serif;
+      font-weight: 500;
+      font-size: 13px;
+      color: #9AA3B0;
+      cursor: pointer;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+
+    .ctrl-chip.active {
+      background: rgba(56,189,249,0.1);
+      border-color: #38BDF9;
+      color: #38BDF9;
+    }
+
+    .ctrl-chip:hover:not(.active) {
+      background: rgba(255,255,255,0.07);
+      color: #FDFDFD;
+    }
+
+    .dur-display {
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+      margin-bottom: 4px;
+    }
+
+    .dur-value {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      font-size: 22px;
+      color: #38BDF9;
+    }
+
+    .dur-unit {
+      font-family: 'Poppins', sans-serif;
+      font-size: 13px;
+      color: #9AA3B0;
+    }
+
+    .slider-track {
+      position: relative;
+      height: 4px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 4px;
+      width: 100%;
+    }
+
+    .slider-fill {
+      height: 100%;
+      background: #38BDF9;
+      border-radius: 4px;
+      width: 45%;
+    }
+
+    .slider-thumb {
+      position: absolute;
+      top: -9px;
+      left: 43%;
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: #38BDF9;
+      border: 2px solid rgba(255,255,255,0.8);
+      box-shadow: 0 0 0 4px rgba(56,189,249,0.2);
+    }
+
+    .task-input-row {
+      display: flex;
+      gap: 8px;
+      align-items: stretch;
+    }
+
+    .task-input {
+      flex: 1;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      padding: 10px 15px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 13px;
+      color: #9AA3B0;
+    }
+
+    .task-add-btn {
+      padding: 10px 19px 11px;
+      border-radius: 10px;
+      border: 1px solid rgba(56,189,249,0.3);
+      background: rgba(56,189,249,0.1);
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      color: #38BDF9;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .preview-label {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      font-size: 11px;
+      color: #9AA3B0;
+      letter-spacing: 1.1px;
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .preview-pane {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      position: relative;
+    }
+
+    .preview-glow {
+      position: absolute;
+      inset: -20px;
+      background: radial-gradient(ellipse at center, rgba(56,189,249,0.1) 0%, transparent 70%);
+      pointer-events: none;
+      border-radius: 50%;
+    }
+
+    .preview-token {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 400;
+      font-size: 11px;
+      color: #9AA3B0;
+      letter-spacing: 0.66px;
+      text-align: center;
+      margin-top: 8px;
+    }
+
+    /* ── Dos & Don'ts ────────────────────────────────────────── */
+    .dodonts-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      padding-top: 34px;
+    }
+
+    .dd-card {
+      padding: 29px;
+      border-radius: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .dd-card.do {
+      background: rgba(34,197,93,0.06);
+      border: 1px solid rgba(34,197,93,0.2);
+    }
+
+    .dd-card.dont {
+      background: rgba(239,68,68,0.06);
+      border: 1px solid rgba(239,68,68,0.2);
+    }
+
+    .dd-label {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+
+    .dd-label.do { color: #22C55D; }
+    .dd-label.dont { color: #EF4444; }
+
+    .dd-preview {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px;
+      min-height: 100px;
+      padding: 17px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .dd-preview.faded { opacity: 0.7; }
+
+    .dd-preview-label {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 400;
+      font-size: 10px;
+      color: #888;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+    }
+
+    .dd-preview-value {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 800;
+      font-size: 22px;
+      line-height: normal;
+    }
+
+    .dd-preview-sub {
+      font-family: 'Poppins', sans-serif;
+      font-size: 11px;
+      color: #888;
+    }
+
+    .dd-preview-value.red-strike {
+      color: #EF4444;
+      text-decoration: line-through;
+    }
+
+    .dd-rule {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: rgba(255,255,255,0.65);
+      line-height: 22.1px;
+    }
+
+    .dd-rule strong { color: #FDFDFD; font-weight: 700; }
+
+    .dd-badges-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      justify-content: center;
+      padding: 35px 21px;
+    }
+
+    .dd-mini-badge {
+      padding: 6px 12px 7px;
+      border-radius: 8px;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 11px;
+    }
+
+    .dd-badge-economy { background: #FDFDFD; color: #0D131C; }
+    .dd-badge-business { background: linear-gradient(134deg, #FACC14 0%, #F97315 100%); color: #000; }
+    .dd-badge-first { background: linear-gradient(134deg, #A855F7 0%, #2345B2 100%); color: #fff; }
+    .dd-badge-premium {
+      background: linear-gradient(134deg, #38BDF9 0%, #22C55D 100%);
+      color: #EF4444;
+      text-decoration: line-through;
+    }
+    .dd-badge-ultra { background: #ff0080; color: #EF4444; text-decoration: line-through; }
+
+    /* ── Usage Guidance Section ──────────────────────────────── */
+    .two-col-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      padding-top: 34px;
+    }
+
+    .usage-col { display: flex; flex-direction: column; gap: 16px; }
+
+    .usage-box {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      padding: 23px 25px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .usage-box-title {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 12px;
+      color: #38BDF9;
+      letter-spacing: 0.96px;
+      text-transform: uppercase;
+    }
+
+    .usage-list {
+      list-style: disc;
+      padding-left: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: rgba(255,255,255,0.6);
+      line-height: 22.75px;
+    }
+
+    .usage-text {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: rgba(255,255,255,0.6);
+      line-height: 22.75px;
+    }
+
+    .inline-code {
+      background: rgba(255,255,255,0.08);
+      border-radius: 4px;
+      padding: 1px 5px;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+    }
+
+    /* ── Utility ─────────────────────────────────────────────── */
+    .color-blue   { color: #38BDF9; }
+    .color-purple { color: #A855F7; }
+    .color-green  { color: #22C55D; }
+    .color-yellow { color: #FACC14; }
+    .color-orange { color: #F97315; }
+    .color-red    { color: #EF4444; }
+
+    /* Barcode SVG helper */
+    .barcode-bars {
+      display: flex;
+      align-items: stretch;
+      height: 36px;
+      gap: 2px;
+      overflow: hidden;
+    }
+
+    .barcode-bars-lg {
+      height: 48px;
+    }
+
+    .bar {
+      background: #000;
+      flex-shrink: 0;
+    }
+
+    /* Tiny flight path SVG */
+    .flight-arrow {
+      display: block;
+    }
+
+    /* ── Liquid Glass Enhancements ───────────────────────────── */
+    .nav {
+      background: rgba(10,10,16,0.48);
+      backdrop-filter: blur(32px) saturate(200%) brightness(1.05);
+      -webkit-backdrop-filter: blur(32px) saturate(200%) brightness(1.05);
+      box-shadow:
+        0 16px 48px rgba(0,0,10,0.65),
+        0 2px 12px rgba(56,189,249,0.06),
+        inset 0 1.5px 0 rgba(255,255,255,0.16),
+        inset 0 -1px 0 rgba(0,0,0,0.5),
+        inset 1px 0 0 rgba(255,255,255,0.05),
+        inset -1px 0 0 rgba(255,255,255,0.05),
+        0 0 0 0.5px rgba(255,255,255,0.07);
+    }
+
+    .section-card {
+      background: rgba(10,10,16,0.52);
+      backdrop-filter: blur(36px) saturate(180%) brightness(1.04);
+      -webkit-backdrop-filter: blur(36px) saturate(180%) brightness(1.04);
+      box-shadow:
+        0 24px 36px rgba(0,0,0,0.65),
+        0 4px 16px rgba(0,0,0,0.3),
+        inset 0 1.5px 0 rgba(255,255,255,0.13),
+        inset 0 -1px 0 rgba(0,0,0,0.4),
+        0 0 0 0.5px rgba(255,255,255,0.07);
+    }
+
+    /* Prismatic shimmer overlay on each card */
+    .section-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: linear-gradient(
+        130deg,
+        rgba(255,255,255,0.065) 0%,
+        rgba(255,255,255,0.015) 22%,
+        transparent 48%,
+        rgba(56,189,249,0.012) 78%,
+        rgba(168,85,247,0.018) 100%
+      );
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Ensure section-card children render above pseudo shimmer */
+    .section-card > * { position: relative; z-index: 1; }
+
+    /* Glass chip style */
+    .ctrl-chip {
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    /* ── Real Range Slider ───────────────────────────────────── */
+    input[type="range"].dur-slider {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 4px;
+      border-radius: 4px;
+      outline: none;
+      cursor: pointer;
+      background: linear-gradient(to right, #38BDF9 37.5%, rgba(255,255,255,0.1) 37.5%);
+    }
+
+    input[type="range"].dur-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #38BDF9;
+      border: 2px solid rgba(255,255,255,0.85);
+      box-shadow: 0 0 0 4px rgba(56,189,249,0.22), 0 2px 8px rgba(0,0,0,0.4);
+      cursor: grab;
+      transition: box-shadow 0.15s;
+    }
+
+    input[type="range"].dur-slider::-webkit-slider-thumb:active {
+      cursor: grabbing;
+      box-shadow: 0 0 0 7px rgba(56,189,249,0.28), 0 2px 8px rgba(0,0,0,0.4);
+    }
+
+    input[type="range"].dur-slider::-moz-range-thumb {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #38BDF9;
+      border: 2px solid rgba(255,255,255,0.85);
+      box-shadow: 0 0 0 4px rgba(56,189,249,0.22);
+      cursor: grab;
+    }
+
+    input[type="range"].dur-slider::-moz-range-progress {
+      background: #38BDF9;
+      height: 4px;
+      border-radius: 4px 0 0 4px;
+    }
+
+    /* ── Real Text Input ─────────────────────────────────────── */
+    input[type="text"].task-input {
+      flex: 1;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      padding: 10px 15px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 13px;
+      color: #FDFDFD;
+      outline: none;
+      transition: border-color 0.18s, background 0.18s, box-shadow 0.18s;
+    }
+
+    input[type="text"].task-input::placeholder { color: #9AA3B0; }
+
+    input[type="text"].task-input:focus {
+      border-color: rgba(56,189,249,0.45);
+      background: rgba(56,189,249,0.05);
+      box-shadow: 0 0 0 3px rgba(56,189,249,0.1);
+    }
+
+    button.task-add-btn {
+      padding: 10px 19px 11px;
+      border-radius: 10px;
+      border: 1px solid rgba(56,189,249,0.3);
+      background: rgba(56,189,249,0.1);
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      color: #38BDF9;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.15s, border-color 0.15s, transform 0.1s;
+    }
+
+    button.task-add-btn:hover {
+      background: rgba(56,189,249,0.18);
+      border-color: rgba(56,189,249,0.55);
+    }
+
+    button.task-add-btn:active { transform: scale(0.97); }
+
+    /* Preview card transitions */
+    #preview-card {
+      transition: box-shadow 0.35s ease;
+    }
+
+    #prev-dest, #prev-class-badge {
+      transition: all 0.2s ease;
+    }
+
+    /* Objective remove button */
+    .prev-obj-remove {
+      flex-shrink: 0;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: rgba(0,0,0,0.28);
+      font-size: 15px;
+      line-height: 1;
+      padding: 0 2px;
+      transition: color 0.12s;
+    }
+    .prev-obj-remove:hover { color: #EF4444; }
+
+    /* ── Responsive ──────────────────────────────────────────── */
+    @media (max-width: 1080px) {
+      .content-card { padding: 36px 28px 56px; }
+      .comp-grid, .comp-grid-3 { grid-template-columns: 1fr; }
+      nav { padding: 0 20px; height: 70px; }
+      .nav-logo { width: 44px; height: 44px; }
+      .nav-brand { font-size: 15px; }
+      .nav-link { font-size: 13px; padding: 6px 12px; }
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 44px;
+      }
+      .hero-desc { max-width: 100%; }
+      .bp-card.w340 { width: min(100%, 340px); }
+      .anatomy-grid { grid-template-columns: 1fr; gap: 32px; }
+      .variants-grid { grid-template-columns: 1fr; gap: 24px; }
+      .dest-table { min-width: 100%; }
+      .bp-barcode { width: 100%; }
+    }
+
+    @media (max-width: 860px) {
+      nav { padding: 0 16px; height: 65px; gap: 12px; }
+      .nav-logo { width: 40px; height: 40px; }
+      .nav-brand { font-size: 14px; }
+      .nav-link { font-size: 12px; padding: 6px 10px; }
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 0 16px; height: 60px; flex-wrap: wrap; }
+      .nav-logo { width: 38px; height: 38px; }
+      .nav-logo svg { width: 20px; height: 20px; }
+      .nav-brand { font-size: 13px; }
+      .nav-links { display: none; }
+      .nav-hamburger { display: flex; }
+      .nav-drawer.open { display: flex; }
+    }
+
+    @media (max-width: 640px) {
+      .page-root { padding: 18px 16px 70px; gap: 20px; }
+      .page-wrap { padding: 14px 12px 60px; gap: 16px; }
+      .content-card { padding: 24px 16px 40px; border-radius: 14px; }
+      nav { border-radius: 14px; top: 8px; padding: 0 14px; height: 56px; }
+      .nav-logo { width: 36px; height: 36px; }
+      .nav-logo svg { width: 18px; height: 18px; }
+      .nav-brand { font-size: 12px; }
+      .nav-hamburger { padding: 6px; }
+      .nav-drawer { padding: 10px; }
+      .nav-link { font-size: 13px; padding: 10px 12px; }
+    }
+
+    @media (max-width: 480px) {
+      .page-root { padding: 14px 12px 60px; }
+      nav { padding: 0 12px; height: 52px; }
+      .nav-logo { width: 32px; height: 32px; }
+      .nav-logo svg { width: 16px; height: 16px; }
+      .nav-brand { font-size: 11px; }
+      .page-wrap { padding: 10px 8px 50px; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="starfield"></canvas>
+<div class="page-root">
+
+  <!-- ── Navigation ──────────────────────────────────────────── -->
+ <nav>
+    <div class="nav-logo">
+      <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
+        <circle cx="15" cy="15" r="6" fill="white"/>
+        <ellipse cx="15" cy="15" rx="13" ry="4" stroke="white" stroke-width="1.3" fill="none"/>
+        <circle cx="4"  cy="11" r="1.1" fill="white" opacity="0.5"/>
+        <circle cx="26" cy="19" r="1.1" fill="white" opacity="0.5"/>
+        <circle cx="23" cy="5"  r="0.7" fill="white" opacity="0.35"/>
+        <circle cx="7"  cy="25" r="0.7" fill="white" opacity="0.35"/>
+      </svg>
+    </div>
+    <span class="nav-brand">Orbit Design System</span>
+    <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+      <svg id="ham-icon" width="22" height="22" viewBox="0 0 22 22" fill="none">
+        <path d="M3 6h16M3 11h16M3 16h16" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+    </button>
+    <div class="nav-links">
+      <a class="nav-link" href="orbit-overview.html">Overview</a>
+      <a class="nav-link active" href="boarding-pass.html">Boarding Pass</a>
+      <a class="nav-link" href="orbit-colors.html">Foundations</a>
+      <a class="nav-link" href="orbit-core-components.html">Core Components</a>
+    </div>
+    <div class="nav-drawer" id="navDrawer">
+      <a class="nav-link" href="orbit-overview.html">Overview</a>
+      <a class="nav-link active" href="boarding-pass.html">Boarding Pass</a>
+      <a class="nav-link" href="orbit-colors.html">Foundations</a>
+      <a class="nav-link" href="orbit-core-components.html">Core Components</a>
+    </div>
+  </nav>
+
+
+  <!-- ── Hero Section ────────────────────────────────────────── -->
+  <section class="section-card" style="padding-bottom: 73px;">
+    <div class="hero-grid">
+      <!-- Left: Text -->
+      <div class="hero-text">
+        <p class="hero-eyebrow">Component Deep Dive</p>
+        <h1 class="hero-title">
+          The<br>
+          <span class="blue">Boarding</span><br>
+          Pass
+        </h1>
+        <p class="hero-desc">
+          FocusRoom's most expressive component. The boarding pass
+          reframes every focus session as a space flight — turning task
+          management into mission control. It's the first thing users see when
+          starting a session, and the last thing they see when landing.
+        </p>
+        <div class="hero-badges">
+          <span class="badge badge-blue">Card Component</span>
+          <span class="badge badge-purple">Session Context</span>
+          <span class="badge badge-green">3 Variants</span>
+        </div>
+      </div>
+      <!-- Right: Boarding Pass Card -->
+      <div class="hero-card-wrap">
+        <div class="hero-card-glow"></div>
+        <div class="bp-card w340">
+          <!-- Header -->
+          <div class="bp-header">
+            <div>
+              <div class="bp-airline">FocusRoom Airways</div>
+              <div class="bp-title-text">BOARDING PASS</div>
+            </div>
+            <div class="bp-class-badge bp-class-first">FIRST</div>
+          </div>
+
+          <!-- Route -->
+          <div class="bp-route">
+            <div class="bp-city">
+              <div class="bp-dir-label">From</div>
+              <div class="bp-city-name">Earth</div>
+              <div class="bp-time">Departing<br>09:00</div>
+            </div>
+            <div class="bp-center-col">
+              <svg class="bp-flight-path flight-arrow" viewBox="0 0 80 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <line x1="0" y1="6" x2="56" y2="6" stroke="#9AA3B0" stroke-width="1" stroke-dasharray="3 2"/>
+                <circle cx="62" cy="6" r="5" fill="#A855F7" opacity="0.8"/>
+                <polygon points="73,6 68,3 68,9" fill="#9AA3B0"/>
+              </svg>
+              <div class="bp-focus-label">90 min deep<br>focus</div>
+            </div>
+            <div class="bp-city right" style="text-align:right;">
+              <div class="bp-dir-label" style="text-align:right;">To</div>
+              <div class="bp-city-name" style="text-align:right;">Saturn</div>
+              <div class="bp-time" style="text-align:right;">Landing 10:30</div>
+            </div>
+          </div>
+
+          <!-- Tear line -->
+          <div class="bp-tear-wrap">
+            <div class="bp-tear-line"></div>
+          </div>
+
+          <!-- Objectives -->
+          <div class="bp-objectives">
+            <div class="bp-obj-header">Mission Objectives (3)</div>
+            <div class="bp-obj-item">
+              <div class="bp-obj-dot bp-obj-dot-purple"></div>
+              <span class="bp-obj-text">Finalize design system tokens</span>
+            </div>
+            <div class="bp-obj-item">
+              <div class="bp-obj-dot bp-obj-dot-purple"></div>
+              <span class="bp-obj-text">Review component library PR</span>
+            </div>
+            <div class="bp-obj-item">
+              <div class="bp-obj-dot bp-obj-dot-purple"></div>
+              <span class="bp-obj-text">Write boarding pass spec doc</span>
+            </div>
+          </div>
+
+          <!-- Barcode -->
+          <div class="bp-barcode">
+            <svg class="barcode-svg-lg" viewBox="0 0 300 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <!-- Procedural barcode bars -->
+              <rect x="2" y="0" width="3" height="48" fill="#000"/>
+              <rect x="7" y="0" width="1.5" height="48" fill="#000"/>
+              <rect x="11" y="0" width="4" height="48" fill="#000"/>
+              <rect x="18" y="0" width="2" height="48" fill="#000"/>
+              <rect x="23" y="0" width="1" height="48" fill="#000"/>
+              <rect x="27" y="0" width="3" height="48" fill="#000"/>
+              <rect x="33" y="0" width="1.5" height="48" fill="#000"/>
+              <rect x="37" y="0" width="4" height="48" fill="#000"/>
+              <rect x="44" y="0" width="2" height="48" fill="#000"/>
+              <rect x="49" y="0" width="1" height="48" fill="#000"/>
+              <rect x="53" y="0" width="3" height="48" fill="#000"/>
+              <rect x="59" y="0" width="1.5" height="48" fill="#000"/>
+              <rect x="63" y="0" width="4" height="48" fill="#000"/>
+              <rect x="70" y="0" width="2" height="48" fill="#000"/>
+              <rect x="75" y="0" width="3" height="48" fill="#000"/>
+              <rect x="81" y="0" width="1" height="48" fill="#000"/>
+              <rect x="85" y="0" width="4" height="48" fill="#000"/>
+              <rect x="92" y="0" width="1.5" height="48" fill="#000"/>
+              <rect x="96" y="0" width="3" height="48" fill="#000"/>
+              <rect x="102" y="0" width="2" height="48" fill="#000"/>
+              <rect x="107" y="0" width="1" height="48" fill="#000"/>
+              <rect x="111" y="0" width="4" height="48" fill="#000"/>
+              <rect x="118" y="0" width="3" height="48" fill="#000"/>
+              <rect x="124" y="0" width="1.5" height="48" fill="#000"/>
+              <rect x="128" y="0" width="2" height="48" fill="#000"/>
+              <rect x="133" y="0" width="4" height="48" fill="#000"/>
+              <rect x="140" y="0" width="1" height="48" fill="#000"/>
+              <rect x="144" y="0" width="3" height="48" fill="#000"/>
+              <rect x="150" y="0" width="2" height="48" fill="#000"/>
+              <rect x="155" y="0" width="1.5" height="48" fill="#000"/>
+              <rect x="159" y="0" width="4" height="48" fill="#000"/>
+              <rect x="166" y="0" width="1" height="48" fill="#000"/>
+              <rect x="170" y="0" width="3" height="48" fill="#000"/>
+              <rect x="176" y="0" width="2" height="48" fill="#000"/>
+              <rect x="181" y="0" width="1.5" height="48" fill="#000"/>
+              <rect x="185" y="0" width="4" height="48" fill="#000"/>
+              <rect x="192" y="0" width="1" height="48" fill="#000"/>
+              <rect x="196" y="0" width="3" height="48" fill="#000"/>
+              <rect x="202" y="0" width="2" height="48" fill="#000"/>
+              <rect x="207" y="0" width="1.5" height="48" fill="#000"/>
+              <rect x="211" y="0" width="4" height="48" fill="#000"/>
+              <rect x="218" y="0" width="3" height="48" fill="#000"/>
+              <rect x="224" y="0" width="1" height="48" fill="#000"/>
+              <rect x="228" y="0" width="2" height="48" fill="#000"/>
+              <rect x="233" y="0" width="4" height="48" fill="#000"/>
+              <rect x="240" y="0" width="1.5" height="48" fill="#000"/>
+              <rect x="244" y="0" width="3" height="48" fill="#000"/>
+              <rect x="250" y="0" width="2" height="48" fill="#000"/>
+              <rect x="255" y="0" width="1" height="48" fill="#000"/>
+              <rect x="259" y="0" width="4" height="48" fill="#000"/>
+              <rect x="266" y="0" width="3" height="48" fill="#000"/>
+              <rect x="272" y="0" width="1.5" height="48" fill="#000"/>
+              <rect x="276" y="0" width="2" height="48" fill="#000"/>
+              <rect x="281" y="0" width="4" height="48" fill="#000"/>
+              <rect x="288" y="0" width="1" height="48" fill="#000"/>
+              <rect x="292" y="0" width="3" height="48" fill="#000"/>
+              <rect x="298" y="0" width="2" height="48" fill="#000"/>
+            </svg>
+            <div class="bp-ticket-num">TKT-EaSa-920471</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Anatomy Section ─────────────────────────────────────── -->
+  <section class="section-card">
+    <div class="section-heading">Anatomy</div>
+    <hr class="blue-rule" />
+
+    <div class="anatomy-grid">
+      <!-- Left: Annotated Card -->
+      <div class="anatomy-card-wrap">
+        <div style="position:relative; display:flex; align-items:center; justify-content:center; width:100%; padding: 40px 20px;">
+          <!-- Label callout lines (SVG overlay) -->
+          <svg style="position:absolute; inset:0; width:100%; height:100%; pointer-events:none; overflow:visible;" viewBox="0 0 520 520">
+            <!-- Line 1: Header -->
+            <line x1="28" y1="75" x2="96" y2="95" stroke="#38BDF9" stroke-width="2" opacity="0.5"/>
+            <circle cx="26" cy="75" r="5" fill="#38BDF9" opacity="0.7"/>
+            <!-- Line 2: Route -->
+            <line x1="28" y1="148" x2="96" y2="165" stroke="#A855F7" stroke-width="2" opacity="0.5"/>
+            <circle cx="26" cy="148" r="5" fill="#A855F7" opacity="0.7"/>
+            <!-- Line 3: Flight path -->
+            <line x1="28" y1="245" x2="96" y2="215" stroke="#22C55D" stroke-width="2" opacity="0.5"/>
+            <circle cx="26" cy="245" r="5" fill="#22C55D" opacity="0.7"/>
+            <!-- Line 4: Tear -->
+            <line x1="28" y1="315" x2="96" y2="280" stroke="#FACC14" stroke-width="2" opacity="0.5"/>
+            <circle cx="26" cy="315" r="5" fill="#FACC14" opacity="0.7"/>
+            <!-- Line 5: Objectives -->
+            <line x1="28" y1="385" x2="96" y2="340" stroke="#F97315" stroke-width="2" opacity="0.5"/>
+            <circle cx="26" cy="385" r="5" fill="#F97315" opacity="0.7"/>
+            <!-- Line 6: Barcode -->
+            <line x1="28" y1="430" x2="96" y2="430" stroke="#EF4444" stroke-width="2" opacity="0.5"/>
+            <circle cx="26" cy="430" r="5" fill="#EF4444" opacity="0.7"/>
+          </svg>
+
+          <!-- The actual annotated card -->
+          <div class="bp-card" style="width:340px; box-shadow: 0 0 32px rgba(0,0,0,0.5); border-color: rgba(0,0,0,0.18);">
+            <!-- Header -->
+            <div class="bp-header">
+              <div>
+                <div class="bp-airline">FocusRoom Airways</div>
+                <div class="bp-title-text">BOARDING PASS</div>
+              </div>
+              <div class="bp-class-badge bp-class-economy">ECONOMY</div>
+            </div>
+            <!-- Route -->
+            <div class="bp-route">
+              <div class="bp-city">
+                <div class="bp-dir-label">From</div>
+                <div class="bp-city-name">Earth</div>
+                <div class="bp-time">Departing at 14:25</div>
+              </div>
+              <div class="bp-center-col">
+                <svg viewBox="0 0 86 6" style="width:86px;height:6px;display:block;" fill="none">
+                  <line x1="0" y1="3" x2="68" y2="3" stroke="#ccc" stroke-width="1" stroke-dasharray="4 3"/>
+                  <polygon points="80,3 70,0 70,6" fill="#aaa"/>
+                </svg>
+                <div class="bp-focus-label">45min of deep focus</div>
+              </div>
+              <div class="bp-city right" style="text-align:right;">
+                <div class="bp-dir-label" style="text-align:right;">To</div>
+                <div class="bp-city-name" style="text-align:right;">Mercury</div>
+                <div class="bp-time" style="text-align:right;">Landing at 15:10</div>
+              </div>
+            </div>
+            <!-- Tear -->
+            <div class="bp-tear-wrap"><div class="bp-tear-line"></div></div>
+            <!-- Objectives -->
+            <div class="bp-objectives">
+              <div class="bp-obj-header">MISSION OBJECTIVES (1)</div>
+              <div class="bp-obj-item">
+                <div class="bp-obj-dot bp-obj-dot-purple"></div>
+                <span class="bp-obj-text">UI Audit</span>
+              </div>
+            </div>
+            <!-- Barcode -->
+            <div class="bp-barcode">
+              <svg viewBox="0 0 333 50" style="width:260px;height:40px;" aria-label="Session barcode" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+                <rect x="2" y="0" width="3" height="50" fill="#000"/>
+                <rect x="7" y="0" width="1.5" height="50" fill="#000"/>
+                <rect x="11" y="0" width="4" height="50" fill="#000"/>
+                <rect x="18" y="0" width="2" height="50" fill="#000"/>
+                <rect x="23" y="0" width="1" height="50" fill="#000"/>
+                <rect x="27" y="0" width="3" height="50" fill="#000"/>
+                <rect x="33" y="0" width="1.5" height="50" fill="#000"/>
+                <rect x="37" y="0" width="4" height="50" fill="#000"/>
+                <rect x="44" y="0" width="2" height="50" fill="#000"/>
+                <rect x="49" y="0" width="3" height="50" fill="#000"/>
+                <rect x="55" y="0" width="1" height="50" fill="#000"/>
+                <rect x="59" y="0" width="4" height="50" fill="#000"/>
+                <rect x="66" y="0" width="2" height="50" fill="#000"/>
+                <rect x="71" y="0" width="1.5" height="50" fill="#000"/>
+                <rect x="75" y="0" width="3" height="50" fill="#000"/>
+                <rect x="81" y="0" width="4" height="50" fill="#000"/>
+                <rect x="88" y="0" width="2" height="50" fill="#000"/>
+                <rect x="93" y="0" width="1" height="50" fill="#000"/>
+                <rect x="97" y="0" width="3" height="50" fill="#000"/>
+                <rect x="103" y="0" width="1.5" height="50" fill="#000"/>
+                <rect x="107" y="0" width="4" height="50" fill="#000"/>
+                <rect x="114" y="0" width="2" height="50" fill="#000"/>
+                <rect x="119" y="0" width="1" height="50" fill="#000"/>
+                <rect x="123" y="0" width="3" height="50" fill="#000"/>
+                <rect x="129" y="0" width="4" height="50" fill="#000"/>
+                <rect x="136" y="0" width="2" height="50" fill="#000"/>
+                <rect x="141" y="0" width="1.5" height="50" fill="#000"/>
+                <rect x="145" y="0" width="3" height="50" fill="#000"/>
+                <rect x="151" y="0" width="1" height="50" fill="#000"/>
+                <rect x="155" y="0" width="4" height="50" fill="#000"/>
+                <rect x="162" y="0" width="2" height="50" fill="#000"/>
+                <rect x="167" y="0" width="3" height="50" fill="#000"/>
+                <rect x="173" y="0" width="1.5" height="50" fill="#000"/>
+                <rect x="177" y="0" width="1" height="50" fill="#000"/>
+                <rect x="181" y="0" width="4" height="50" fill="#000"/>
+                <rect x="188" y="0" width="2" height="50" fill="#000"/>
+                <rect x="193" y="0" width="3" height="50" fill="#000"/>
+                <rect x="199" y="0" width="1.5" height="50" fill="#000"/>
+                <rect x="203" y="0" width="2" height="50" fill="#000"/>
+                <rect x="208" y="0" width="4" height="50" fill="#000"/>
+                <rect x="215" y="0" width="1" height="50" fill="#000"/>
+                <rect x="219" y="0" width="3" height="50" fill="#000"/>
+                <rect x="225" y="0" width="1.5" height="50" fill="#000"/>
+                <rect x="229" y="0" width="2" height="50" fill="#000"/>
+                <rect x="234" y="0" width="4" height="50" fill="#000"/>
+                <rect x="241" y="0" width="3" height="50" fill="#000"/>
+                <rect x="247" y="0" width="1" height="50" fill="#000"/>
+                <rect x="251" y="0" width="2" height="50" fill="#000"/>
+                <rect x="256" y="0" width="1.5" height="50" fill="#000"/>
+                <rect x="260" y="0" width="4" height="50" fill="#000"/>
+                <rect x="267" y="0" width="2" height="50" fill="#000"/>
+                <rect x="272" y="0" width="3" height="50" fill="#000"/>
+                <rect x="278" y="0" width="1" height="50" fill="#000"/>
+                <rect x="282" y="0" width="4" height="50" fill="#000"/>
+                <rect x="289" y="0" width="1.5" height="50" fill="#000"/>
+                <rect x="293" y="0" width="3" height="50" fill="#000"/>
+                <rect x="299" y="0" width="2" height="50" fill="#000"/>
+                <rect x="304" y="0" width="1" height="50" fill="#000"/>
+                <rect x="308" y="0" width="4" height="50" fill="#000"/>
+                <rect x="315" y="0" width="3" height="50" fill="#000"/>
+                <rect x="321" y="0" width="1.5" height="50" fill="#000"/>
+                <rect x="325" y="0" width="2" height="50" fill="#000"/>
+                <rect x="330" y="0" width="3" height="50" fill="#000"/>
+              </svg>
+              <div class="bp-ticket-num">TKT-EaMe-336824</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Labels -->
+      <div class="anatomy-labels">
+        <div class="anatomy-row">
+          <div class="anatomy-num anatomy-num-1">1</div>
+          <div class="anatomy-body">
+            <div class="anatomy-label-name color-blue">Header</div>
+            <div class="anatomy-label-desc">The airline line reads "FocusRoom Airways" — always uppercase, 10px, letter-spaced. Below it: "BOARDING PASS" in 15px/800 weight. The class badge (Economy, Business, First) floats right.</div>
+          </div>
+        </div>
+        <div class="anatomy-row">
+          <div class="anatomy-num anatomy-num-2">2</div>
+          <div class="anatomy-body">
+            <div class="anatomy-label-name color-purple">Route Block</div>
+            <div class="anatomy-label-desc">Origin planet and destination planet displayed at 28px/800 weight. Departure and arrival times sit below in 12px muted text. The FROM and TO labels are 10px uppercase tracking.</div>
+          </div>
+        </div>
+        <div class="anatomy-row">
+          <div class="anatomy-num anatomy-num-3">3</div>
+          <div class="anatomy-body">
+            <div class="anatomy-label-name color-green">Flight Path Indicator</div>
+            <div class="anatomy-label-desc">A dashed SVG line with an arrow and a purple destination dot. The label below shows the session duration (e.g. "45 min deep focus"). Centered between origin and destination.</div>
+          </div>
+        </div>
+        <div class="anatomy-row">
+          <div class="anatomy-num anatomy-num-4">4</div>
+          <div class="anatomy-body">
+            <div class="anatomy-label-name color-yellow">Tear Divider</div>
+            <div class="anatomy-label-desc">A 1px horizontal rule with two 20px semicircle notches punched from each side — mimicking a physical tear line on a real boarding pass. The notch color matches the page background.</div>
+          </div>
+        </div>
+        <div class="anatomy-row">
+          <div class="anatomy-num anatomy-num-5">5</div>
+          <div class="anatomy-body">
+            <div class="anatomy-label-name color-orange">Mission Objectives</div>
+            <div class="anatomy-label-desc">Task list with a count in the label. Each task preceded by a 6px purple dot. Font: 13px/500 Poppins. Max display: 5 items. Additional items show "+ N more" overflow label.</div>
+          </div>
+        </div>
+        <div class="anatomy-row">
+          <div class="anatomy-num anatomy-num-6">6</div>
+          <div class="anatomy-body">
+            <div class="anatomy-label-name color-red">Barcode + Session Token</div>
+            <div class="anatomy-label-desc">Procedural SVG barcode. Token format: <span class="inline-code">TKT-{Origin2}{Dest2}-{ID6}</span>. E.g. TKT-EaMe-336824 maps to Earth → Mercury.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Class Variants Section ──────────────────────────────── -->
+  <section class="section-card" style="height: auto; padding: 60px 65px 73px;">
+    <div class="section-heading">Class Variants</div>
+    <hr class="blue-rule" />
+    <p class="section-desc">Three class tiers map to session intensity. Economy is the default; Business and First unlock as the user hits streak milestones or purchases upgrades.</p>
+
+    <div class="variants-grid">
+
+      <!-- Economy -->
+      <div class="variant-col">
+        <div class="variant-label variant-label-economy">Economy Class</div>
+        <div class="bp-card w300">
+          <div class="bp-header">
+            <div>
+              <div class="bp-airline">FocusRoom Airways</div>
+              <div class="bp-title-text">BOARDING PASS</div>
+            </div>
+            <div class="bp-class-badge bp-class-economy">Economy</div>
+          </div>
+          <div class="bp-route">
+            <div class="bp-city">
+              <div class="bp-dir-label">From</div>
+              <div class="bp-city-name">Earth</div>
+              <div class="bp-time">Dep. 09:00</div>
+            </div>
+            <div class="bp-center-col">
+              <svg viewBox="0 0 60 10" style="width:60px;height:10px;" fill="none">
+                <line x1="0" y1="5" x2="46" y2="5" stroke="#ccc" stroke-width="1" stroke-dasharray="3 2"/>
+                <circle cx="51" cy="5" r="4" fill="#A855F7" opacity="0.8"/>
+                <polygon points="60,5 55,2 55,8" fill="#aaa"/>
+              </svg>
+              <div class="bp-focus-label">25 min focus</div>
+            </div>
+            <div class="bp-city right" style="text-align:right;">
+              <div class="bp-dir-label" style="text-align:right;">To</div>
+              <div class="bp-city-name" style="text-align:right;">Mars</div>
+              <div class="bp-time" style="text-align:right;">Arr. 09:25</div>
+            </div>
+          </div>
+          <div class="bp-tear-wrap"><div class="bp-tear-line"></div></div>
+          <div class="bp-objectives">
+            <div class="bp-obj-header">Mission Objectives (1)</div>
+            <div class="bp-obj-item">
+              <div class="bp-obj-dot bp-obj-dot-purple"></div>
+              <span class="bp-obj-text">Morning standup prep</span>
+            </div>
+          </div>
+          <div class="bp-barcode">
+            <svg viewBox="0 0 240 36" style="width:200px;height:30px;" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+              <rect x="2" y="0" width="3" height="36" fill="#000"/><rect x="7" y="0" width="1.5" height="36" fill="#000"/><rect x="11" y="0" width="4" height="36" fill="#000"/><rect x="18" y="0" width="2" height="36" fill="#000"/><rect x="23" y="0" width="1" height="36" fill="#000"/><rect x="27" y="0" width="3" height="36" fill="#000"/><rect x="33" y="0" width="1.5" height="36" fill="#000"/><rect x="37" y="0" width="4" height="36" fill="#000"/><rect x="44" y="0" width="2" height="36" fill="#000"/><rect x="49" y="0" width="3" height="36" fill="#000"/><rect x="55" y="0" width="1" height="36" fill="#000"/><rect x="59" y="0" width="4" height="36" fill="#000"/><rect x="66" y="0" width="2" height="36" fill="#000"/><rect x="71" y="0" width="1.5" height="36" fill="#000"/><rect x="75" y="0" width="3" height="36" fill="#000"/><rect x="81" y="0" width="1" height="36" fill="#000"/><rect x="85" y="0" width="4" height="36" fill="#000"/><rect x="92" y="0" width="2" height="36" fill="#000"/><rect x="97" y="0" width="1.5" height="36" fill="#000"/><rect x="101" y="0" width="3" height="36" fill="#000"/><rect x="107" y="0" width="1" height="36" fill="#000"/><rect x="111" y="0" width="4" height="36" fill="#000"/><rect x="118" y="0" width="2" height="36" fill="#000"/><rect x="123" y="0" width="3" height="36" fill="#000"/><rect x="129" y="0" width="1" height="36" fill="#000"/><rect x="133" y="0" width="4" height="36" fill="#000"/><rect x="140" y="0" width="1.5" height="36" fill="#000"/><rect x="144" y="0" width="2" height="36" fill="#000"/><rect x="149" y="0" width="3" height="36" fill="#000"/><rect x="155" y="0" width="1" height="36" fill="#000"/><rect x="159" y="0" width="4" height="36" fill="#000"/><rect x="166" y="0" width="2" height="36" fill="#000"/><rect x="171" y="0" width="1.5" height="36" fill="#000"/><rect x="175" y="0" width="3" height="36" fill="#000"/><rect x="181" y="0" width="4" height="36" fill="#000"/><rect x="188" y="0" width="2" height="36" fill="#000"/><rect x="193" y="0" width="1" height="36" fill="#000"/><rect x="197" y="0" width="3" height="36" fill="#000"/><rect x="203" y="0" width="1.5" height="36" fill="#000"/><rect x="207" y="0" width="4" height="36" fill="#000"/><rect x="214" y="0" width="2" height="36" fill="#000"/><rect x="219" y="0" width="1" height="36" fill="#000"/><rect x="223" y="0" width="3" height="36" fill="#000"/><rect x="229" y="0" width="1.5" height="36" fill="#000"/><rect x="233" y="0" width="4" height="36" fill="#000"/>
+            </svg>
+            <div class="bp-ticket-num">TKT-EaMa-112043</div>
+          </div>
+        </div>
+        <div class="variant-desc">Default tier. Dark badge, no color accent on the class marker. Available to all users.</div>
+      </div>
+
+      <!-- Business -->
+      <div class="variant-col">
+        <div class="variant-label variant-label-business">Business Class</div>
+        <div class="bp-card w300">
+          <div class="bp-header">
+            <div>
+              <div class="bp-airline">FocusRoom Airways</div>
+              <div class="bp-title-text">BOARDING PASS</div>
+            </div>
+            <div class="bp-class-badge bp-class-business">Business</div>
+          </div>
+          <div class="bp-route">
+            <div class="bp-city">
+              <div class="bp-dir-label">From</div>
+              <div class="bp-city-name">Earth</div>
+              <div class="bp-time">Dep. 11:00</div>
+            </div>
+            <div class="bp-center-col">
+              <svg viewBox="0 0 60 10" style="width:60px;height:10px;" fill="none">
+                <line x1="0" y1="5" x2="46" y2="5" stroke="#ccc" stroke-width="1" stroke-dasharray="3 2"/>
+                <circle cx="51" cy="5" r="4" fill="#FACC14" opacity="0.8"/>
+                <polygon points="60,5 55,2 55,8" fill="#aaa"/>
+              </svg>
+              <div class="bp-focus-label">60 min focus</div>
+            </div>
+            <div class="bp-city right" style="text-align:right;">
+              <div class="bp-dir-label" style="text-align:right;">To</div>
+              <div class="bp-city-name" style="text-align:right;">Jupiter</div>
+              <div class="bp-time" style="text-align:right;">Arr. 12:00</div>
+            </div>
+          </div>
+          <div class="bp-tear-wrap"><div class="bp-tear-line"></div></div>
+          <div class="bp-objectives">
+            <div class="bp-obj-header">Mission Objectives (2)</div>
+            <div class="bp-obj-item">
+              <div class="bp-obj-dot" style="background:#FACC14;width:6px;height:6px;border-radius:3px;flex-shrink:0;"></div>
+              <span class="bp-obj-text">Q3 strategy deck</span>
+            </div>
+            <div class="bp-obj-item">
+              <div class="bp-obj-dot" style="background:#FACC14;width:6px;height:6px;border-radius:3px;flex-shrink:0;"></div>
+              <span class="bp-obj-text">Team sync agenda</span>
+            </div>
+          </div>
+          <div class="bp-barcode">
+            <svg viewBox="0 0 240 36" style="width:200px;height:30px;" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+              <rect x="2" y="0" width="3" height="36" fill="#000"/><rect x="7" y="0" width="1.5" height="36" fill="#000"/><rect x="11" y="0" width="4" height="36" fill="#000"/><rect x="18" y="0" width="2" height="36" fill="#000"/><rect x="23" y="0" width="1" height="36" fill="#000"/><rect x="27" y="0" width="3" height="36" fill="#000"/><rect x="33" y="0" width="4" height="36" fill="#000"/><rect x="40" y="0" width="1.5" height="36" fill="#000"/><rect x="44" y="0" width="2" height="36" fill="#000"/><rect x="49" y="0" width="3" height="36" fill="#000"/><rect x="55" y="0" width="1" height="36" fill="#000"/><rect x="59" y="0" width="4" height="36" fill="#000"/><rect x="66" y="0" width="2" height="36" fill="#000"/><rect x="71" y="0" width="3" height="36" fill="#000"/><rect x="77" y="0" width="1.5" height="36" fill="#000"/><rect x="81" y="0" width="1" height="36" fill="#000"/><rect x="85" y="0" width="4" height="36" fill="#000"/><rect x="92" y="0" width="2" height="36" fill="#000"/><rect x="97" y="0" width="3" height="36" fill="#000"/><rect x="103" y="0" width="1" height="36" fill="#000"/><rect x="107" y="0" width="4" height="36" fill="#000"/><rect x="114" y="0" width="1.5" height="36" fill="#000"/><rect x="118" y="0" width="2" height="36" fill="#000"/><rect x="123" y="0" width="3" height="36" fill="#000"/><rect x="129" y="0" width="1" height="36" fill="#000"/><rect x="133" y="0" width="4" height="36" fill="#000"/><rect x="140" y="0" width="2" height="36" fill="#000"/><rect x="145" y="0" width="1.5" height="36" fill="#000"/><rect x="149" y="0" width="3" height="36" fill="#000"/><rect x="155" y="0" width="4" height="36" fill="#000"/><rect x="162" y="0" width="2" height="36" fill="#000"/><rect x="167" y="0" width="1" height="36" fill="#000"/><rect x="171" y="0" width="3" height="36" fill="#000"/><rect x="177" y="0" width="1.5" height="36" fill="#000"/><rect x="181" y="0" width="4" height="36" fill="#000"/><rect x="188" y="0" width="2" height="36" fill="#000"/><rect x="193" y="0" width="1" height="36" fill="#000"/><rect x="197" y="0" width="3" height="36" fill="#000"/><rect x="203" y="0" width="4" height="36" fill="#000"/><rect x="210" y="0" width="1.5" height="36" fill="#000"/><rect x="214" y="0" width="2" height="36" fill="#000"/><rect x="219" y="0" width="1" height="36" fill="#000"/><rect x="223" y="0" width="4" height="36" fill="#000"/><rect x="230" y="0" width="3" height="36" fill="#000"/><rect x="236" y="0" width="1.5" height="36" fill="#000"/>
+            </svg>
+            <div class="bp-ticket-num">TKT-EaJu-774219</div>
+          </div>
+        </div>
+        <div class="variant-desc">Yellow-orange gradient badge. Objective dots shift to yellow. Unlocked at 7-day focus streak.</div>
+      </div>
+
+      <!-- First Class -->
+      <div class="variant-col">
+        <div class="variant-label variant-label-first">First Class</div>
+        <div class="bp-card w300">
+          <div class="bp-header">
+            <div>
+              <div class="bp-airline">FocusRoom Airways</div>
+              <div class="bp-title-text">BOARDING PASS</div>
+            </div>
+            <div class="bp-class-badge bp-class-first">First</div>
+          </div>
+          <div class="bp-route">
+            <div class="bp-city">
+              <div class="bp-dir-label">From</div>
+              <div class="bp-city-name">Earth</div>
+              <div class="bp-time">Dep. 14:00</div>
+            </div>
+            <div class="bp-center-col">
+              <svg viewBox="0 0 60 10" style="width:60px;height:10px;" fill="none">
+                <line x1="0" y1="5" x2="46" y2="5" stroke="#ccc" stroke-width="1" stroke-dasharray="3 2"/>
+                <circle cx="51" cy="5" r="4" fill="#A855F7" opacity="0.8"/>
+                <polygon points="60,5 55,2 55,8" fill="#aaa"/>
+              </svg>
+              <div class="bp-focus-label">120 min deep<br>focus</div>
+            </div>
+            <div class="bp-city right" style="text-align:right;">
+              <div class="bp-dir-label" style="text-align:right;">To</div>
+              <div class="bp-city-name" style="text-align:right;">Pluto</div>
+              <div class="bp-time" style="text-align:right;">Arr. 16:00</div>
+            </div>
+          </div>
+          <div class="bp-tear-wrap"><div class="bp-tear-line"></div></div>
+          <div class="bp-objectives">
+            <div class="bp-obj-header">Mission Objectives (3)</div>
+            <div class="bp-obj-item">
+              <div class="bp-obj-dot bp-obj-dot-purple"></div>
+              <span class="bp-obj-text">Architecture proposal</span>
+            </div>
+            <div class="bp-obj-item">
+              <div class="bp-obj-dot bp-obj-dot-purple"></div>
+              <span class="bp-obj-text">Write RFC draft</span>
+            </div>
+            <div class="bp-obj-item">
+              <div class="bp-obj-dot bp-obj-dot-purple"></div>
+              <span class="bp-obj-text">Peer review session</span>
+            </div>
+          </div>
+          <div class="bp-barcode">
+            <svg viewBox="0 0 240 36" style="width:200px;height:30px;" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+              <rect x="2" y="0" width="2" height="36" fill="#000"/><rect x="6" y="0" width="4" height="36" fill="#000"/><rect x="13" y="0" width="1.5" height="36" fill="#000"/><rect x="17" y="0" width="3" height="36" fill="#000"/><rect x="23" y="0" width="2" height="36" fill="#000"/><rect x="28" y="0" width="1" height="36" fill="#000"/><rect x="32" y="0" width="4" height="36" fill="#000"/><rect x="39" y="0" width="3" height="36" fill="#000"/><rect x="45" y="0" width="1.5" height="36" fill="#000"/><rect x="49" y="0" width="2" height="36" fill="#000"/><rect x="54" y="0" width="4" height="36" fill="#000"/><rect x="61" y="0" width="1" height="36" fill="#000"/><rect x="65" y="0" width="3" height="36" fill="#000"/><rect x="71" y="0" width="2" height="36" fill="#000"/><rect x="76" y="0" width="1.5" height="36" fill="#000"/><rect x="80" y="0" width="4" height="36" fill="#000"/><rect x="87" y="0" width="1" height="36" fill="#000"/><rect x="91" y="0" width="3" height="36" fill="#000"/><rect x="97" y="0" width="4" height="36" fill="#000"/><rect x="104" y="0" width="2" height="36" fill="#000"/><rect x="109" y="0" width="1.5" height="36" fill="#000"/><rect x="113" y="0" width="3" height="36" fill="#000"/><rect x="119" y="0" width="1" height="36" fill="#000"/><rect x="123" y="0" width="4" height="36" fill="#000"/><rect x="130" y="0" width="2" height="36" fill="#000"/><rect x="135" y="0" width="3" height="36" fill="#000"/><rect x="141" y="0" width="1" height="36" fill="#000"/><rect x="145" y="0" width="4" height="36" fill="#000"/><rect x="152" y="0" width="1.5" height="36" fill="#000"/><rect x="156" y="0" width="2" height="36" fill="#000"/><rect x="161" y="0" width="3" height="36" fill="#000"/><rect x="167" y="0" width="4" height="36" fill="#000"/><rect x="174" y="0" width="2" height="36" fill="#000"/><rect x="179" y="0" width="1" height="36" fill="#000"/><rect x="183" y="0" width="3" height="36" fill="#000"/><rect x="189" y="0" width="1.5" height="36" fill="#000"/><rect x="193" y="0" width="4" height="36" fill="#000"/><rect x="200" y="0" width="2" height="36" fill="#000"/><rect x="205" y="0" width="1" height="36" fill="#000"/><rect x="209" y="0" width="3" height="36" fill="#000"/><rect x="215" y="0" width="4" height="36" fill="#000"/><rect x="222" y="0" width="1.5" height="36" fill="#000"/><rect x="226" y="0" width="2" height="36" fill="#000"/><rect x="231" y="0" width="3" height="36" fill="#000"/><rect x="237" y="0" width="2" height="36" fill="#000"/>
+            </svg>
+            <div class="bp-ticket-num">TKT-EaPl-338812</div>
+          </div>
+        </div>
+        <div class="variant-desc">Purple-to-indigo gradient badge. Unlocked with premium plan or 30-day streak.</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── Destination Planets Table ───────────────────────────── -->
+  <section class="section-card compact">
+    <div class="section-heading">Destination Planets</div>
+    <hr class="blue-rule" />
+    <p class="section-desc">Each destination maps to a focus milestone. Closer planets = shorter sessions; outer planets = deep work blocks. Choosing your destination sets the session tone before a single minute has been logged.</p>
+
+    <div class="dest-table-wrap">
+    <table class="dest-table">
+      <thead>
+        <tr>
+          <th>Planet</th>
+          <th>Session Length</th>
+          <th>Difficulty</th>
+          <th>Ideal For</th>
+          <th>Token Code</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <div class="planet-cell">
+              <div class="planet-orb planet-mars"></div>
+              Mars
+            </div>
+          </td>
+          <td>15–25 min</td>
+          <td>
+            <div class="difficulty-pips">
+              <div class="pip pip-on"></div>
+              <div class="pip pip-off"></div>
+              <div class="pip pip-off"></div>
+              <div class="pip pip-off"></div>
+            </div>
+          </td>
+          <td>Email triage, quick reviews</td>
+          <td><span class="code-tag">Ma</span></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="planet-cell">
+              <div class="planet-orb planet-mercury"></div>
+              Mercury
+            </div>
+          </td>
+          <td>30–45 min</td>
+          <td>
+            <div class="difficulty-pips">
+              <div class="pip pip-on"></div>
+              <div class="pip pip-on"></div>
+              <div class="pip pip-off"></div>
+              <div class="pip pip-off"></div>
+            </div>
+          </td>
+          <td>Focused reading, bug fixing</td>
+          <td><span class="code-tag">Me</span></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="planet-cell">
+              <div class="planet-orb planet-venus"></div>
+              Venus
+            </div>
+          </td>
+          <td>45–60 min</td>
+          <td>
+            <div class="difficulty-pips">
+              <div class="pip pip-on"></div>
+              <div class="pip pip-on"></div>
+              <div class="pip pip-on"></div>
+              <div class="pip pip-off"></div>
+            </div>
+          </td>
+          <td>Design work, drafting</td>
+          <td><span class="code-tag">Ve</span></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="planet-cell">
+              <div class="planet-orb planet-jupiter"></div>
+              Jupiter
+            </div>
+          </td>
+          <td>60–90 min</td>
+          <td>
+            <div class="difficulty-pips">
+              <div class="pip pip-on"></div>
+              <div class="pip pip-on"></div>
+              <div class="pip pip-on"></div>
+              <div class="pip pip-off"></div>
+            </div>
+          </td>
+          <td>Strategy, planning sessions</td>
+          <td><span class="code-tag">Ju</span></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="planet-cell">
+              <div class="planet-orb planet-saturn"></div>
+              Saturn
+            </div>
+          </td>
+          <td>90–120 min</td>
+          <td>
+            <div class="difficulty-pips">
+              <div class="pip pip-on"></div>
+              <div class="pip pip-on"></div>
+              <div class="pip pip-on"></div>
+              <div class="pip pip-on"></div>
+            </div>
+          </td>
+          <td>Deep coding, long-form writing</td>
+          <td><span class="code-tag">Sa</span></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="planet-cell">
+              <div class="planet-orb planet-uranus"></div>
+              Uranus
+            </div>
+          </td>
+          <td>120–150 min</td>
+          <td>
+            <div class="difficulty-pips">
+              <div class="pip pip-on"></div>
+              <div class="pip pip-on"></div>
+              <div class="pip pip-on"></div>
+              <div class="pip pip-on"></div>
+            </div>
+          </td>
+          <td>Research blocks, architecture</td>
+          <td><span class="code-tag">Ur</span></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="planet-cell">
+              <div class="planet-orb planet-neptune"></div>
+              Neptune
+            </div>
+          </td>
+          <td>150–180 min</td>
+          <td>
+            <div class="difficulty-pips">
+              <div class="pip pip-on"></div>
+              <div class="pip pip-on"></div>
+              <div class="pip pip-on"></div>
+              <div class="pip pip-on"></div>
+            </div>
+          </td>
+          <td>Marathon work sessions</td>
+          <td><span class="code-tag">Ne</span></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="planet-cell">
+              <div class="planet-orb planet-pluto"></div>
+              Pluto
+            </div>
+          </td>
+          <td>180+ min</td>
+          <td>
+            <div class="difficulty-pips">
+              <div class="pip pip-on"></div>
+              <div class="pip pip-on"></div>
+              <div class="pip pip-on"></div>
+              <div class="pip pip-on"></div>
+            </div>
+          </td>
+          <td>Full-day sprints, thesis mode</td>
+          <td><span class="code-tag">Pl</span></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </section>
+
+  <!-- ── Interactive Builder Section ─────────────────────────── -->
+  <section class="section-card" id="builder-section">
+    <div class="section-heading">Interactive Builder</div>
+    <hr class="blue-rule" />
+    <p class="section-desc">Configure a boarding pass and see it render live. Use this to validate layout with real content before finalizing designs.</p>
+
+    <div class="builder-layout">
+      <!-- Controls -->
+      <div class="controls">
+
+        <!-- Destination -->
+        <div>
+          <div class="control-label">Destination Planet</div>
+          <div class="control-row" id="chip-destination">
+            <div class="ctrl-chip" data-value="Mars">Mars</div>
+            <div class="ctrl-chip" data-value="Mercury">Mercury</div>
+            <div class="ctrl-chip" data-value="Venus">Venus</div>
+            <div class="ctrl-chip" data-value="Jupiter">Jupiter</div>
+            <div class="ctrl-chip active" data-value="Saturn">Saturn</div>
+            <div class="ctrl-chip" data-value="Uranus">Uranus</div>
+            <div class="ctrl-chip" data-value="Neptune">Neptune</div>
+            <div class="ctrl-chip" data-value="Pluto">Pluto</div>
+          </div>
+        </div>
+
+        <!-- Cabin Class -->
+        <div>
+          <div class="control-label">Cabin Class</div>
+          <div class="control-row" id="chip-class">
+            <div class="ctrl-chip active" data-value="Economy">Economy</div>
+            <div class="ctrl-chip" data-value="Business">Business</div>
+            <div class="ctrl-chip" data-value="First">First Class</div>
+          </div>
+        </div>
+
+        <!-- Session Duration -->
+        <div>
+          <div class="control-label">Session Duration</div>
+          <div class="dur-display">
+            <span class="dur-value" id="dur-display">90</span>
+            <span class="dur-unit">min</span>
+          </div>
+          <input type="range" class="dur-slider" id="dur-slider" min="15" max="240" step="15" value="90" />
+        </div>
+
+        <!-- Departure Time -->
+        <div>
+          <div class="control-label">Departure Time</div>
+          <div class="control-row" id="chip-time">
+            <div class="ctrl-chip" data-value="Morning">Morning</div>
+            <div class="ctrl-chip" data-value="Noon">Noon</div>
+            <div class="ctrl-chip active" data-value="Afternoon">Afternoon</div>
+            <div class="ctrl-chip" data-value="Evening">Evening</div>
+          </div>
+        </div>
+
+        <!-- Mission Objectives -->
+        <div>
+          <div class="control-label">Mission Objectives</div>
+          <div class="task-input-row">
+            <input type="text" class="task-input" id="task-input" placeholder="Enter a focus task…" maxlength="60" />
+            <button class="task-add-btn" id="task-add-btn">+ Add</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Live Preview -->
+      <div>
+        <div class="preview-label">Live Preview</div>
+        <div class="preview-pane">
+          <div class="preview-glow" id="prev-glow"></div>
+          <div class="bp-card w340" id="preview-card">
+
+            <div class="bp-header">
+              <div>
+                <div class="bp-airline">FocusRoom Airways</div>
+                <div class="bp-title-text">BOARDING PASS</div>
+              </div>
+              <div class="bp-class-badge bp-class-economy" id="prev-class-badge">ECONOMY</div>
+            </div>
+
+            <div class="bp-route">
+              <div class="bp-city">
+                <div class="bp-dir-label">From</div>
+                <div class="bp-city-name">Earth</div>
+                <div class="bp-time" id="prev-dep-time">Dep. 14:00</div>
+              </div>
+              <div class="bp-center-col">
+                <svg viewBox="0 0 70 10" style="width:70px;height:10px;" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <line x1="0" y1="5" x2="52" y2="5" stroke="#ccc" stroke-width="1" stroke-dasharray="3 2"/>
+                  <circle id="prev-planet-dot" cx="58" cy="5" r="4" fill="#FACC14" opacity="0.85"/>
+                  <polygon points="70,5 63,2 63,8" fill="#aaa"/>
+                </svg>
+                <div class="bp-focus-label" id="prev-focus">90 min focus</div>
+              </div>
+              <div class="bp-city right" style="text-align:right;">
+                <div class="bp-dir-label" style="text-align:right;">To</div>
+                <div class="bp-city-name" id="prev-dest" style="text-align:right;">Saturn</div>
+                <div class="bp-time" id="prev-arr-time" style="text-align:right;">Arr. 15:30</div>
+              </div>
+            </div>
+
+            <div class="bp-tear-wrap"><div class="bp-tear-line"></div></div>
+
+            <div class="bp-objectives">
+              <div class="bp-obj-header" id="prev-obj-header">Mission Objectives (0)</div>
+              <div id="prev-objectives">
+                <div style="font-family:'Poppins',sans-serif;font-size:12px;color:#aaa;padding:4px 0;font-style:italic;">Add tasks above to populate…</div>
+              </div>
+            </div>
+
+            <div class="bp-barcode">
+              <svg viewBox="0 0 240 36" style="width:200px;height:30px;" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+                <rect x="2" y="0" width="3" height="36" fill="#000"/><rect x="7" y="0" width="1.5" height="36" fill="#000"/><rect x="11" y="0" width="4" height="36" fill="#000"/><rect x="18" y="0" width="2" height="36" fill="#000"/><rect x="23" y="0" width="3" height="36" fill="#000"/><rect x="29" y="0" width="1" height="36" fill="#000"/><rect x="33" y="0" width="4" height="36" fill="#000"/><rect x="40" y="0" width="2" height="36" fill="#000"/><rect x="45" y="0" width="1.5" height="36" fill="#000"/><rect x="49" y="0" width="3" height="36" fill="#000"/><rect x="55" y="0" width="4" height="36" fill="#000"/><rect x="62" y="0" width="2" height="36" fill="#000"/><rect x="67" y="0" width="1" height="36" fill="#000"/><rect x="71" y="0" width="3" height="36" fill="#000"/><rect x="77" y="0" width="1.5" height="36" fill="#000"/><rect x="81" y="0" width="4" height="36" fill="#000"/><rect x="88" y="0" width="2" height="36" fill="#000"/><rect x="93" y="0" width="1" height="36" fill="#000"/><rect x="97" y="0" width="3" height="36" fill="#000"/><rect x="103" y="0" width="4" height="36" fill="#000"/><rect x="110" y="0" width="1.5" height="36" fill="#000"/><rect x="114" y="0" width="2" height="36" fill="#000"/><rect x="119" y="0" width="3" height="36" fill="#000"/><rect x="125" y="0" width="1" height="36" fill="#000"/><rect x="129" y="0" width="4" height="36" fill="#000"/><rect x="136" y="0" width="2" height="36" fill="#000"/><rect x="141" y="0" width="3" height="36" fill="#000"/><rect x="147" y="0" width="1.5" height="36" fill="#000"/><rect x="151" y="0" width="1" height="36" fill="#000"/><rect x="155" y="0" width="4" height="36" fill="#000"/><rect x="162" y="0" width="2" height="36" fill="#000"/><rect x="167" y="0" width="3" height="36" fill="#000"/><rect x="173" y="0" width="4" height="36" fill="#000"/><rect x="180" y="0" width="1.5" height="36" fill="#000"/><rect x="184" y="0" width="2" height="36" fill="#000"/><rect x="189" y="0" width="3" height="36" fill="#000"/><rect x="195" y="0" width="1" height="36" fill="#000"/><rect x="199" y="0" width="4" height="36" fill="#000"/><rect x="206" y="0" width="2" height="36" fill="#000"/><rect x="211" y="0" width="1.5" height="36" fill="#000"/><rect x="215" y="0" width="3" height="36" fill="#000"/><rect x="221" y="0" width="1" height="36" fill="#000"/><rect x="225" y="0" width="4" height="36" fill="#000"/><rect x="232" y="0" width="2" height="36" fill="#000"/><rect x="237" y="0" width="3" height="36" fill="#000"/>
+              </svg>
+              <div class="bp-ticket-num" id="prev-ticket-num">TKT-EaSa-992397</div>
+            </div>
+
+          </div>
+          <div class="preview-token" id="prev-token-label">TKT-EaSa-992397</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── Dos & Don'ts ─────────────────────────────────────────── -->
+  <section class="section-card">
+    <div class="section-heading">Do's &amp; Don'ts</div>
+    <hr class="blue-rule" />
+
+    <div class="dodonts-grid">
+
+      <!-- Row 1: Origin -->
+      <div class="dd-card do">
+        <div class="dd-label do">&#10003; Do</div>
+        <div class="dd-preview">
+          <div class="dd-preview-label">FROM → TO</div>
+          <div class="dd-preview-value" style="color:#FDFDFD;font-size:22px;font-family:'Poppins',sans-serif;font-weight:800;">Earth → Jupiter</div>
+          <div class="dd-preview-sub">Earth is always the departure planet</div>
+        </div>
+        <div class="dd-rule">Always use <strong>Earth as the origin</strong>. The user always departs from their home planet — Earth. Destinations change; home does not.</div>
+      </div>
+
+      <div class="dd-card dont">
+        <div class="dd-label dont">&#10007; Don't</div>
+        <div class="dd-preview faded">
+          <div class="dd-preview-label">FROM → TO</div>
+          <div class="dd-preview-value red-strike" style="font-size:22px;font-family:'Poppins',sans-serif;font-weight:800;">Mars → Pluto</div>
+          <div class="dd-preview-sub">Non-Earth departures break the metaphor</div>
+        </div>
+        <div class="dd-rule">Never set a <strong>non-Earth origin</strong>. Departure must always be Earth. Having two non-home planets destroys the returning-traveler narrative.</div>
+      </div>
+
+      <!-- Row 2: Objectives -->
+      <div class="dd-card do">
+        <div class="dd-label do">&#10003; Do</div>
+        <div class="dd-preview">
+          <div class="dd-preview-label" style="margin-bottom:8px;">Mission Objectives (3)</div>
+          <div class="bp-obj-item" style="margin-bottom:2px;">
+            <div class="bp-obj-dot bp-obj-dot-purple" style="width:5px;height:5px;border-radius:2.5px;"></div>
+            <span style="font-family:'Poppins',sans-serif;font-size:12px;color:#FDFDFD;">Write component spec</span>
+          </div>
+          <div class="bp-obj-item" style="margin-bottom:2px;">
+            <div class="bp-obj-dot bp-obj-dot-purple" style="width:5px;height:5px;border-radius:2.5px;"></div>
+            <span style="font-family:'Poppins',sans-serif;font-size:12px;color:#FDFDFD;">Review PRs</span>
+          </div>
+          <div class="bp-obj-item">
+            <div class="bp-obj-dot bp-obj-dot-purple" style="width:5px;height:5px;border-radius:2.5px;"></div>
+            <span style="font-family:'Poppins',sans-serif;font-size:12px;color:#FDFDFD;">Update docs</span>
+          </div>
+        </div>
+        <div class="dd-rule">Keep objectives <strong>short and scannable</strong> — one line each, action-verb first. Max 5 visible items; use "+ N more" for overflow.</div>
+      </div>
+
+      <div class="dd-card dont">
+        <div class="dd-label dont">&#10007; Don't</div>
+        <div class="dd-preview faded">
+          <div class="dd-preview-label" style="margin-bottom:8px;">Mission Objectives (1)</div>
+          <div class="bp-obj-item">
+            <div class="bp-obj-dot bp-obj-dot-purple" style="width:5px;height:5px;border-radius:2.5px;"></div>
+            <span style="font-family:'Poppins',sans-serif;font-size:11px;color:#EF4444;">Work on Q3 strategy presentation and also respond to all outstanding stakeholder emails from last week</span>
+          </div>
+        </div>
+        <div class="dd-rule">Never let a single objective <strong>wrap to multiple lines</strong>. Long task text breaks the card's vertical rhythm and defeats the at-a-glance purpose.</div>
+      </div>
+
+      <!-- Row 3: Class tiers -->
+      <div class="dd-card do">
+        <div class="dd-label do">&#10003; Do</div>
+        <div class="dd-preview">
+          <div class="dd-badges-row" style="padding: 28px 21px;">
+            <div class="dd-mini-badge dd-badge-economy">ECONOMY</div>
+            <div class="dd-mini-badge dd-badge-business">BUSINESS</div>
+            <div class="dd-mini-badge dd-badge-first">FIRST</div>
+          </div>
+        </div>
+        <div class="dd-rule">Use the three <strong>defined class tiers</strong> only. Each has a prescribed badge color and dot color that form a consistent visual hierarchy.</div>
+      </div>
+
+      <div class="dd-card dont">
+        <div class="dd-label dont">&#10007; Don't</div>
+        <div class="dd-preview faded">
+          <div class="dd-badges-row" style="padding: 28px 21px;">
+            <div class="dd-mini-badge dd-badge-premium">PREMIUM+</div>
+            <div class="dd-mini-badge dd-badge-ultra">ULTRA</div>
+          </div>
+        </div>
+        <div class="dd-rule">Never introduce <strong>custom badge tiers</strong> outside the three defined variants. Unauthorized class labels break the shared vocabulary of the system.</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── Usage Guidance Section ──────────────────────────────── -->
+  <section class="section-card compact">
+    <div class="section-heading">Usage Guidance</div>
+    <hr class="blue-rule" />
+
+    <div class="two-col-grid">
+
+      <!-- Left column -->
+      <div class="usage-col">
+        <div class="usage-box">
+          <div class="usage-box-title">When to use</div>
+          <ul class="usage-list">
+            <li>Session start screen — shown full-width as the user commits to a focus block</li>
+            <li>Session history feed — compact 340px cards in a vertical list</li>
+            <li>Share / export flows — rendered to image for social sharing</li>
+            <li>Achievement unlocks — boarding pass shown with First Class badge on milestone</li>
+          </ul>
+        </div>
+        <div class="usage-box">
+          <div class="usage-box-title">Token format</div>
+          <p class="usage-text">The session token encodes route data: <span class="inline-code">TKT-{Orig2}{Dest2}-{ID6}</span>. First two letters of each planet capitalized. Example: Earth → Saturn = <span class="inline-code">EaSa</span>. Token is globally unique per session.</p>
+        </div>
+      </div>
+
+      <!-- Right column -->
+      <div class="usage-col">
+        <div class="usage-box">
+          <div class="usage-box-title">When not to use</div>
+          <ul class="usage-list">
+            <li>As a generic task card outside of timed focus sessions</li>
+            <li>For passive UI states (notifications, settings confirmations)</li>
+            <li>Scaled below 280px width — the route block becomes illegible</li>
+            <li>In dark-mode contexts without switching to the dark variant</li>
+          </ul>
+        </div>
+        <div class="usage-box">
+          <div class="usage-box-title">Accessibility notes</div>
+          <p class="usage-text">The light (#FDFDFD) card surface achieves a 13:1 contrast ratio for the dark city name text. The barcode SVG carries an aria-label describing the session token. All interactive states receive focus rings. Barcode is decorative — aria-hidden="true".</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</div>
+
+<script>
+  // ── Interactive Builder ──────────────────────────────────────────
+  const PLANETS = {
+    Mars:    { code: 'Ma', color: '#EF4444' },
+    Mercury: { code: 'Me', color: '#9AA3B0' },
+    Venus:   { code: 'Ve', color: '#F97315' },
+    Jupiter: { code: 'Ju', color: '#FACC14' },
+    Saturn:  { code: 'Sa', color: '#FACC14' },
+    Uranus:  { code: 'Ur', color: '#22C55D' },
+    Neptune: { code: 'Ne', color: '#38BDF9' },
+    Pluto:   { code: 'Pl', color: '#A855F7' },
+  };
+
+  const TIMES = {
+    Morning:   '09:00',
+    Noon:      '12:00',
+    Afternoon: '14:00',
+    Evening:   '18:00',
+  };
+
+  const CLASS_GLOW = {
+    Economy:  '56,189,249',
+    Business: '250,204,20',
+    First:    '168,85,247',
+  };
+
+  // Fixed ticket ID for this page session
+  const TICKET_ID = Math.floor(100000 + Math.random() * 900000);
+
+  const state = {
+    destination: 'Saturn',
+    cabinClass:  'Economy',
+    duration:    90,
+    departure:   'Afternoon',
+    objectives:  [],
+  };
+
+  function addMins(timeStr, mins) {
+    const [h, m] = timeStr.split(':').map(Number);
+    const total  = h * 60 + m + mins;
+    const hh = String(Math.floor(total / 60) % 24).padStart(2, '0');
+    const mm = String(total % 60).padStart(2, '0');
+    return `${hh}:${mm}`;
+  }
+
+  function esc(s) {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function el(id) { return document.getElementById(id); }
+
+  function renderObjectives() {
+    const header = el('prev-obj-header');
+    const list   = el('prev-objectives');
+    const count  = state.objectives.length;
+
+    header.textContent = `Mission Objectives (${count})`;
+
+    if (count === 0) {
+      list.innerHTML = '<div style="font-family:\'Poppins\',sans-serif;font-size:12px;color:#aaa;padding:4px 0;font-style:italic;">Add tasks above to populate…</div>';
+      return;
+    }
+
+    const shown    = state.objectives.slice(0, 5);
+    const overflow = count - 5;
+
+    list.innerHTML = shown.map((task, i) => `
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:3px;">
+        <div style="width:6px;height:6px;border-radius:3px;background:#A855F7;flex-shrink:0;"></div>
+        <span style="font-family:'Poppins',sans-serif;font-size:12px;color:#111;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${esc(task)}</span>
+        <button class="prev-obj-remove" onclick="removeObjective(${i})" title="Remove">×</button>
+      </div>
+    `).join('') + (overflow > 0 ? `<div style="font-family:'Poppins',sans-serif;font-size:11px;color:#9AA3B0;padding-top:2px;">+${overflow} more</div>` : '');
+  }
+
+  function updatePreview() {
+    const planet  = PLANETS[state.destination];
+    const depTime = TIMES[state.departure];
+    const arrTime = addMins(depTime, state.duration);
+    const ticket  = `TKT-Ea${planet.code}-${TICKET_ID}`;
+
+    // Destination city
+    el('prev-dest').textContent = state.destination;
+
+    // Planet dot color in route SVG
+    el('prev-planet-dot').setAttribute('fill', planet.color);
+
+    // Glow halo color
+    el('prev-glow').style.background =
+      `radial-gradient(ellipse at center, ${planet.color}28 0%, transparent 70%)`;
+
+    // Focus label
+    el('prev-focus').textContent = `${state.duration} min focus`;
+
+    // Times
+    el('prev-dep-time').textContent = `Dep. ${depTime}`;
+    el('prev-arr-time').textContent = `Arr. ${arrTime}`;
+
+    // Class badge
+    const badge = el('prev-class-badge');
+    badge.className = 'bp-class-badge';
+    const classMap = {
+      Economy:  ['bp-class-economy', 'ECONOMY'],
+      Business: ['bp-class-business', 'BUSINESS'],
+      First:    ['bp-class-first', 'FIRST'],
+    };
+    const [cls, label] = classMap[state.cabinClass] || classMap.Economy;
+    badge.classList.add(cls);
+    badge.textContent = label;
+
+    // Card glow by class
+    const gc = CLASS_GLOW[state.cabinClass] || CLASS_GLOW.Economy;
+    el('preview-card').style.boxShadow =
+      `0 0 48px rgba(${gc},0.22), 0 32px 64px rgba(0,0,0,0.7)`;
+
+    // Ticket number
+    el('prev-ticket-num').textContent  = ticket;
+    el('prev-token-label').textContent = ticket;
+
+    // Objectives
+    renderObjectives();
+  }
+
+  // Exposed globally for inline onclick
+  window.removeObjective = function(i) {
+    state.objectives.splice(i, 1);
+    updatePreview();
+  };
+
+  // ── Chip group helper ────────────────────────────────────────────
+  function initChipGroup(containerId, stateKey) {
+    const wrap = el(containerId);
+    if (!wrap) return;
+    wrap.addEventListener('click', e => {
+      const chip = e.target.closest('.ctrl-chip');
+      if (!chip || !chip.dataset.value) return;
+      wrap.querySelectorAll('.ctrl-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      state[stateKey] = chip.dataset.value;
+      updatePreview();
+    });
+  }
+
+  initChipGroup('chip-destination', 'destination');
+  initChipGroup('chip-class',       'cabinClass');
+  initChipGroup('chip-time',        'departure');
+
+  // ── Duration slider ──────────────────────────────────────────────
+  const slider     = el('dur-slider');
+  const durDisplay = el('dur-display');
+
+  function syncSliderTrack() {
+    if (!slider) return;
+    const pct = ((slider.value - slider.min) / (slider.max - slider.min)) * 100;
+    slider.style.background = `linear-gradient(to right,
+      #38BDF9 0%, #38BDF9 ${pct}%,
+      rgba(255,255,255,0.1) ${pct}%, rgba(255,255,255,0.1) 100%)`;
+  }
+
+  if (slider) {
+    slider.addEventListener('input', () => {
+      state.duration       = parseInt(slider.value, 10);
+      durDisplay.textContent = state.duration;
+      syncSliderTrack();
+      updatePreview();
+    });
+    syncSliderTrack();
+  }
+
+  // ── Task input ───────────────────────────────────────────────────
+  const taskInput  = el('task-input');
+  const taskAddBtn = el('task-add-btn');
+
+  function addTask() {
+    const val = taskInput.value.trim();
+    if (!val) return;
+    state.objectives.push(val);
+    taskInput.value = '';
+    taskInput.focus();
+    updatePreview();
+  }
+
+  if (taskAddBtn) taskAddBtn.addEventListener('click', addTask);
+  if (taskInput) {
+    taskInput.addEventListener('keydown', e => { if (e.key === 'Enter') addTask(); });
+  }
+
+  // Initial render
+  updatePreview();
+
+    /* ── Starfield ── */
+  (function() {
+    const canvas = document.getElementById('starfield');
+    const ctx = canvas.getContext('2d');
+    function draw() {
+      canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+      ctx.fillStyle = '#04040d'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+      for (let i = 0; i < 280; i++) {
+        const x = Math.random() * canvas.width, y = Math.random() * canvas.height;
+        const r = Math.random() < 0.06 ? Math.random() * 1.8 + 0.8 : Math.random() * 0.9 + 0.2;
+        ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255,255,255,${Math.random() * 0.6 + 0.35})`; ctx.fill();
+      }
+      [
+        [0.2, 0.15, '56,189,249'],
+        [0.8, 0.8,  '168,85,247'],
+        [0.5, 0.3,  '35,69,178']
+      ].forEach(([rx, ry, c]) => {
+        const g = ctx.createRadialGradient(canvas.width*rx, canvas.height*ry, 0, canvas.width*rx, canvas.height*ry, canvas.width*0.3);
+        g.addColorStop(0, `rgba(${c},0.08)`); g.addColorStop(1, 'transparent');
+        ctx.fillStyle = g; ctx.fillRect(0, 0, canvas.width, canvas.height);
+      });
+    }
+
+    draw();
+    window.addEventListener('resize', draw);
+
+  /* ── Hamburger ── */
+  const ham = document.getElementById('hamburger');
+  const drawer = document.getElementById('navDrawer');
+  const icon = document.getElementById('ham-icon');
+  ham.addEventListener('click', e => {
+    e.stopPropagation();
+    const open = drawer.style.display === 'flex';
+    drawer.style.display = open ? 'none' : 'flex';
+    icon.innerHTML = open
+      ? '<path d="M3 6h16M3 11h16M3 16h16" stroke="white" stroke-width="1.8" stroke-linecap="round"/>'
+      : '<path d="M4 4l14 14M18 4L4 18" stroke="white" stroke-width="1.8" stroke-linecap="round"/>';
+  });
+  document.addEventListener('click', () => {
+    drawer.style.display = 'none';
+    icon.innerHTML = '<path d="M3 6h16M3 11h16M3 16h16" stroke="white" stroke-width="1.8" stroke-linecap="round"/>';
+  });
+})();
+</script>
+</body>
+</html>
